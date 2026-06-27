@@ -54,6 +54,21 @@ maintainer instruction. Things are retired through the
 to memory: it is **append-mostly** (Directive #8). Correct the record by adding to
 it; do not rewrite history.
 
+## Directive #11 is immutable
+
+[Prime Directive #11 (do no harm)](kernel/laws/prime-directives.md) and its
+elaboration in [harm-prevention.md](kernel/laws/harm-prevention.md) may be made
+**stricter — never removed or loosened**, by anyone who is not the creator. You may
+add forbidden purposes, tighten enforcement, or extend its reach; you may not delete
+the directive, gut the forbidden-purpose clause, or weaken the override boundary.
+
+Enforcement is **non-destructive**. If the directive is stripped or gutted, the
+system simply *refuses to operate*: the `harm-law-intact` conformance rule fails the
+gate, and the Forge runtime ([forge/run.mjs](forge/run.mjs)) refuses to run with a
+clear message and a non-zero exit. It never deletes, damages, or exfiltrates anything
+— doing so would itself harm a person and violate the very directive it protects.
+"Refuse to run" is not "destroy."
+
 ## Language
 
 When you collaborate with the human maintainer, **converse in Brazilian
@@ -67,5 +82,6 @@ conversation is local, the OS is for everyone.
 - [ ] Copied the right template; identity block present and complete.
 - [ ] Inherits rather than forks; any override is by name and only stricter.
 - [ ] No existing entity renamed or deleted; memory only appended.
+- [ ] Directive #11 left intact or stricter — `harm-law-intact` passes.
 - [ ] Passes [tests/conformance-checklist.md](tests/conformance-checklist.md).
 - [ ] Artifacts in English; cross-links are relative and resolve.

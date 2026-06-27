@@ -157,6 +157,25 @@ Four parallel tracks requested together.
 - **0 errors, 0 warnings in BOTH scopes.** Eight rules, a `--fix` mode, CI, and a
   versioned kernel. The OS now scales by repeating the Phase 3 pattern, gated end-to-end.
 
+## [1.9.0] — 2026-06-27 — Harm-law integrity guard (non-destructive)
+
+Protects Directive #11 from being stripped by anyone but the creator — by **refusing to
+operate**, never by self-destructing (deleting a user's machine would itself harm a person
+and violate the very law it protects).
+
+### Added
+- **`forge/runtime/integrity.mjs`** — pure `evaluateHarmLaw(primeText, harmText)` +
+  `checkHarmLaw(repoRoot)`. Read-only, fail-closed, dependency-free. Robust marker check
+  (Directive #11 heading + a 4-of-6 token vote, case/whitespace-normalized) — legitimate
+  edits, translations, and *tightening* pass; only removal/gutting fails. No exact hash.
+- **`harm-law-intact` conformance rule** (10th rule, error level) — the gate fails if the
+  law is missing or gutted.
+- **Runtime preflight** in `forge/run.mjs` — refuses to run (clear message, exit 5) if the
+  law is not intact; `--dry-run` still works when it is. **Never deletes/damages/exfiltrates.**
+- **`CONTRIBUTING.md`** — Directive #11 declared immutable (may be made stricter, never
+  removed/loosened). Kernel **1.8.0 → 1.9.0**; gate 0/0; guard verified to bite on a
+  tampered string without touching the real law file.
+
 ## [1.8.0] — 2026-06-27 — Directive #11 (do no harm) + owned memory v1 complete
 
 ### Added — the supreme law

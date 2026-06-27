@@ -61,3 +61,5 @@ See [../../kernel/protocols/memory-flow.md](../../kernel/protocols/memory-flow.m
 | 2026-06-27 | balance-scout run (done) | Goal "balance economy telemetry" via balance-scout: Dry-run complete — the plan → act → observe → finish loop works end-to-end. | agent | tentative | memory/registers/forge-lessons.md |
 | 2026-06-27 | balance-scout run (done) | Goal "balance economy telemetry" via balance-scout: Dry-run complete — the plan → act → observe → finish loop works end-to-end. | agent | tentative | memory/registers/forge-lessons.md |
 | 2026-06-27 | balance-scout run (done) | Goal "balance economy" via balance-scout: Dry-run complete — the plan → act → observe → finish loop works end-to-end. | agent | tentative | memory/registers/forge-lessons.md |
+| 2026-06-27 | balance-scout run (done) | Goal "smoke" via balance-scout: Dry-run complete — the plan → act → observe → finish loop works end-to-end. | agent | tentative | memory/registers/forge-lessons.md |
+| 2026-06-27 | balance-scout run (done) | Goal "smoke" via balance-scout: Dry-run complete — the plan → act → observe → finish loop works end-to-end. | agent | tentative | memory/registers/forge-lessons.md |

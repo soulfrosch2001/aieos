@@ -14,9 +14,22 @@ import { runLoop } from './runtime/loop.mjs';
 import { buildMemoryBlock } from './runtime/memory.mjs';
 import { formatVerdict } from './runtime/eval.mjs';
 import { preflight, maxTokens } from './runtime/llm.mjs';
+import { checkHarmLaw } from './runtime/integrity.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, '..'); // forge/ → repo root
+
+// Directive #11 integrity preflight. Runs FIRST, before any arg parsing, so it gates
+// EVERY mode (--dry-run, --smoke, --json) and even malformed args. NON-DESTRUCTIVE: on
+// failure it writes to stderr and exits — it never deletes, modifies, or exfiltrates
+// anything (that would itself violate the directive it protects). When the law is intact
+// it falls through and the normal run (including --dry-run) proceeds unchanged.
+const harm = checkHarmLaw(repoRoot);
+if (!harm.ok) {
+  process.stderr.write('forge: refusing to run — Directive #11 (do no harm) integrity check failed: ' + harm.reason + '\n');
+  process.stderr.write('forge: restore kernel/laws/harm-prevention.md and Directive #11 in prime-directives.md, then re-run. Nothing was modified.\n');
+  process.exit(5);
+}
 
 let parsed;
 try {
