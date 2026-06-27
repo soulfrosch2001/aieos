@@ -1,0 +1,13 @@
+#!/bin/sh
+# AIEOS pre-commit hook — runs the conformance checker before every commit.
+# Install: cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+#   (or run: sh scripts/install-hooks.sh)
+
+echo "AIEOS: running conformance checker (npm test)…"
+if ! node tests/conformance/run.mjs; then
+  echo ""
+  echo "Commit blocked: the change is not conformant. Fix the errors above"
+  echo "(or run 'node tests/conformance/run.mjs --fix' to auto-repair links), then commit again."
+  exit 1
+fi
+exit 0

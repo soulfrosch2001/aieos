@@ -1,0 +1,18 @@
+{
+  "name": "aieos",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "AIEOS — AI Enterprise Operating System. Conformance checker (the OS's compiler).",
+  "scripts": {
+    "test": "node tests/conformance/run.mjs",
+    "conformance": "node tests/conformance/run.mjs",
+    "conformance:all": "node tests/conformance/run.mjs --include-legacy",
+    "dashboard": "node government/dashboard/build-dashboard.mjs",
+    "audio": "node scripts/gen-audio.mjs"
+  },
+  "devDependencies": {
+    "msedge-tts": "^2.0.6"
+  },
+  "license": "MIT"
+}

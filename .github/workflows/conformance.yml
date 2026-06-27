@@ -1,0 +1,23 @@
+name: AIEOS Conformance
+
+# The OS's compiler runs on every push and pull request. A non-conformant change
+# (broken contract, broken link, missing identity block) fails the build.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  conformance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run conformance checker (kernel + stdlib + kernel-native companies)
+        run: npm test
+      - name: Run conformance checker including legacy companies
+        run: npm run conformance:all

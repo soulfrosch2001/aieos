@@ -1,0 +1,47 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "AIEOS: Conformance check (npm test)",
+      "type": "shell",
+      "command": "npm test",
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "AIEOS: Conformance incl. legacy",
+      "type": "shell",
+      "command": "npm run conformance:all",
+      "problemMatcher": []
+    },
+    {
+      "label": "AIEOS: Auto-fix links",
+      "type": "shell",
+      "command": "node tests/conformance/run.mjs --fix",
+      "problemMatcher": []
+    },
+    {
+      "label": "AIEOS: Enterprise dashboard",
+      "type": "shell",
+      "command": "npm run dashboard",
+      "problemMatcher": []
+    },
+    {
+      "label": "AIEOS: Generate audio",
+      "type": "shell",
+      "command": "npm run audio -- \"${input:textFile}\" \"${input:outFile}\" ${input:voice}",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    { "id": "textFile", "type": "promptString", "description": "Narration .txt file" },
+    { "id": "outFile", "type": "promptString", "description": "Output .mp3 path" },
+    {
+      "id": "voice",
+      "type": "pickString",
+      "description": "Voice / preset",
+      "options": ["thalita", "jinx", "francisca", "antonio"],
+      "default": "thalita"
+    }
+  ]
+}

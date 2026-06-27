@@ -1,0 +1,16 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# Local tooling / session state (never publish)
+.claude/
+.vscode/
+.idea/
+
+# Logs & temp
+*.log
+tmp/
+scratchpad/

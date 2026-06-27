@@ -1,0 +1,6 @@
+# Node tooling (audio generator, etc.) — installed locally, never committed.
+node_modules/
+npm-debug.log*
+
+# Generated working files
+*.log
