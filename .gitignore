@@ -8,3 +8,8 @@ npm-debug.log*
 # Forge runtime artifacts (run traces + agent scratch workspaces)
 forge/runs/*.json
 forge/examples/*/workspace/
+
+# Support-mode summaries (e.g. OUROBOROS) — produced when AIEOS supports ANOTHER
+# project; the rule doc stays tracked, the summaries themselves stay out of this repo.
+resumo/*
+!resumo/README.md
