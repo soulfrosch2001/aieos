@@ -42,6 +42,7 @@ satisfies the current [VERSION](VERSION).
 | 1.2.0 | Added the [operating doctrine](laws/operating-doctrine.md) — assertive, high-agency support habits inherited by every agent. | MINOR (additive) |
 | 1.3.0 | Added the [Forge](../forge/) (agent creation + action engine, `npm run forge`) and the support-mode `resumo/` audio rule. | MINOR (additive) |
 | 1.4.0 | Added the [Forge runtime](../forge/runtime/) — a model-agnostic executable agent loop (`npm run forge:run`) with tools, guardrails, and traces. Designed by a 7-lens council. | MINOR (additive) |
+| 1.5.0 | Forge runtime capabilities (council [decision 0003](../government/decisions/0003-forge-runtime-capabilities.md)): memory & retrieval, live-run robustness, observability + `forge/inspect.mjs`, planning tool, structural self-check. | MINOR (additive) |
 
 ## Changing the kernel
 Kernel changes are proposed before they are made ([Directive #7](laws/prime-directives.md)),

@@ -157,6 +157,28 @@ Four parallel tracks requested together.
 - **0 errors, 0 warnings in BOTH scopes.** Eight rules, a `--fix` mode, CI, and a
   versioned kernel. The OS now scales by repeating the Phase 3 pattern, gated end-to-end.
 
+## [1.5.0] — 2026-06-27 — Forge runtime capabilities (council-approved)
+
+Per the new rule (additions need council approval first), the **Forge Capability
+Council** ([decision 0003](government/decisions/0003-forge-runtime-capabilities.md))
+deliberated, approved a slate, and deferred the rest. Built and verified by running.
+
+### Added (approved)
+- **Memory & retrieval** (`forge/runtime/memory.mjs`) — dependency-free lexical retrieval
+  over the memory registers and decisions; injects relevant context before acting and
+  appends dated lessons to `memory/registers/forge-lessons.md`.
+- **Live-run robustness** (`forge/runtime/llm.mjs`) — retry/backoff (honours `Retry-After`),
+  token-usage surfacing, safe message trimming.
+- **Observability** — per-step timing + usage, run totals, and a read-only
+  `forge/inspect.mjs` (`--list` / `--last`).
+- **Planning** (`forge/runtime/plan.mjs`) — a `plan`/`update_plan` tool persisted to the trace.
+- **Structural self-check** (`forge/runtime/eval.mjs`, `forge/eval-rubric.md`) — a
+  deterministic post-run verdict; advisory, never gates `finish`.
+
+### Deferred
+- Sub-delegation, model-judge evaluation, wall-clock deadline (reasons + dissent in
+  decision 0003). Kernel **1.4.0 → 1.5.0**. Still model-agnostic; `--dry-run` 0/0.
+
 ## [1.4.0] — 2026-06-27 — The Forge runtime (executable agents)
 
 ### Added

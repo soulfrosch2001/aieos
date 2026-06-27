@@ -11,6 +11,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { runLoop } from './runtime/loop.mjs';
+import { buildMemoryBlock } from './runtime/memory.mjs';
+import { formatVerdict } from './runtime/eval.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, '..'); // forge/ → repo root
@@ -83,8 +85,15 @@ run();
 
 async function run() {
   const json = flags.json;
+
+  // Memory & retrieval: gather durable project memory, score it against the goal, and
+  // inject the top matches. Pure file I/O — needs no model, runs under --dry-run, and is
+  // disabled by FORGE_MEMORY=off. Failure here must never block the run.
+  let memoryBlock = '';
+  try { memoryBlock = buildMemoryBlock(repoRoot, goal); } catch { memoryBlock = ''; }
+
   const res = await runLoop({
-    system, goal, ctx, model, dryRun, agent: agentName, maxSteps,
+    system, goal, ctx, model, dryRun, agent: agentName, maxSteps, memoryBlock,
     onEvent: json ? () => {} : render,
   });
 
@@ -94,6 +103,9 @@ async function run() {
   } else {
     process.stdout.write('\n— outcome: ' + res.outcome + '\n');
     process.stdout.write('  gate clean: ' + res.gateClean + '\n');
+    if (res.evaluation) process.stdout.write('  verdict: ' + formatVerdict(res.evaluation) + '\n');
+    if (res.totals) process.stdout.write('  totals: ' + res.totals.ms + 'ms, ' +
+      res.totals.usage.input_tokens + ' in / ' + res.totals.usage.output_tokens + ' out tok\n');
     if (res.summary) process.stdout.write('  summary: ' + res.summary + '\n');
     process.stdout.write('  trace: ' + path.relative(repoRoot, res.tracePath).split(path.sep).join('/') + '\n');
   }

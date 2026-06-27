@@ -75,6 +75,26 @@ Stop conditions and outcomes:
 - `stuck` — the same action repeated three times in a row.
 - `budget_exhausted` — the `--max-steps` ceiling was reached.
 
+## Memory and retrieval
+
+Before the loop starts, the runtime gathers a lexical corpus from the project's
+durable memory — `memory/registers/`, `government/decisions/`, and
+`companies/*/memory/` — scores it against the goal, and injects the top matches as a
+**Retrieved memory** block into the opening turn. The agent therefore starts the run
+already aware of the relevant decisions and prior lessons instead of rediscovering them.
+
+On a `done` outcome the runtime appends a dated lesson to
+[`memory/registers/forge-lessons.md`](../../memory/registers/forge-lessons.md), so each
+successful run leaves knowledge behind for the next one. These memory writes happen in
+the **trusted runtime**, not through `write_file`, so the workspace guardrail is never
+relaxed — the runtime reads project memory but the agent still cannot.
+
+Retrieval is **pure file I/O and lexical scoring** — it needs no model and runs
+unchanged under `--dry-run`. Set `FORGE_MEMORY=off` to disable both the injected block
+and the lesson append.
+
+Implemented in [memory.mjs](memory.mjs).
+
 ## The tools
 
 Defined in [tools.mjs](tools.mjs). The surface is deliberately small — there is no
@@ -88,10 +108,40 @@ exec, delete, or network-write tool, so there is no irreversible-action surface.
   can verify before it claims ([Directive #9](../../kernel/laws/prime-directives.md)).
 - `finish` — end the run with a short summary, including a one-line self-check of
   whether the goal was met.
+- `plan` — record an explicit ordered checklist of steps the agent intends to take.
+- `update_plan` — mark steps done or revise the checklist as the work proceeds.
 
 Every tool returns a uniform `{ ok, output }` envelope. A failure is fed back to the
 model as an errored observation, not raised as a crash — failures are data the agent
 reflects on, not dead ends.
+
+## Planning
+
+The agent can keep an **explicit plan**: a `plan` tool sets an ordered checklist, and
+`update_plan` revises it or marks steps done. The current plan is persisted to
+`trace.data.plan` and echoed back as a checklist in the next observation turn, so the
+model always sees its own intent and the trace is auditable against it
+([Directive #8](../../kernel/laws/prime-directives.md)). This is the long-horizon
+coherence lever — it keeps multi-step runs on track. Implemented in [plan.mjs](plan.mjs).
+
+## Self-check (structural verdict)
+
+After the loop ends, the runtime runs a deterministic structural self-check over the
+trace it already has — no model call — checking whether the goal was addressed, the gate
+passed, writes were produced, and the loop did not stall. The result lands in
+`trace.data.evaluation` and prints as a single `verdict:` line. It is **advisory**: it
+never gates `finish`, it only reports. Because it reads the trace and nothing else, it
+runs identically under `--dry-run`. The rubric it documents lives in
+[`forge/eval-rubric.md`](../eval-rubric.md); implemented in [eval.mjs](eval.mjs).
+
+## Robustness on live runs
+
+Live model calls survive transient failure: [llm.mjs](llm.mjs) retries on `429`, `5xx`,
+and network errors with exponential backoff that honors any `Retry-After` header
+(`FORGE_MAX_RETRIES`, default 4). Each call surfaces token `usage` (the dry-run stub
+reports zeros), and the transcript is trimmed to a character budget before each call so
+long runs stay within context — the trim **never** drops the first user turn or the last
+tool result. None of this affects `--dry-run`, which makes no network calls.
 
 ## Guardrails
 
@@ -126,14 +176,34 @@ Every run writes an append-mostly JSON trace under `forge/runs/` at
 `forge/runs/<ISO-timestamp>-<agent>.json`, updated after each turn so a crash still
 leaves evidence ([Directive #8](../../kernel/laws/prime-directives.md)). The record
 captures the goal, the model (or dry-run), each step's text, actions and observations,
-and the final outcome, summary, and gate verdict. See `forge/runs/README.md` for the
+and the final outcome, summary, and gate verdict. Each step also records its wall-clock
+`ms` and token `usage`, and the trace closes with a `totals` block summing them — so a
+run's cost and time are measured, not guessed (under `--dry-run` the usage totals are
+zero, which is itself the proof of model-agnosticism). See `forge/runs/README.md` for the
 exact format.
 
+## Inspecting runs
+
+[`forge/inspect.mjs`](../inspect.mjs) is a **read-only** viewer over `forge/runs/`:
+
+```
+node forge/inspect.mjs --list     # list recent runs
+node forge/inspect.mjs --last     # render the most recent run
+```
+
+It only re-renders existing traces — it never re-executes a run — so it is safe to point
+at any past trace, including dry-run traces, to read the steps, plan, verdict, and totals.
+
 ## Files
-- [llm.mjs](llm.mjs) — the model call (Anthropic Messages API + dry-run stub).
+- [llm.mjs](llm.mjs) — the model call (Messages API + retry/backoff, `usage`, message
+  trimming) and the dry-run stub.
 - [tools.mjs](tools.mjs) — the tools and their guardrails.
+- [memory.mjs](memory.mjs) — gather, retrieve, format the memory block, and append lessons.
+- [plan.mjs](plan.mjs) — render and apply the explicit plan checklist.
+- [eval.mjs](eval.mjs) — the structural, model-free self-check verdict.
 - [loop.mjs](loop.mjs) — the plan → act → observe → reflect orchestration + trace.
-- `forge/run.mjs` — the CLI: load an agent, run the loop, report.
+- `forge/run.mjs` — the CLI: load an agent, retrieve memory, run the loop, report.
+- `forge/inspect.mjs` — read-only viewer for past run traces.
 
 ## How it relates to the rest of the Forge
 It is the executable form of the [action loop](../action-loop.md); the agents it runs
