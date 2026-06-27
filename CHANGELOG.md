@@ -157,6 +157,26 @@ Four parallel tracks requested together.
 - **0 errors, 0 warnings in BOTH scopes.** Eight rules, a `--fix` mode, CI, and a
   versioned kernel. The OS now scales by repeating the Phase 3 pattern, gated end-to-end.
 
+## [1.4.0] — 2026-06-27 — The Forge runtime (executable agents)
+
+### Added
+- **[Forge runtime](forge/runtime/)** — the Forge's action loop made executable: an agent
+  takes a goal and runs **plan → act → observe → reflect**, calling real tools, until done.
+  `npm run forge:run -- <agent-dir> "<goal>" [--dry-run]`.
+- **Model-agnostic by design** (a tool *like* a capable AI assistant, not tied to any one
+  model): the model is chosen via `FORGE_MODEL` (no hardcoded default; a live run without
+  it errors clearly). `--dry-run` runs end-to-end with no model and no API key.
+- **Guardrails** (`forge/runtime/tools.mjs`): writes are symlink-hardened and restricted to
+  the agent's workspace; the gate is a first-class tool; no company-cross. **Auditable run
+  traces** under `forge/runs/`.
+- Designed by a **7-lens council** (control loop, tools, guardrails, memory, evaluation,
+  planning, DX) with a synthesis + red-team pass; built coherently and verified by running.
+
+### Notes
+- Kernel **1.3.0 → 1.4.0**. Gate clean (0/0); runtime traces and agent workspaces are
+  gitignored. A first schema-constrained council run failed (structured-output retry cap);
+  re-run schema-free.
+
 ## [1.3.0] — 2026-06-27 — The Forge + support-mode audio
 
 ### Added

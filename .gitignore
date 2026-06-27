@@ -4,3 +4,7 @@ npm-debug.log*
 
 # Generated working files
 *.log
+
+# Forge runtime artifacts (run traces + agent scratch workspaces)
+forge/runs/*.json
+forge/examples/*/workspace/

@@ -11,7 +11,9 @@ agent's actions** until the intent is satisfied — and feeds the result back. I
 made into a concrete loop over the kernel's agent model.
 
 > Status: **experimental (kernel 1.3.0)**. v0 ships the creation tool, the action model,
-> and the two loops. Runtime action execution is performed by Claude operating the loops.
+> and the two loops. v1 ships an **executable runtime** ([runtime/loop.mjs](runtime/loop.mjs)
+> + [run.mjs](run.mjs)) that drives the action loop for real — model-agnostic, with
+> guardrails and an auditable [run trace](runs/README.md).
 
 ## The two loops
 
@@ -38,6 +40,18 @@ npm run forge -- forge/examples balance-scout "Find balance outliers in live tel
 It writes a conformant 5-file agent (`README.md` + responsibilities/authority/craft/
 standards) ready to be enriched. The result passes `npm test` immediately — see
 [create-agent.mjs](create-agent.mjs).
+
+## The runtime — make an agent ACT
+
+```
+npm run forge:run -- <agent-dir> "<goal>" [--dry-run] [--max-steps N] [--json]
+# e.g. full plan→act→observe→finish loop with no model and no API key:
+npm run forge:run -- forge/examples/balance-scout "Inspect the workspace and finish." --dry-run
+```
+
+The model is chosen via `FORGE_MODEL` (no hardcoded default); a live run with it unset
+errors clearly. Each run writes a [trace](runs/README.md) under `forge/runs/`. See
+[runtime/loop.mjs](runtime/loop.mjs) and [run.mjs](run.mjs).
 
 ## How it relates to the rest of AIEOS
 - It **inherits the kernel**, never forks it (Directive #6). A forged agent is a normal

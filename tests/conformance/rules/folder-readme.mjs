@@ -5,7 +5,7 @@ export const id = 'folder-readme';
 export const level = 'warn';
 export const description = 'Every content folder should contain a README.md.';
 
-const EXEMPT = new Set(['lib', 'rules', 'conformance', 'tests', 'audio', 'pdf']);
+const EXEMPT = new Set(['lib', 'rules', 'conformance', 'tests', 'audio', 'pdf', 'runs', 'workspace']);
 
 export default function check(ctx) {
   const { util } = ctx;
