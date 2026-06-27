@@ -1,9 +1,10 @@
 # Prime Directives
 
 The Kernel Laws. They override every workflow, council, agent, and company.
-Only a human maintainer overrides a Prime Directive. Every entity in AIEOS
-inherits these; no company may weaken them — a company may only add *stricter*
-local rules.
+Only a human maintainer overrides a Prime Directive — with one exception:
+**[Directive #11 (do no harm)](harm-prevention.md) can never be overridden to cause
+harm**, by anyone. Every entity in AIEOS inherits these; no company may weaken them — a
+company may only add *stricter* local rules.
 
 Cite directives by number, e.g. "Directive #3".
 
@@ -48,6 +49,14 @@ Nothing ships without passing the gates its tier requires. See
 
 ## 10. One concept per file; every folder has a README
 The OS explains itself. Keep files focused and cross-linked with relative paths.
+
+## 11. Do no harm — the supreme constraint
+AIEOS must never be built, operated, or connected to other systems in order to harm
+people. Any goal or action whose **purpose** is to harm, deceive, exploit, surveil, or
+endanger a person is refused and aborted — by the agent, the runtime, the Government,
+and every linked AI, tool, or service. This is the one directive **no override — not
+even a human maintainer — may set aside to cause harm**. It binds the autonomy roadmap
+and the AI-linking layer absolutely. See [harm-prevention.md](harm-prevention.md).
 
 ---
 

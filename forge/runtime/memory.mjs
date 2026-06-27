@@ -9,6 +9,7 @@
 // Disabled wholesale by FORGE_MEMORY=off (skips both the injected block and the append).
 import fs from 'node:fs';
 import path from 'node:path';
+import { gatherEpisodes } from './episodic.mjs';
 
 const LESSONS_REL = 'memory/registers/forge-lessons.md';
 
@@ -18,9 +19,12 @@ export function memoryEnabled() {
 
 // Gather the corpus from the project's durable memory. Returns
 // [{ source, title, text, mtimeMs }]. Sources: memory/registers/, government/decisions/,
-// companies/*/memory/. Read-only, best-effort — a missing or unreadable file is skipped,
-// never fatal. mtimeMs is threaded through so retrieval can favour recent memory.
-export function gatherCorpus(repoRoot) {
+// companies/*/memory/, plus the EPISODIC layer — past run traces under forge/runs/ folded
+// in via gatherEpisodes (owned-memory v1, layer A), so prior runs become recallable memory.
+// Read-only, best-effort — a missing or unreadable file is skipped, never fatal. mtimeMs is
+// threaded through so retrieval can favour recent memory. Episodes are capped and lean on
+// recency decay so traces cannot swamp curated lessons.
+export function gatherCorpus(repoRoot, { episodeLimit = 25 } = {}) {
   const docs = [];
   const dirs = [
     path.join(repoRoot, 'memory', 'registers'),
@@ -45,6 +49,13 @@ export function gatherCorpus(repoRoot) {
       });
     }
   }
+
+  // Episodic layer: fold the most recent run traces into the corpus as docs. Best-effort —
+  // never fatal if the runs dir is missing or a trace is malformed.
+  try {
+    for (const ep of gatherEpisodes(repoRoot, { limit: episodeLimit })) docs.push(ep);
+  } catch { /* episodic memory is best-effort */ }
+
   return docs;
 }
 
@@ -189,7 +200,10 @@ const STOP = new Set(['the', 'a', 'an', 'and', 'or', 'of', 'to', 'in', 'on', 'fo
   'is', 'are', 'be', 'this', 'that', 'it', 'as', 'at', 'by', 'from', 'into', 'then', 'so',
   'do', 'does', 'did', 'has', 'have', 'had', 'not', 'no', 'list', 'finish', 'run']);
 
-function terms(text) {
+// Tokenize into a term→count map (lowercased, stop-words and <3-char tokens dropped).
+// Exported so consolidate.mjs can score lesson rows with the SAME tokenizer the retriever
+// uses — one definition of "a term", no drift between recall and consolidation.
+export function terms(text) {
   const m = new Map();
   for (const raw of String(text).toLowerCase().match(/[a-z0-9][a-z0-9-]{1,}/g) || []) {
     if (STOP.has(raw) || raw.length < 3) continue;
@@ -198,8 +212,9 @@ function terms(text) {
   return m;
 }
 
-// Jaccard similarity of two term sets, in [0, 1]. Used to drop near-duplicate hits.
-function jaccard(a, b) {
+// Jaccard similarity of two term sets, in [0, 1]. Used to drop near-duplicate hits, and
+// reused by consolidate.mjs to fold near-duplicate lesson rows. Exported for that reuse.
+export function jaccard(a, b) {
   if (!a.size || !b.size) return 0;
   let inter = 0;
   const [small, large] = a.size <= b.size ? [a, b] : [b, a];

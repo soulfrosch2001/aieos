@@ -11,7 +11,8 @@
     "dashboard": "node government/dashboard/build-dashboard.mjs",
     "audio": "node scripts/gen-audio.mjs",
     "forge": "node forge/create-agent.mjs",
-    "forge:run": "node forge/run.mjs"
+    "forge:run": "node forge/run.mjs",
+    "forge:consolidate": "node forge/consolidate.mjs"
   },
   "devDependencies": {
     "msedge-tts": "^2.0.6"

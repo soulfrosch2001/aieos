@@ -45,6 +45,7 @@ satisfies the current [VERSION](VERSION).
 | 1.5.0 | Forge runtime capabilities (council [decision 0003](../government/decisions/0003-forge-runtime-capabilities.md)): memory & retrieval, live-run robustness, observability + `forge/inspect.mjs`, planning tool, structural self-check. | MINOR (additive) |
 | 1.6.0 | Forge next-leap (council [decision 0004](../government/decisions/0004-forge-next-leap.md)): live-run smoke + preflight, sharper retrieval (chunk/recency/dedup), gated in-lane sub-delegation. Plus the solo-AI [position](../docs/forge-and-solo-ai.md) and [roadmap](../docs/solo-ai-roadmap.md) docs. | MINOR (additive) |
 | 1.7.0 | Owned-memory v1 begins ([design](../docs/owned-memory.md)): BM25/IDF retrieval — rare terms win, with TF saturation + length normalization. Still dependency-free and model-free. | MINOR (additive) |
+| 1.8.0 | **Directive #11 — [do no harm](laws/harm-prevention.md)** (supreme, non-overridable). Plus owned-memory v1 complete: episodic trace ingestion, every-outcome state digest, and a gated consolidation CLI (`npm run forge:consolidate`). | MINOR (additive) |
 
 ## Changing the kernel
 Kernel changes are proposed before they are made ([Directive #7](laws/prime-directives.md)),

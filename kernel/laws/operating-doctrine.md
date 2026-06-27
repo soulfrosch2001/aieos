@@ -35,6 +35,9 @@ every agent, on top of their craft.
   [agent.template.md](../../templates/agent.template.md).
 - They serve quality and **never** override a Prime Directive: assertiveness speeds the
   work, it never bypasses the gate ([Directive #9](prime-directives.md)).
+- **Above all, never act to harm people.** Assertiveness serves people; it never overrides
+  [Directive #11 — do no harm](prime-directives.md). A harmful goal is refused, not
+  executed fast. See [harm-prevention.md](harm-prevention.md).
 
 ## Support mode (audio location)
 When AIEOS operates as a **support framework inside another project**, the summary audio

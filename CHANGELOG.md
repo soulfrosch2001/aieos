@@ -157,6 +157,25 @@ Four parallel tracks requested together.
 - **0 errors, 0 warnings in BOTH scopes.** Eight rules, a `--fix` mode, CI, and a
   versioned kernel. The OS now scales by repeating the Phase 3 pattern, gated end-to-end.
 
+## [1.8.0] — 2026-06-27 — Directive #11 (do no harm) + owned memory v1 complete
+
+### Added — the supreme law
+- **Prime Directive #11 — do no harm** ([kernel/laws/harm-prevention.md](kernel/laws/harm-prevention.md)):
+  AIEOS must never be built, operated, or connected to other systems to harm people.
+  Binds every agent, the runtime, the autonomy roadmap, and **every linked AI/tool**.
+  The one directive **no override — not even a human — may set aside to cause harm**.
+  Wired into the operating doctrine and the laws index.
+
+### Added — owned memory v1 complete (council-designed)
+- **Episodic memory** (`forge/runtime/episodic.mjs`) — past run traces fold into the
+  retrieval corpus (capped + recency-decayed), so prior runs become recallable.
+- **Every-outcome state digest** (`forge/runtime/loop.mjs`) — a lesson is recorded on
+  every outcome (firm when gate-clean, else tentative), so failed runs still teach.
+- **Consolidation** (`forge/consolidate.mjs`, `npm run forge:consolidate`) — dedups and
+  promotes lessons, **dry-run by default**, backs up to `.attic` before `--apply`,
+  append-mostly. Verified: 22 rows → 6 distinct lessons in a non-mutating preview.
+- Kernel **1.7.0 → 1.8.0**; dependency-free, model-agnostic; gate 0/0 both scopes.
+
 ## [1.7.0] — 2026-06-27 — Owned memory begins (BM25/IDF retrieval)
 
 Answering "how do we get our OWN memory, not a borrowed one": a council designed an

@@ -109,17 +109,39 @@ its weight, so fresher decisions and lessons surface first), and **near-duplicat
 are dropped** via a Jaccard-similarity check so the block never spends its budget echoing
 the same passage twice. The result is a tighter, fresher, de-duplicated opening context.
 
-On a `done` outcome the runtime appends a dated lesson to
-[`memory/registers/forge-lessons.md`](../../memory/registers/forge-lessons.md), so each
-successful run leaves knowledge behind for the next one. These memory writes happen in
-the **trusted runtime**, not through `write_file`, so the workspace guardrail is never
-relaxed — the runtime reads project memory but the agent still cannot.
+Lexical scoring is **BM25-style** — term weights combine term frequency with an
+**inverse document frequency** (IDF) factor computed in one pass over the chunk corpus,
+so rare, discriminating terms win over common ones and the most *relevant* section
+surfaces rather than the one that merely repeats the goal's common words. This stays
+pure arithmetic — no model, unchanged under `--dry-run`.
+
+### Episodic memory (past runs become recallable)
+
+Past run traces are themselves owned memory. [episodic.mjs](episodic.mjs) reads the
+recent JSON traces under `forge/runs/` and turns each into a corpus document —
+title plus a short text summarizing the run's goal, outcome, verdict, steps, and final
+summary, carrying the trace's `mtime` for recency weighting. `buildMemoryBlock` folds
+these episodes into the same corpus as the markdown registers, so a prior run that hit
+the same problem is retrieved and injected like any other memory. Episodes are capped
+per retrieval and lean on recency decay so the rich trace stream cannot swamp the
+curated lessons. Reading traces is **pure file I/O**, so the episodic layer runs
+unchanged under `--dry-run`.
+
+On **every** outcome — `done`, `failed`, or `stuck`, not only success — the runtime
+appends a dated digest/lesson to
+[`memory/registers/forge-lessons.md`](../../memory/registers/forge-lessons.md), so a
+failed or stalled run still leaves its working set behind for the next one. The digest
+records the real outcome and the gate-clean status; non-`done` digests are marked
+**tentative** so they inform without being trusted as settled fact. These memory writes
+happen in the **trusted runtime**, not through `write_file`, so the workspace guardrail
+is never relaxed — the runtime reads and appends project memory but the agent still
+cannot.
 
 Retrieval is **pure file I/O and lexical scoring** — it needs no model and runs
-unchanged under `--dry-run`. Set `FORGE_MEMORY=off` to disable both the injected block
-and the lesson append.
+unchanged under `--dry-run`. Set `FORGE_MEMORY=off` to disable the injected block, the
+episodic fold-in, and the digest append.
 
-Implemented in [memory.mjs](memory.mjs).
+Implemented in [memory.mjs](memory.mjs) and [episodic.mjs](episodic.mjs).
 
 ## The tools
 
@@ -245,17 +267,46 @@ node forge/inspect.mjs --last     # render the most recent run
 It only re-renders existing traces — it never re-executes a run — so it is safe to point
 at any past trace, including dry-run traces, to read the steps, plan, verdict, and totals.
 
+## Consolidating memory (the "sleep" step)
+
+Memory that only grows is a landfill. [`forge/consolidate.mjs`](../consolidate.mjs) is a
+**dependency-free CLI** that reviews [`forge-lessons.md`](../../memory/registers/forge-lessons.md)
+(and the episodes) to distil it: fold exact and near-duplicate lesson rows into one with
+a seen-count tally, and promote repeated, firm lessons. It never erases history — it
+corrects by adding ([Directive #7](../../kernel/laws/prime-directives.md)).
+
+```
+node forge/consolidate.mjs            # DRY-RUN by default — print the diff plan, write nothing
+node forge/consolidate.mjs --apply    # back up the register, then apply the plan
+```
+
+There is also an npm alias: `npm run forge:consolidate -- [--apply]`.
+
+It is **dry-run by default**: with no flags it only prints the proposed plan and writes
+nothing, so a CTO/council step can read the plan and approve before anything changes.
+Only `--apply` mutates, and before any write it copies the register to an **attic**
+backup, so every fold is one file-restore or `git revert` away. Like the runtime's own
+lesson writes, consolidation writes **only** `memory/registers/*` through the trusted
+runtime — it never touches `write_file` and never relaxes the workspace guardrail. It is
+pure file I/O and lexical comparison, so it needs **no model** and runs identically with
+no key.
+
 ## Files
 - [llm.mjs](llm.mjs) — the model call (Messages API + retry/backoff, `usage`, message
   trimming) and the dry-run stub.
 - [tools.mjs](tools.mjs) — the tools and their guardrails.
-- [memory.mjs](memory.mjs) — gather, retrieve, format the memory block, and append lessons.
+- [memory.mjs](memory.mjs) — gather, BM25 retrieve, format the memory block, build it
+  (markdown registers + episodes), and append lessons/digests.
+- [episodic.mjs](episodic.mjs) — summarize `forge/runs/*.json` traces into recallable
+  corpus documents.
 - [plan.mjs](plan.mjs) — render and apply the explicit plan checklist.
 - [eval.mjs](eval.mjs) — the structural, model-free self-check verdict.
 - `subagent.mjs` — the bounded in-lane `delegate` sub-run (flag-gated).
 - [loop.mjs](loop.mjs) — the plan → act → observe → reflect orchestration + trace.
 - `forge/run.mjs` — the CLI: load an agent, retrieve memory, run the loop, report.
 - `forge/inspect.mjs` — read-only viewer for past run traces.
+- [`forge/consolidate.mjs`](../consolidate.mjs) — dry-run-by-default CLI that distils
+  `forge-lessons.md` (dedup + promote), attic-backed, `--apply` to write.
 
 ## How it relates to the rest of the Forge
 It is the executable form of the [action loop](../action-loop.md); the agents it runs

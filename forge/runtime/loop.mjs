@@ -190,11 +190,17 @@ export async function runLoop({
   const evaluation = evaluate({ goal, steps, outcome, summary, gateClean });
   onEvent({ kind: 'eval', evaluation });
 
-  // Memory: a successful run leaves a dated lesson behind (trusted-runtime write).
-  let lessonPath = null;
-  if (outcome === 'done') {
-    lessonPath = appendLesson(ctx.repoRoot, { goal, agent, outcome, summary, gateClean });
-  }
+  // Memory (state digest): EVERY run leaves a dated lesson behind, not just wins — a
+  // stuck/incomplete run's working set survives into the next run's rehydration so
+  // mid-run findings are not lost (owned-memory v1, layer B). appendLesson marks the row
+  // `firm` only when the gate is clean, otherwise `tentative`, so non-`done` outcomes are
+  // recorded as provisional. For a non-`done` outcome we synthesize a short digest from the
+  // evaluation when the run left no summary, so the row still carries signal. Trusted-runtime
+  // write (never via write_file), so the workspace guardrail is never relaxed.
+  const digestSummary = summary || (outcome === 'done'
+    ? ''
+    : `${outcome}: ${(evaluation && evaluation.notes && evaluation.notes[0]) || 'no closing summary'}`);
+  const lessonPath = appendLesson(ctx.repoRoot, { goal, agent, outcome, summary: digestSummary, gateClean });
 
   const record = closeTrace(trace, { steps, outcome, summary, gateClean, plan, totals, evaluation });
   onEvent({ kind: 'done', outcome, summary, gateClean, tracePath: record.tracePath, evaluation, totals, lessonPath });

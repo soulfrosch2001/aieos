@@ -19,6 +19,7 @@ law.
 | [engagement-tiers.md](engagement-tiers.md) | T0–T4 — how every request is sized, and how that sizing drives ceremony, fan-out, and sign-off. |
 | [decision-authority.md](decision-authority.md) | Who decides what, the three authority levels, and the absolute-but-rare veto. |
 | [operating-doctrine.md](operating-doctrine.md) | The eight habits of assertive, high-agency support — how the system *shows up* when it works (kernel 1.2.0). |
+| [harm-prevention.md](harm-prevention.md) | **Directive #11 — do no harm**: the supreme constraint binding agents, the runtime, autonomy, and every linked AI/tool. Never overridable to cause harm. |
 
 ## Reading order
 
