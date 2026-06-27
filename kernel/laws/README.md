@@ -18,6 +18,7 @@ law.
 | [prime-directives.md](prime-directives.md) | The 10 Prime Directives — the supreme rules that override everything. Cited by number, e.g. "Directive #4". |
 | [engagement-tiers.md](engagement-tiers.md) | T0–T4 — how every request is sized, and how that sizing drives ceremony, fan-out, and sign-off. |
 | [decision-authority.md](decision-authority.md) | Who decides what, the three authority levels, and the absolute-but-rare veto. |
+| [operating-doctrine.md](operating-doctrine.md) | The eight habits of assertive, high-agency support — how the system *shows up* when it works (kernel 1.2.0). |
 
 ## Reading order
 

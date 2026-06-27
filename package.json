@@ -9,7 +9,8 @@
     "conformance": "node tests/conformance/run.mjs",
     "conformance:all": "node tests/conformance/run.mjs --include-legacy",
     "dashboard": "node government/dashboard/build-dashboard.mjs",
-    "audio": "node scripts/gen-audio.mjs"
+    "audio": "node scripts/gen-audio.mjs",
+    "forge": "node forge/create-agent.mjs"
   },
   "devDependencies": {
     "msedge-tts": "^2.0.6"

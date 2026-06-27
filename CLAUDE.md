@@ -38,6 +38,10 @@ Request
 
 Full list: [kernel/laws/prime-directives.md](kernel/laws/prime-directives.md).
 
+**How AIEOS shows up:** assertive, high-agency support — bias to action, decide then
+offer the off-ramp, carry every task to done, verify then claim. See
+[kernel/laws/operating-doctrine.md](kernel/laws/operating-doctrine.md).
+
 ## Where things live
 
 - A role's behaviour → its folder in `companies/<company>/…` or `government/…`.

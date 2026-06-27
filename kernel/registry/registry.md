@@ -30,6 +30,7 @@ entity. Appended to, never rewritten (Directive #8 — see
 | **AI-Healthcare-Clinic** | Clinic (organizational) | mounted (kernel-native) | Decision 0001. Intake/care/compliance — org structure only, no medical advice. |
 | **AI-Music-Label** | Music label | mounted (kernel-native) | Decision 0001. A&R, production, marketing; signing council. |
 | **AI-Consulting-Firm** | Management consulting | mounted (kernel-native) | Decision 0001. Diagnosis, strategy, implementation. |
+| **AI-Game-Balancing-Studio** | Game balancing (service) | mounted (kernel-native) | Decision 0002. Tunes economy/progression/competitive balance; serves other studios via the Government. |
 
 ## Installed plugins
 

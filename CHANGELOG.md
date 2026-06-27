@@ -157,6 +157,19 @@ Four parallel tracks requested together.
 - **0 errors, 0 warnings in BOTH scopes.** Eight rules, a `--fix` mode, CI, and a
   versioned kernel. The OS now scales by repeating the Phase 3 pattern, gated end-to-end.
 
+## [1.3.0] — 2026-06-27 — The Forge + support-mode audio
+
+### Added
+- **The [Forge](forge/)** — AIEOS as a sharp AI that turns intent into agents and drives
+  their actions. v0: the two loops ([creation](forge/creation-loop.md),
+  [action](forge/action-loop.md)), the [action contract](forge/action-contract.md), and a
+  runnable scaffolder (`npm run forge -- <dir> <name> "<mission>"`) that writes a
+  contract-valid 5-file agent. Example: `forge/examples/balance-scout`.
+- **Support-mode audio rule.** When AIEOS supports another project, summary audios go to a
+  top-level [resumo/](resumo/) folder at the support root (not `government/decisions/resumo/`).
+  Codified in the [operating doctrine](kernel/laws/operating-doctrine.md) and both `/aieos`
+  commands. Kernel **1.2.0 → 1.3.0**.
+
 ## [Unreleased] — 2026-06-27 — "Jinx" default voice
 
 ### Changed

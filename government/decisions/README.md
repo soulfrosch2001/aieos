@@ -19,3 +19,4 @@ a decision without its audio fails the gate. See [resumo/README.md](resumo/READM
 | # | Decision | Tier |
 |---|----------|------|
 | [0001](0001-charter-four-new-companies.md) | Charter four new companies (Film, Healthcare, Music, Consulting). | T3 |
+| [0002](0002-charter-game-balancing-studio.md) | Charter the Game Balancing Studio. | T3 |

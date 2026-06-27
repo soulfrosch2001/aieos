@@ -77,6 +77,7 @@ on the kernel with no adapter. The mount model is documented in
 | [AI-Healthcare-Clinic](../AI-Healthcare-Clinic/) | kernel-native | [../AI-Healthcare-Clinic/00-company/AIEOS.md](../AI-Healthcare-Clinic/00-company/AIEOS.md) |
 | [AI-Music-Label](../AI-Music-Label/) | kernel-native | [../AI-Music-Label/00-company/AIEOS.md](../AI-Music-Label/00-company/AIEOS.md) |
 | [AI-Consulting-Firm](../AI-Consulting-Firm/) | kernel-native | [../AI-Consulting-Firm/00-company/AIEOS.md](../AI-Consulting-Firm/00-company/AIEOS.md) |
+| [AI-Game-Balancing-Studio](../AI-Game-Balancing-Studio/) | kernel-native | [../AI-Game-Balancing-Studio/00-company/AIEOS.md](../AI-Game-Balancing-Studio/00-company/AIEOS.md) |
 
 > Note: the existing companies remain at the repository root (preserved in place by
 > the non-destructive Phase 2 mount); they are linked here, not relocated into this folder.

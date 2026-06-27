@@ -18,6 +18,7 @@ const ALLOW_DIRS = new Set([
   'AI-Marketing-Agency', 'AI-Publishing-House', 'AI-Finance-Company', 'AI-Research-Lab',
   'AI-RPG-Studio', 'AI-Architecture-Studio', 'AI-Legal-Advisors', 'AI-Education-Academy',
   'AI-Film-Studio', 'AI-Healthcare-Clinic', 'AI-Music-Label', 'AI-Consulting-Firm',
+  'AI-Game-Balancing-Studio',
 ]);
 
 export default function check(ctx) {
