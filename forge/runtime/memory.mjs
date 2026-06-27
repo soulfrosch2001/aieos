@@ -70,10 +70,12 @@ export function chunkDoc(doc) {
   return chunks.length ? chunks : [{ source: doc.source, title: heading, text: String(doc.text || ''), mtimeMs: doc.mtimeMs }];
 }
 
-// Lexical retrieval over heading-chunks. Score each chunk against the goal by shared-term
-// overlap (light TF weighting), multiply by a gentle recency decay, drop near-duplicate
-// hits (Jaccard), and return the top `k`. Deterministic and model-free.
-export function retrieve(goal, docs, { k = 4, now = Date.now(), halfLifeDays = 30, dupThreshold = 0.6 } = {}) {
+// Lexical retrieval over heading-chunks, scored with **BM25** (owned-memory v1, step 1):
+// a term's weight is its IDF — rare terms across the corpus win — with TF saturation (k1)
+// and length normalization (b), so a common word in a giant section can't dominate a rare,
+// on-point match. Multiply by a gentle recency decay, drop near-duplicate hits (Jaccard),
+// return the top `k`. Deterministic, model-free, no deps. See docs/owned-memory.md.
+export function retrieve(goal, docs, { k = 4, now = Date.now(), halfLifeDays = 30, dupThreshold = 0.6, k1 = 1.5, b = 0.75 } = {}) {
   const qTerms = terms(goal);
   if (!qTerms.size || !docs.length) return [];
   const qSet = new Set(qTerms.keys());
@@ -81,17 +83,35 @@ export function retrieve(goal, docs, { k = 4, now = Date.now(), halfLifeDays = 3
   // Expand docs into chunks so a long file competes section-by-section.
   const chunks = [];
   for (const d of docs) for (const c of chunkDoc(d)) chunks.push(c);
+  if (!chunks.length) return [];
+
+  // Precompute each chunk's term map + length, and the corpus document frequency (df) of
+  // each query term, so IDF can favour rare terms. avgdl normalizes for chunk length.
+  const info = chunks.map((c) => {
+    const tm = terms(c.text);
+    let len = 0;
+    for (const v of tm.values()) len += v;
+    return { c, tm, len };
+  });
+  const N = info.length;
+  const avgdl = info.reduce((s, x) => s + x.len, 0) / N || 1;
+  const idf = new Map();
+  for (const t of qSet) {
+    let dfreq = 0;
+    for (const x of info) if (x.tm.has(t)) dfreq++;
+    // BM25 IDF with a +1 floor: a term in every chunk still contributes a little, never < 0.
+    idf.set(t, Math.log(1 + (N - dfreq + 0.5) / (dfreq + 0.5)));
+  }
 
   const halfLifeMs = halfLifeDays * 24 * 60 * 60 * 1000;
-  const scored = chunks.map((c) => {
-    const dTerms = terms(c.text);
+  const scored = info.map(({ c, tm, len }) => {
     let score = 0;
     for (const t of qSet) {
-      const tf = dTerms.get(t);
-      if (tf) score += Math.log(1 + tf); // diminishing return on repetition
+      const tf = tm.get(t);
+      if (!tf) continue;
+      const denom = tf + k1 * (1 - b + b * (len / avgdl));
+      score += (idf.get(t) || 0) * (tf * (k1 + 1)) / denom; // BM25 term contribution
     }
-    // Normalize lightly by chunk length so a giant section can't dominate on raw counts.
-    const norm = score / Math.log(2 + dTerms.size);
     // Recency: exponential half-life decay in [0.5, 1]. Unknown mtime → neutral (no boost,
     // no penalty) so a missing stat never sinks an otherwise strong match.
     let recency = 1;
@@ -99,7 +119,7 @@ export function retrieve(goal, docs, { k = 4, now = Date.now(), halfLifeDays = 3
       const ageMs = Math.max(0, now - c.mtimeMs);
       recency = 0.5 + 0.5 * Math.pow(2, -ageMs / halfLifeMs);
     }
-    return { ...c, _terms: new Set(dTerms.keys()), score: norm * recency };
+    return { ...c, _terms: new Set(tm.keys()), score: score * recency };
   });
 
   const ranked = scored

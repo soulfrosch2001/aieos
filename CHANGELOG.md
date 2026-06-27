@@ -157,6 +157,23 @@ Four parallel tracks requested together.
 - **0 errors, 0 warnings in BOTH scopes.** Eight rules, a `--fix` mode, CI, and a
   versioned kernel. The OS now scales by repeating the Phase 3 pattern, gated end-to-end.
 
+## [1.7.0] — 2026-06-27 — Owned memory begins (BM25/IDF retrieval)
+
+Answering "how do we get our OWN memory, not a borrowed one": a council designed an
+owned-memory v1 ([docs/owned-memory.md](docs/owned-memory.md)) — the model stays borrowed,
+the operational memory becomes fully ours. Step 1 shipped.
+
+### Added
+- **BM25/IDF retrieval** in `forge/runtime/memory.mjs` — a term's weight is its corpus IDF
+  (rare terms win), with TF saturation and length normalization. Dependency-free, model-free,
+  deterministic. Verified: a rare on-point term now outranks a common one.
+
+### Approved, not yet built (owned-memory v1 remainder)
+- Episodic ingestion of run traces, a state digest on every outcome, and a gated
+  consolidation ("sleep") loop. Deferred: local embeddings, knowledge graph.
+- Honest boundary: model training weights + the context window stay borrowed forever.
+  Kernel **1.6.0 → 1.7.0**; gate 0/0.
+
 ## [1.6.0] — 2026-06-27 — Forge next-leap + solo-AI position & roadmap
 
 Three councils ran in parallel. Build council ([decision 0004](government/decisions/0004-forge-next-leap.md))
