@@ -21,13 +21,42 @@ export async function callModel({ system, messages, tools, model, dryRun }) {
   if (!model) throw new Error('FORGE_MODEL is required for a live run');
 
   const data = await callWithRetry({
-    body: JSON.stringify({ model, max_tokens: 2048, system, messages, tools }),
+    body: JSON.stringify({ model, max_tokens: maxTokens(), system, messages, tools }),
   });
   return {
     content: data.content,
     stop_reason: data.stop_reason,
     usage: normalizeUsage(data.usage),
   };
+}
+
+// Output ceiling for a single model call. Surfaced as FORGE_MAX_TOKENS so a live run can
+// be capped without code edits; defaults to 2048. Model-agnostic — no provider coupling.
+export function maxTokens() {
+  const n = Number(process.env.FORGE_MAX_TOKENS);
+  return Number.isFinite(n) && n > 0 ? Math.floor(n) : 2048;
+}
+
+// Preflight: a cheap readiness probe run BEFORE a real loop. It answers "can this run
+// actually reach a model?" without spending a full turn. Under --dry-run (or no key) it
+// short-circuits to a deterministic stubbed verdict so the smoke path needs no model and
+// no network. A live preflight requires FORGE_MODEL and ANTHROPIC_API_KEY to be present —
+// it does NOT make a network call here (keeping it free and offline-safe); it validates
+// that the run is configured to reach a model. Returns { ok, mode, model, maxTokens, reason }.
+export async function preflight({ model, dryRun } = {}) {
+  if (dryRun || !process.env.ANTHROPIC_API_KEY) {
+    return {
+      ok: true,
+      mode: 'dry-run',
+      model: model || null,
+      maxTokens: maxTokens(),
+      reason: 'dry-run / no ANTHROPIC_API_KEY — model calls are stubbed',
+    };
+  }
+  if (!model) {
+    return { ok: false, mode: 'live', model: null, maxTokens: maxTokens(), reason: 'FORGE_MODEL is required for a live run' };
+  }
+  return { ok: true, mode: 'live', model, maxTokens: maxTokens(), reason: 'model id and API key present' };
 }
 
 // Retry on transient failure with exponential backoff. Retries 429, 5xx, and network
@@ -142,11 +171,27 @@ function sizeOf(messages) {
 }
 
 // Deterministic stand-in: plan → act (list_dir) → observe → finish. Proves the loop.
+// Sentinel: when the opening goal contains "delegate-smoke", the stub instead emits a
+// single `delegate` call then finishes — exercising the sub-delegation path end-to-end
+// offline. The SUB-run (its goal won't contain the sentinel) falls through to the normal
+// list_dir → finish branch, so recursion terminates without the cap ever being needed.
 function stub(messages) {
   const hasResult = messages.some(
     (m) => Array.isArray(m.content) && m.content.some((c) => c.type === 'tool_result')
   );
+  const openingText = firstUserText(messages);
+  const isDelegateSentinel = /delegate-smoke/i.test(openingText);
+
   if (!hasResult) {
+    if (isDelegateSentinel) {
+      return {
+        content: [
+          { type: 'text', text: 'Plan: delegate one sub-task, then finish.' },
+          { type: 'tool_use', id: 'd1', name: 'delegate', input: { task: 'Sub-task: inspect the workspace and finish.' } },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
     return {
       content: [
         { type: 'text', text: 'Plan: inspect the workspace, then finish.' },
@@ -155,11 +200,26 @@ function stub(messages) {
       stop_reason: 'tool_use',
     };
   }
+  const summary = isDelegateSentinel
+    ? 'Dry-run complete — the delegate sub-run path works end-to-end.'
+    : 'Dry-run complete — the plan → act → observe → finish loop works end-to-end.';
   return {
     content: [
-      { type: 'text', text: 'Observed the workspace.' },
-      { type: 'tool_use', id: 't2', name: 'finish', input: { summary: 'Dry-run complete — the plan → act → observe → finish loop works end-to-end.' } },
+      { type: 'text', text: 'Observed the result.' },
+      { type: 'tool_use', id: 't2', name: 'finish', input: { summary } },
     ],
     stop_reason: 'tool_use',
   };
+}
+
+// The opening user turn's text (the goal + any retrieved memory). Used only by the stub to
+// detect sentinels; on the real path the goal flows through normally.
+function firstUserText(messages) {
+  const first = messages.find((m) => m.role === 'user');
+  if (!first) return '';
+  if (typeof first.content === 'string') return first.content;
+  if (Array.isArray(first.content)) {
+    return first.content.filter((c) => c.type === 'text').map((c) => c.text).join('\n');
+  }
+  return '';
 }

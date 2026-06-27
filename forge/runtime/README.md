@@ -17,6 +17,7 @@ runs with **no model and no API key** in `--dry-run`.
 
 ```
 node forge/run.mjs <agent-dir> "<goal>" [--dry-run] [--max-steps N] [--json]
+node forge/run.mjs --smoke [--dry-run]
 ```
 
 Examples:
@@ -38,9 +39,27 @@ Flags:
   [llm.mjs](llm.mjs); **never** reads `FORGE_MODEL` or `ANTHROPIC_API_KEY`.
 - `--max-steps N` — cap the number of turns (default 20, or `FORGE_MAX_STEPS`).
 - `--json` — print the run-trace object instead of the human step lines.
+- `--smoke` — run a built-in, tightly capped trivial goal end-to-end as a health
+  check; pairs with `--dry-run` to prove the engine wires up with no model and no key.
+
+On startup `run.mjs` prints a one-line **banner** echoing the resolved model (or
+`dry-run`), whether dry-run is active, and the active ceilings (max steps, max tokens,
+delegation depth) — so every run states its own bounds before it acts.
 
 Exit codes: `2` missing `<agent-dir>` or `<goal>` (usage); `3` live run with
 `FORGE_MODEL` unset and no `--dry-run`.
+
+### Smoke check and preflight
+
+`--smoke` runs a fixed, minimal goal under a low step ceiling so you can confirm the
+runtime stands up end-to-end in one command. Before a **live** run it triggers a
+`preflight` probe in [llm.mjs](llm.mjs) that checks the model id and auth are present and
+reachable, failing fast with a clear message instead of mid-loop. Under `--dry-run` the
+preflight is **stubbed** — it reports ready without any network call or key — so
+`node forge/run.mjs --smoke --dry-run` is the canonical offline health check.
+
+New-operator setup (picking `FORGE_MODEL`, supplying the key, and the exact smoke
+command) is written up in `forge/SETUP.md`.
 
 ## Loading an agent
 
@@ -83,6 +102,13 @@ durable memory — `memory/registers/`, `government/decisions/`, and
 **Retrieved memory** block into the opening turn. The agent therefore starts the run
 already aware of the relevant decisions and prior lessons instead of rediscovering them.
 
+Retrieval scores at **section granularity**, not whole files: each document is split
+into heading-anchored chunks so the injected block is the matching section, not an entire
+register. Scores are then weighted by a **recency factor** (a document's `mtime` decays
+its weight, so fresher decisions and lessons surface first), and **near-duplicate hits
+are dropped** via a Jaccard-similarity check so the block never spends its budget echoing
+the same passage twice. The result is a tighter, fresher, de-duplicated opening context.
+
 On a `done` outcome the runtime appends a dated lesson to
 [`memory/registers/forge-lessons.md`](../../memory/registers/forge-lessons.md), so each
 successful run leaves knowledge behind for the next one. These memory writes happen in
@@ -110,6 +136,8 @@ exec, delete, or network-write tool, so there is no irreversible-action surface.
   whether the goal was met.
 - `plan` — record an explicit ordered checklist of steps the agent intends to take.
 - `update_plan` — mark steps done or revise the checklist as the work proceeds.
+- `delegate` — spawn a bounded **in-lane** sub-run to decompose a task (off by default;
+  see [Sub-delegation](#sub-delegation-in-lane) below).
 
 Every tool returns a uniform `{ ok, output }` envelope. A failure is fed back to the
 model as an errored observation, not raised as a crash — failures are data the agent
@@ -123,6 +151,28 @@ The agent can keep an **explicit plan**: a `plan` tool sets an ordered checklist
 model always sees its own intent and the trace is auditable against it
 ([Directive #8](../../kernel/laws/prime-directives.md)). This is the long-horizon
 coherence lever — it keeps multi-step runs on track. Implemented in [plan.mjs](plan.mjs).
+
+## Sub-delegation (in-lane)
+
+For a genuinely compound task the agent can decompose it into a **sub-run** with the
+`delegate` tool, implemented in `subagent.mjs`. A delegation runs the *same*
+loop recursively — **same agent, same workspace, same gate, same write-confinement** — on
+a narrower sub-task, producing its own trace, and threads the result back as the parent's
+next observation. It opens no cross-company lane: delegation is strictly in-lane, so it
+never routes around the Government
+([Directive #2](../../kernel/laws/prime-directives.md)).
+
+It is **off by default**. The `delegate` schema is only advertised to the model when
+`FORGE_SUBAGENTS=on` (or a positive depth budget is set), so default runs behave exactly
+as before. Two hard limits fence it: a sub-run is capped at a small step ceiling, and a
+**depth cap** (`FORGE_MAX_DEPTH`, default 1) is enforced in code — a `delegate` past the
+cap is denied with a `GUARDRAIL:` tool result rather than recursing, so the existing step
+ceiling and the depth cap together make runaway recursion impossible.
+
+Under `--dry-run` delegation is exercised by a **sentinel goal**: the stub emits one
+`delegate` call and then finishes, so the whole primitive is testable offline with no
+model and no key —
+`FORGE_SUBAGENTS=on node forge/run.mjs <agent-dir> "delegate-smoke: decompose and finish" --dry-run`.
 
 ## Self-check (structural verdict)
 
@@ -168,7 +218,8 @@ tied to any particular model.
   [llm.mjs](llm.mjs). Use this to exercise the engine and the trace with zero config.
 - Live run — set `FORGE_MODEL` to whatever model id you want and provide
   `ANTHROPIC_API_KEY`. If `FORGE_MODEL` is unset on a live run, the runtime errors
-  clearly and exits — it does **not** pick a default.
+  clearly and exits — it does **not** pick a default. The per-call response budget is
+  `FORGE_MAX_TOKENS` (default 2048).
 
 ## Traces
 
@@ -201,6 +252,7 @@ at any past trace, including dry-run traces, to read the steps, plan, verdict, a
 - [memory.mjs](memory.mjs) — gather, retrieve, format the memory block, and append lessons.
 - [plan.mjs](plan.mjs) — render and apply the explicit plan checklist.
 - [eval.mjs](eval.mjs) — the structural, model-free self-check verdict.
+- `subagent.mjs` — the bounded in-lane `delegate` sub-run (flag-gated).
 - [loop.mjs](loop.mjs) — the plan → act → observe → reflect orchestration + trace.
 - `forge/run.mjs` — the CLI: load an agent, retrieve memory, run the loop, report.
 - `forge/inspect.mjs` — read-only viewer for past run traces.

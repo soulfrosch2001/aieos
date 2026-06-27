@@ -13,6 +13,7 @@ import { parseArgs } from 'node:util';
 import { runLoop } from './runtime/loop.mjs';
 import { buildMemoryBlock } from './runtime/memory.mjs';
 import { formatVerdict } from './runtime/eval.mjs';
+import { preflight, maxTokens } from './runtime/llm.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, '..'); // forge/ → repo root
@@ -24,6 +25,8 @@ try {
     options: {
       'dry-run': { type: 'boolean', default: false },
       'max-steps': { type: 'string' },
+      'max-tokens': { type: 'string' },
+      smoke: { type: 'boolean', default: false },
       json: { type: 'boolean', default: false },
     },
   });
@@ -31,8 +34,23 @@ try {
   usage(e.message); process.exit(2);
 }
 
-const [agentDir, goal] = parsed.positionals;
 const flags = parsed.values;
+
+// --max-tokens is sugar for FORGE_MAX_TOKENS so the ceiling can be set inline; the runtime
+// reads it back via the env (single source of truth, model-agnostic).
+if (flags['max-tokens']) process.env.FORGE_MAX_TOKENS = String(flags['max-tokens']);
+
+// --smoke: a trivial, capped, offline-friendly end-to-end run that needs no positionals.
+// It supplies a default agent + goal and a tight step cap so it proves the loop fast.
+const SMOKE_AGENT = 'forge/examples/balance-scout';
+const SMOKE_GOAL = 'Smoke test: list the repo and finish.';
+
+let [agentDir, goal] = parsed.positionals;
+if (flags.smoke) {
+  agentDir = agentDir || SMOKE_AGENT;
+  goal = goal || SMOKE_GOAL;
+  if (!flags['max-steps']) flags['max-steps'] = '4';
+}
 
 if (!agentDir || !goal) { usage('missing <agent-dir> or "<goal>"'); process.exit(2); }
 
@@ -86,6 +104,22 @@ run();
 async function run() {
   const json = flags.json;
 
+  // Startup banner + preflight: echo the run's configuration and verify it can reach a
+  // model BEFORE spending a turn. Stubbed offline (dry-run / no key) so --smoke needs no
+  // model. A failed live preflight aborts with a clear reason instead of erroring mid-loop.
+  // Suppressed under --json so machine-readable output stays a single JSON document.
+  const pf = await preflight({ model, dryRun });
+  if (!json) {
+    process.stdout.write(
+      `forge: agent=${agentName} model=${model || '(none)'} mode=${pf.mode} ` +
+      `max-steps=${maxSteps ?? (Number(process.env.FORGE_MAX_STEPS) || 20)} ` +
+      `max-tokens=${maxTokens()} memory=${process.env.FORGE_MEMORY === 'off' ? 'off' : 'on'} ` +
+      `subagents=${process.env.FORGE_SUBAGENTS === 'on' ? 'on' : 'off'}\n` +
+      `forge: preflight ${pf.ok ? 'ok' : 'FAILED'} — ${pf.reason}\n`
+    );
+  }
+  if (!pf.ok) { process.stderr.write('forge: aborting — ' + pf.reason + '\n'); process.exit(3); }
+
   // Memory & retrieval: gather durable project memory, score it against the goal, and
   // inject the top matches. Pure file I/O — needs no model, runs under --dry-run, and is
   // disabled by FORGE_MEMORY=off. Failure here must never block the run.
@@ -136,5 +170,6 @@ function loadAgent(dir) {
 
 function usage(msg) {
   if (msg) process.stderr.write('forge/run.mjs: ' + msg + '\n');
-  process.stderr.write('Usage: node forge/run.mjs <agent-dir> "<goal>" [--dry-run] [--max-steps N] [--json]\n');
+  process.stderr.write('Usage: node forge/run.mjs <agent-dir> "<goal>" [--dry-run] [--max-steps N] [--max-tokens N] [--json]\n');
+  process.stderr.write('       node forge/run.mjs --smoke [--dry-run]   (trivial capped end-to-end run; defaults agent + goal)\n');
 }

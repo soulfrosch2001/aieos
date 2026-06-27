@@ -9,6 +9,7 @@ const ALLOW_FILES = new Set([
   'README.md', 'CHANGELOG.md', 'CONTRIBUTING.md', 'LICENSE', 'CLAUDE.md', 'COMPANY.md',
   'AIEOS.md', 'MASTER_PROMPT.md', 'ROADMAP.md', 'ARCHITECTURE.md', 'MIGRATION.md',
   'DESIGN-DECISIONS.md', 'MEMORY.md', 'QUALITY-STANDARDS.md', 'BUILD_SPEC.md', 'ONBOARDING.md',
+  'SETUP.md',
   'package.json',
 ]);
 

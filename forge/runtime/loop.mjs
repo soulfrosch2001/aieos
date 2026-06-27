@@ -11,10 +11,12 @@ import { toolSchemas, runTool } from './tools.mjs';
 import { makePlan, applyPlanUpdate, renderPlan } from './plan.mjs';
 import { evaluate } from './eval.mjs';
 import { appendLesson } from './memory.mjs';
+import { delegate } from './subagent.mjs';
 
 export async function runLoop({
   system, goal, ctx, model, dryRun, agent = 'agent',
   memoryBlock = '',
+  depth = 0,
   maxSteps = Number(process.env.FORGE_MAX_STEPS) || 20,
   onEvent = () => {},
 }) {
@@ -22,7 +24,10 @@ export async function runLoop({
   // so the agent starts already aware of relevant prior decisions and lessons.
   const opening = memoryBlock ? `${memoryBlock}\n\n---\n\n# Goal\n${goal}` : goal;
   const messages = [{ role: 'user', content: opening }];
-  const tools = toolSchemas();
+  // The tool set depends on depth: the `delegate` schema is only advertised when sub-agents
+  // are enabled AND there is depth budget left (see tools.subagentsEnabled).
+  const tools = toolSchemas({ depth });
+  const maxDepth = Number(process.env.FORGE_MAX_DEPTH) || 1;
   const steps = [];
 
   let gateClean = false;   // has run_gate passed since the last write?
@@ -88,6 +93,43 @@ export async function runLoop({
         results.push({ type: 'tool_result', tool_use_id: tu.id, content: view || 'plan updated', is_error: false });
         step.actions.push({ name: tu.name, input: tu.input, ok: true, output: view });
         onEvent({ kind: 'observe', n, name: tu.name, ok: true });
+        continue;
+      }
+
+      // Sub-delegation: run a bounded child loop in-lane (same ctx/workspace, its own
+      // trace + gate). Hard depth guardrail FIRST — if we are already at the cap, refuse
+      // and return a tool_result, never recursing. A successful sub-run's writes leave the
+      // workspace dirty, so we conservatively re-arm the gate requirement.
+      if (tu.name === 'delegate') {
+        if (depth >= maxDepth) {
+          const msg = `GUARDRAIL: delegation depth cap reached (depth ${depth} ≥ ${maxDepth}). Do the work directly.`;
+          results.push({ type: 'tool_result', tool_use_id: tu.id, content: msg, is_error: true });
+          step.actions.push({ name: 'delegate', input: tu.input, ok: false, output: msg });
+          onEvent({ kind: 'observe', n, name: 'delegate', ok: false });
+          continue;
+        }
+        onEvent({ kind: 'act', n, name: 'delegate', input: tu.input });
+        const td = performance.now();
+        let dr;
+        try {
+          dr = await delegate({ task: (tu.input && tu.input.task) || '', ctx, model, dryRun, depth: depth + 1, system, agent });
+        } catch (e) {
+          dr = { output: 'GUARDRAIL/ERROR: ' + e.message, result: { outcome: 'error', gateClean: false } };
+        }
+        const subMs = Math.round(performance.now() - td);
+        totals.ms += subMs;
+        const subDone = dr.result && dr.result.outcome === 'done';
+        // A sub-run that reached `done` has already satisfied its OWN gate-before-finish
+        // guardrail (it shares this workspace), so it leaves nothing ungated for the parent.
+        // We only re-arm the parent's gate requirement if the sub-run ended dirty: it wrote
+        // but its gate was not clean (only possible when it did NOT reach a clean finish).
+        const subWrote = dr.result && dr.result.steps
+          ? dr.result.steps.some((s) => (s.actions || []).some((a) => a.name === 'write_file' && a.ok))
+          : false;
+        if (subWrote && !(dr.result && dr.result.gateClean)) { dirtyWrites = true; gateClean = false; }
+        results.push({ type: 'tool_result', tool_use_id: tu.id, content: dr.output, is_error: !subDone });
+        step.actions.push({ name: 'delegate', input: tu.input, ok: !!subDone, output: dr.output, ms: subMs });
+        onEvent({ kind: 'observe', n, name: 'delegate', ok: !!subDone });
         continue;
       }
 
@@ -165,7 +207,10 @@ function openTrace(repoRoot, agent, head) {
   const dir = path.join(repoRoot, 'forge', 'runs');
   fs.mkdirSync(dir, { recursive: true });
   const ts = new Date().toISOString().replace(/:/g, '-');
-  const tracePath = path.join(dir, `${ts}-${agent}.json`);
+  // Agent names can contain '/' (e.g. a sub-run's "parent/sub"); flatten to a safe slug so
+  // the trace filename never spills into a non-existent subdirectory.
+  const slug = String(agent).replace(/[^a-zA-Z0-9._-]+/g, '-');
+  const tracePath = path.join(dir, `${ts}-${slug}.json`);
   const data = { ...head, agent, startedAt: new Date().toISOString(), steps: [], outcome: 'running', tracePath: rel(repoRoot, tracePath) };
   fs.writeFileSync(tracePath, JSON.stringify(data, null, 2));
   return { repoRoot, tracePath, data };

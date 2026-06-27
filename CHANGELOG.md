@@ -157,6 +157,30 @@ Four parallel tracks requested together.
 - **0 errors, 0 warnings in BOTH scopes.** Eight rules, a `--fix` mode, CI, and a
   versioned kernel. The OS now scales by repeating the Phase 3 pattern, gated end-to-end.
 
+## [1.6.0] — 2026-06-27 — Forge next-leap + solo-AI position & roadmap
+
+Three councils ran in parallel. Build council ([decision 0004](government/decisions/0004-forge-next-leap.md))
+shipped; two reflective councils produced the solo-AI docs.
+
+### Added (council-approved build)
+- **Live-run smoke + preflight** — `preflight()` (model/auth probe, stubbed offline),
+  `--smoke`, `FORGE_MAX_TOKENS`, and [forge/SETUP.md](forge/SETUP.md).
+- **Sharper retrieval** — `forge/runtime/memory.mjs` scores heading-chunks with recency
+  decay and dedups near-duplicates.
+- **Gated in-lane sub-delegation** — bounded recursive `delegate` (same company/workspace,
+  depth-capped), off by default behind `FORGE_SUBAGENTS`.
+
+### Added (reflection)
+- **[docs/forge-and-solo-ai.md](docs/forge-and-solo-ai.md)** — honest verdict: can't equal
+  a model, can equal the *experience*; "solo" reachable as an autonomous agent-system, not
+  a self-contained intelligence.
+- **[docs/solo-ai-roadmap.md](docs/solo-ai-roadmap.md)** — 5 phases (Safety → Self-improvement
+  → Persistence → Self-set goals → Model-portability); first step `forge/runtime/safety.mjs`.
+
+### Deferred
+- Model-judge eval and an explicit reflection loop (reasons + dissent in decision 0004).
+  Kernel **1.5.0 → 1.6.0**; still model-agnostic; gate 0/0.
+
 ## [1.5.0] — 2026-06-27 — Forge runtime capabilities (council-approved)
 
 Per the new rule (additions need council approval first), the **Forge Capability

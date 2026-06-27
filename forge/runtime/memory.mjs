@@ -16,9 +16,10 @@ export function memoryEnabled() {
   return process.env.FORGE_MEMORY !== 'off';
 }
 
-// Gather the corpus from the project's durable memory. Returns [{ source, title, text }].
-// Sources: memory/registers/, government/decisions/, companies/*/memory/. Read-only,
-// best-effort — a missing or unreadable file is skipped, never fatal.
+// Gather the corpus from the project's durable memory. Returns
+// [{ source, title, text, mtimeMs }]. Sources: memory/registers/, government/decisions/,
+// companies/*/memory/. Read-only, best-effort — a missing or unreadable file is skipped,
+// never fatal. mtimeMs is threaded through so retrieval can favour recent memory.
 export function gatherCorpus(repoRoot) {
   const docs = [];
   const dirs = [
@@ -40,39 +41,84 @@ export function gatherCorpus(repoRoot) {
         source: rel(repoRoot, f),
         title: firstHeading(text) || path.basename(f),
         text,
+        mtimeMs: safeMtime(f),
       });
     }
   }
   return docs;
 }
 
-// Lexical retrieval: score each doc against the goal by shared-term overlap (a light
-// TF weighting), return the top `k`. Deterministic and model-free.
-export function retrieve(goal, docs, { k = 4 } = {}) {
+// Split a doc into heading-anchored chunks so retrieval scores the relevant SECTION, not
+// the whole file. Each chunk inherits the doc's source/mtime and carries its own heading.
+// A doc with no headings yields a single chunk (the whole text). Pure, model-free.
+export function chunkDoc(doc) {
+  const lines = String(doc.text || '').split('\n');
+  const chunks = [];
+  let heading = doc.title || path.basename(doc.source || '');
+  let buf = [];
+  const flush = () => {
+    const text = buf.join('\n').trim();
+    if (text) chunks.push({ source: doc.source, title: heading, text, mtimeMs: doc.mtimeMs });
+    buf = [];
+  };
+  for (const line of lines) {
+    const m = line.match(/^(#{1,6})\s+(.+?)\s*$/);
+    if (m) { flush(); heading = m[2].trim(); buf.push(line); }
+    else buf.push(line);
+  }
+  flush();
+  return chunks.length ? chunks : [{ source: doc.source, title: heading, text: String(doc.text || ''), mtimeMs: doc.mtimeMs }];
+}
+
+// Lexical retrieval over heading-chunks. Score each chunk against the goal by shared-term
+// overlap (light TF weighting), multiply by a gentle recency decay, drop near-duplicate
+// hits (Jaccard), and return the top `k`. Deterministic and model-free.
+export function retrieve(goal, docs, { k = 4, now = Date.now(), halfLifeDays = 30, dupThreshold = 0.6 } = {}) {
   const qTerms = terms(goal);
   if (!qTerms.size || !docs.length) return [];
   const qSet = new Set(qTerms.keys());
 
-  const scored = docs.map((d) => {
-    const dTerms = terms(d.text);
+  // Expand docs into chunks so a long file competes section-by-section.
+  const chunks = [];
+  for (const d of docs) for (const c of chunkDoc(d)) chunks.push(c);
+
+  const halfLifeMs = halfLifeDays * 24 * 60 * 60 * 1000;
+  const scored = chunks.map((c) => {
+    const dTerms = terms(c.text);
     let score = 0;
     for (const t of qSet) {
       const tf = dTerms.get(t);
       if (tf) score += Math.log(1 + tf); // diminishing return on repetition
     }
-    // Normalize lightly by doc length so a giant file can't dominate on raw counts.
+    // Normalize lightly by chunk length so a giant section can't dominate on raw counts.
     const norm = score / Math.log(2 + dTerms.size);
-    return { ...d, score: norm };
+    // Recency: exponential half-life decay in [0.5, 1]. Unknown mtime → neutral (no boost,
+    // no penalty) so a missing stat never sinks an otherwise strong match.
+    let recency = 1;
+    if (Number.isFinite(c.mtimeMs) && c.mtimeMs > 0 && halfLifeMs > 0) {
+      const ageMs = Math.max(0, now - c.mtimeMs);
+      recency = 0.5 + 0.5 * Math.pow(2, -ageMs / halfLifeMs);
+    }
+    return { ...c, _terms: new Set(dTerms.keys()), score: norm * recency };
   });
 
-  return scored
+  const ranked = scored
     .filter((d) => d.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, k);
+    .sort((a, b) => b.score - a.score);
+
+  // Greedy dedup: keep a hit only if it is sufficiently distinct (term-set Jaccard) from
+  // every already-kept hit. Prevents two near-identical sections crowding out variety.
+  const kept = [];
+  for (const cand of ranked) {
+    if (kept.length >= k) break;
+    const dup = kept.some((h) => jaccard(cand._terms, h._terms) >= dupThreshold);
+    if (!dup) kept.push(cand);
+  }
+  return kept.map(({ _terms, ...rest }) => rest);
 }
 
-// Format the retrieved docs into a system-injectable block. Each excerpt is the most
-// goal-relevant lines of the doc, bounded so the block stays small.
+// Format the retrieved chunks into a system-injectable block. Each excerpt is the most
+// goal-relevant lines of the matching section, bounded so the block stays small.
 export function formatContext(hits, { maxCharsPerHit = 600 } = {}) {
   if (!hits.length) return '';
   const parts = ['## Retrieved memory',
@@ -130,6 +176,19 @@ function terms(text) {
     m.set(raw, (m.get(raw) || 0) + 1);
   }
   return m;
+}
+
+// Jaccard similarity of two term sets, in [0, 1]. Used to drop near-duplicate hits.
+function jaccard(a, b) {
+  if (!a.size || !b.size) return 0;
+  let inter = 0;
+  const [small, large] = a.size <= b.size ? [a, b] : [b, a];
+  for (const t of small) if (large.has(t)) inter++;
+  return inter / (a.size + b.size - inter);
+}
+
+function safeMtime(file) {
+  try { return fs.statSync(file).mtimeMs; } catch { return 0; }
 }
 
 function excerpt(text, max) {

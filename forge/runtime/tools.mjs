@@ -5,8 +5,18 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
 
-export function toolSchemas() {
-  return [
+// The `delegate` tool is OFF by default. It is advertised only when FORGE_SUBAGENTS=on,
+// so default runs see an identical tool set and CI stays stable. `depth` is the CURRENT
+// loop depth; once it has reached the cap there is no budget left to delegate, so the
+// schema is withheld even when the flag is on.
+export function subagentsEnabled(depth = 0) {
+  if (process.env.FORGE_SUBAGENTS !== 'on') return false;
+  const cap = Number(process.env.FORGE_MAX_DEPTH) || 1;
+  return depth < cap;
+}
+
+export function toolSchemas({ depth = 0 } = {}) {
+  const schemas = [
     { name: 'list_dir', description: 'List entries at a path (relative to repo root).', input_schema: { type: 'object', properties: { path: { type: 'string' } }, required: ['path'] } },
     { name: 'read_file', description: 'Read a UTF-8 file (relative to repo root).', input_schema: { type: 'object', properties: { path: { type: 'string' } }, required: ['path'] } },
     { name: 'write_file', description: 'Write a file. Restricted to the agent workspace.', input_schema: { type: 'object', properties: { path: { type: 'string' }, content: { type: 'string' } }, required: ['path', 'content'] } },
@@ -15,6 +25,10 @@ export function toolSchemas() {
     { name: 'update_plan', description: 'Revise the current plan: mark steps done/dropped by their 1-based number, add steps, or replace the whole list.', input_schema: { type: 'object', properties: { complete: { type: 'array', items: { type: 'integer' }, description: '1-based step numbers to mark done.' }, drop: { type: 'array', items: { type: 'integer' }, description: '1-based step numbers to drop.' }, add: { type: 'array', items: { type: 'string' }, description: 'New steps to append.' }, steps: { type: 'array', items: { type: 'string' }, description: 'Full replacement checklist (re-plan).' } } } },
     { name: 'finish', description: 'End the run with a short summary of what was accomplished.', input_schema: { type: 'object', properties: { summary: { type: 'string' } }, required: ['summary'] } },
   ];
+  if (subagentsEnabled(depth)) {
+    schemas.push({ name: 'delegate', description: 'Decompose a self-contained sub-task into a bounded sub-run (same workspace, its own gate). Use sparingly for a distinct, decomposable piece of work; depth-capped.', input_schema: { type: 'object', properties: { task: { type: 'string', description: 'The self-contained sub-task for the sub-run to accomplish.' } }, required: ['task'] } });
+  }
+  return schemas;
 }
 
 const ok = (output) => ({ ok: true, output });
