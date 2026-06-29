@@ -8,6 +8,13 @@ because it has no compiled releases yet.
 
 ### Phase 1 — Foundation (in progress)
 
+#### Changed — 2026-06-29 (repository made public, Decision 0016)
+- Repository is now **public**, enabling end-user auto-update (`aieos update --check` resolves;
+  was 404 while private). Before flipping, history was rewritten to purge the conversation
+  memory entry and an unrelated LeadBroker decision (verified 404 anonymously).
+- **Conversation memory is now local-only** — `.gitignore` excludes `memory/ledger/*.md`, so
+  captured summaries are never pushed to the public repo (only the folder READMEs are tracked).
+
 #### Added — 2026-06-29 (autopilot: self-update, status, auto-memory, Decision 0015)
 - **Self-update** (`aieos update`): pulls the latest from GitHub without reinstalling
   (`git pull` on a checkout, tarball overlay on the installed copy; local memory preserved).
