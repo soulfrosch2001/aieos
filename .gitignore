@@ -12,6 +12,11 @@ installer/macos/Output/
 *.exe
 *.pkg
 
+# Memory ledger — captured conversation summaries stay LOCAL (never pushed to a public repo).
+# Only the folder docs are tracked; the dated session entries are not.
+memory/ledger/*.md
+!memory/ledger/README.md
+
 # Memory ledger quarantine — guard-flagged captures held for human review, never published.
 memory/ledger/quarantine/*
 !memory/ledger/quarantine/README.md
