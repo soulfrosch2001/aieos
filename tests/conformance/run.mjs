@@ -16,7 +16,7 @@ const doFix = process.argv.includes('--fix');
 // out of scope until reconciled, but their AIEOS.md mount adapters are always checked.
 const config = {
   root: ROOT,
-  skipDirs: new Set(['.git', '.github', '.claude', '.vscode', 'node_modules', 'scratchpad']),
+  skipDirs: new Set(['.git', '.github', '.claude', '.vscode', 'node_modules', 'scratchpad', 'Output', 'build']),
   legacyDirs: ['ai-software-company', 'AI-Game-Studio'],
   includeLegacy,
 };

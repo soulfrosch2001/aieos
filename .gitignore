@@ -5,6 +5,17 @@ npm-debug.log*
 # Generated working files
 *.log
 
+# Native installer build output (the .exe / .pkg are built by CI, never committed)
+installer/Output/
+installer/macos/build/
+installer/macos/Output/
+*.exe
+*.pkg
+
+# Memory ledger quarantine — guard-flagged captures held for human review, never published.
+memory/ledger/quarantine/*
+!memory/ledger/quarantine/README.md
+
 # Forge runtime artifacts (run traces + agent scratch workspaces)
 forge/runs/*.json
 forge/examples/*/workspace/

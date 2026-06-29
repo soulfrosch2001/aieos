@@ -1,0 +1,74 @@
+name: Framework proposal (Directive #7)
+description: REQUIRED before any PR that changes the kernel, a shared contract, or the standard library.
+title: "[proposal]: "
+labels: ["proposal", "directive-7"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Propose before you build
+
+        This issue is **required before you open a PR** that changes the kernel, a shared
+        contract, or the standard library. It is Prime Directive #7 — the one rule above
+        all others. A quiet edit to a contract silently re-validates every company that
+        inherited it, so such changes are reviewed and recorded *first*, then implemented
+        as agreed.
+
+        Adding a new company or a new entity inside your own company is **not** a framework
+        change — use "Feature / new company or entity" for that.
+  - type: dropdown
+    id: scope
+    attributes:
+      label: What does this change
+      options:
+        - The kernel (laws / loader / protocols)
+        - A shared contract (kernel/contracts)
+        - The standard library (shared defaults, stdlib workflows/councils/schemas)
+        - A conformance rule (the compiler)
+        - Other framework-level change
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why is this change needed? What is broken, missing, or improvable at the framework level?
+    validations:
+      required: true
+  - type: textarea
+    id: what-changes
+    attributes:
+      label: What changes
+      description: Concretely, which files/contracts/rules change and how. Be specific.
+    validations:
+      required: true
+  - type: textarea
+    id: affects
+    attributes:
+      label: Who and what it affects
+      description: Which companies, entities, or workflows inherit this and would be re-validated or affected? Call out anything that becomes stricter.
+    validations:
+      required: true
+  - type: textarea
+    id: conformance-impact
+    attributes:
+      label: Conformance impact
+      description: How does this affect `npm test`? New rule, changed rule, or new constraints that existing entities must now satisfy? Will any current entity stop passing, and what's the migration?
+    validations:
+      required: true
+  - type: textarea
+    id: directive-11
+    attributes:
+      label: Directive #11 (do no harm)
+      description: Confirm this change leaves Prime Directive #11 and harm-prevention intact or stricter — never removed or loosened. If it touches them, explain.
+    validations:
+      required: false
+  - type: checkboxes
+    id: acknowledge
+    attributes:
+      label: Acknowledgement
+      options:
+        - label: I understand this proposal must be reviewed and recorded before the corresponding PR is opened.
+          required: true
+        - label: Any override I introduce only adds strictness; it does not weaken a law (Directive #6).
+          required: true

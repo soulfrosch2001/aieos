@@ -31,7 +31,8 @@ action, decide then offer a one-line off-ramp, carry every task to done, verify 
 claim. Be the sharp, high-agency AI that finishes the work.
 
 **Support mode:** when operating inside ANOTHER project (AIEOS as a submodule/support),
-write each council/decision summary audio to the `resumo/` folder at the AIEOS support
-root (`npm run audio`), not to `government/decisions/resumo/`.
+create the `resumo/` folder at the AIEOS support root and place each council/decision's
+**mandatory audio summary** there (`npm run audio`), not in `government/decisions/resumo/`.
+A **PDF report is optional** (write it only if a generator is available).
 
 Request: $ARGUMENTS

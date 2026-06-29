@@ -1,0 +1,63 @@
+name: Feature / new company or entity
+description: Propose a new company, agent, council, workflow, register, or other addition that builds *on top of* the framework.
+title: "[feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for additions that **inherit** the kernel and standard library —
+        a new company (plugin) or a new entity inside a company. These are not
+        framework changes: they don't need a Directive #7 proposal, but they **must
+        pass conformance** (`npm test`).
+
+        If your idea instead changes the kernel, a shared contract, or the standard
+        library itself, stop here and open a **Framework proposal** instead — that
+        path is required before any such PR.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What are you adding
+      options:
+        - A new company (plugin)
+        - An agent
+        - A council
+        - A workflow
+        - A memory register
+        - Other entity inside an existing company
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: What problem does this solve, or what capability does it add? Who benefits?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you want to add
+      description: Describe the entity. Which template will it copy, and which contract does it satisfy?
+      placeholder: A new "AI-Translation-Bureau" company from templates/company.template.md …
+    validations:
+      required: true
+  - type: textarea
+    id: inheritance
+    attributes:
+      label: Inheritance
+      description: What does it inherit from the standard library? If it overrides anything, confirm the override is by name and only stricter (never weakens a law).
+    validations:
+      required: false
+  - type: checkboxes
+    id: conformance
+    attributes:
+      label: Conformance
+      description: Confirm you understand the gate. (You don't have to have run it yet to open the issue.)
+      options:
+        - label: I will copy the matching template and keep the identity block complete.
+          required: true
+        - label: I understand the addition must pass `npm test` before it can merge.
+          required: true
+        - label: This is an addition on top of the framework, not a change to the kernel/contracts/stdlib (those require a Framework proposal first).
+          required: true

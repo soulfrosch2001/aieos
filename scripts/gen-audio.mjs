@@ -6,9 +6,9 @@
 //   npm run audio -- <in.txt> <out.mp3> [preset|voice] [rate] [pitch]
 //
 // Presets:
-//   jinx       (DEFAULT) — pt-BR-ThalitaNeural, faster & higher pitch (chaotic, playful)
+//   thalita    (DEFAULT) — pt-BR-ThalitaNeural, neutral
+//   jinx       — pt-BR-ThalitaNeural, faster & higher pitch (chaotic, playful)
 //   francisca  — pt-BR-FranciscaNeural, neutral (serious narration)
-//   thalita    — pt-BR-ThalitaNeural, neutral
 // Or pass an explicit voice id (e.g. pt-BR-AntonioNeural) plus optional rate/pitch
 // like "+22%" / "-10%".
 import fs from 'node:fs';

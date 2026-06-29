@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Contributing guide (read before opening anything)
+    url: https://github.com/buscapontoficial/aieos/blob/main/CONTRIBUTING.md
+    about: How AIEOS is extended — propose-before-build, templates, inheritance, and the conformance gate.
+  - name: Security vulnerability
+    url: https://github.com/buscapontoficial/aieos/blob/main/SECURITY.md
+    about: Do not open a public issue for security. Report privately — see SECURITY.md.

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- productbuild distribution for the AIEOS macOS installer. -->
+<installer-gui-script minSpecVersion="2">
+  <title>AIEOS — AI Enterprise Operating System</title>
+  <organization>com.aieos</organization>
+  <options customize="never" require-scripts="true" rootVolumeOnly="true"/>
+  <volume-check>
+    <allowed-os-versions>
+      <os-version min="11.0"/>
+    </allowed-os-versions>
+  </volume-check>
+  <choices-outline>
+    <line choice="default">
+      <line choice="com.aieos.installer"/>
+    </line>
+  </choices-outline>
+  <choice id="default"/>
+  <choice id="com.aieos.installer" visible="false">
+    <pkg-ref id="com.aieos.installer"/>
+  </choice>
+  <pkg-ref id="com.aieos.installer">aieos-component.pkg</pkg-ref>
+</installer-gui-script>

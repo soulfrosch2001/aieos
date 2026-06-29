@@ -1,0 +1,52 @@
+#!/usr/bin/env node
+// AIEOS command-line entrypoint — a thin dispatcher over the project's scripts so the system
+// feels like a normal CLI (`aieos setup`, `aieos teardown`, …). Installed by Homebrew and via
+// the package.json "bin" field. Every subcommand simply runs the matching node script from the
+// AIEOS root, so behavior stays identical to `npm run <x>`.
+import fs from 'node:fs';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+
+const COMMANDS = {
+  setup: 'scripts/install-command.mjs',
+  teardown: 'scripts/teardown-command.mjs',
+  conformance: 'tests/conformance/run.mjs',
+  audio: 'scripts/gen-audio.mjs',
+  'memory:push': 'scripts/memory-push.mjs',
+  'memory:capture': 'scripts/memory-capture.mjs',
+};
+
+const [cmd, ...rest] = process.argv.slice(2);
+
+if (!cmd || cmd === 'help' || cmd === '-h' || cmd === '--help') {
+  console.log('AIEOS — AI Enterprise Operating System');
+  console.log('Usage: aieos <command> [args]\n');
+  console.log('Commands:');
+  console.log('  setup             Register the global /aieos command + machine-wide bootstrap');
+  console.log('  teardown          Remove the global command and the machine-wide bootstrap');
+  console.log('  conformance       Run the conformance gate (the OS compiler)');
+  console.log('  audio <in> <out>  Generate a spoken summary (free pt-BR neural TTS)');
+  console.log('  memory:push       Sync guarded memory to GitHub (grouped, gated)');
+  console.log('  version           Print the AIEOS version');
+  process.exit(cmd ? 0 : 1);
+}
+
+if (cmd === 'version' || cmd === '-v' || cmd === '--version') {
+  try {
+    const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+    console.log('aieos ' + pkg.version);
+  } catch { console.log('aieos (unknown version)'); }
+  process.exit(0);
+}
+
+const target = COMMANDS[cmd];
+if (!target) {
+  console.error(`Unknown command: ${cmd}\nRun \`aieos help\` for the list.`);
+  process.exit(1);
+}
+
+const res = spawnSync(process.execPath, [path.join(ROOT, target), ...rest], { stdio: 'inherit', cwd: ROOT });
+process.exit(res.status ?? 0);

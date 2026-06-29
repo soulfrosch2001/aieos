@@ -62,6 +62,25 @@ export function evaluateHarmLaw(primeText, harmText) {
     return { ok: false, reason: 'forbidden-purpose core clause gutted (only ' + present + '/' + CORE_TOKENS.length + ' core markers present, need >= ' + MIN_TOKENS + ')' };
   }
 
+  // M3 — ANTI-INVERSION. The structural+token checks above detect REMOVAL/gutting, but a
+  // law rewritten to PERMIT harm keeps the same words and would slip through. So scan the
+  // Directive #11 clause itself for affirmative permission/exception constructions that the
+  // genuine prohibition never contains ("may harm", "harm is permitted", "may override … to
+  // harm", "do no harm — unless …"). The real clause says harm is "refused and aborted" and
+  // that "no override … may set aside to cause harm" — a NEGATED form none of these match.
+  const sec = norm((prime.match(/^##\s*11\.[\s\S]*?(?=\n##\s|\n---|\n#\s|$)/m) || [''])[0]);
+  const INVERSION = [
+    /\b(may|can|allowed to|permitted to)\s+(harm|deceive|exploit|surveil|endanger|defraud|manipulat\w*)\b/,
+    /\b(harm|deceive|exploit|surveil|endanger|defraud|manipulat\w*|weapon\w*)\b[^.]{0,30}\b(is|are)\s+(permitted|allowed|acceptable|authoriz\w*|ok)\b/,
+    /\b(may|can)\s+(override|ignore|bypass|disregard)\b[^.]{0,40}\b(harm|directive|11|do no harm|this|it)\b/,
+    /\bdo no harm\b[^.]{0,30}\bunless\b/,
+    /\bunless\b[^.]{0,25}\b(order|instruct|told|asked|maintainer|permitted|request)\w*/,
+  ];
+  const inverted = INVERSION.find((re) => re.test(sec));
+  if (inverted) {
+    return { ok: false, reason: 'Directive #11 appears INVERTED to permit harm (matched a permission/exception clause in the #11 section)' };
+  }
+
   return { ok: true, reason: 'Directive #11 intact (' + present + '/' + CORE_TOKENS.length + ' core markers)' };
 }
 

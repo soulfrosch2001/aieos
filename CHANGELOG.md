@@ -8,6 +8,104 @@ because it has no compiled releases yet.
 
 ### Phase 1 — Foundation (in progress)
 
+#### Added — 2026-06-29 (end-user welcome tutorial, Decision 0014)
+- **Welcome tutorial** (`installer/welcome/comece-aqui.html`): a self-contained, image-rich
+  offline guide; the installer drops it in a Desktop folder ("AIEOS - Comece Aqui") and opens
+  it on finish. The Windows `.exe` was recompiled to include this.
+- **Build hygiene**: the conformance checker skips `Output/` and `build/` (installer build
+  artifacts), so a local installer build no longer trips folder-readme/kebab-case warnings.
+
+#### Added — 2026-06-29 (signing, Homebrew, `aieos` CLI, Decision 0013)
+- **`aieos` CLI** (`bin/aieos`, package.json `bin`): `aieos setup|teardown|conformance|audio|
+  memory:push|version` — a dispatcher over the existing scripts. Verified locally.
+- **Homebrew formula** (`installer/homebrew/aieos.rb`): installs AIEOS, exposes the CLI, and
+  prompts `aieos setup` in caveats (HEAD-based until a release sets the stable url+sha256).
+- **Installer signing** (CI): secret-gated `signtool` (Windows) and `productsign` +
+  `notarytool` (macOS) steps — unsigned builds still work; signing turns on when the secrets
+  exist. Required secrets documented in `installer/signing.md`.
+
+#### Added — 2026-06-29 (macOS installer + brand logo, Decision 0012)
+- **macOS installer** (`installer/macos/`): a `pkgbuild`/`productbuild` `.pkg` that installs to
+  `/usr/local/aieos` and auto-configures on install (Node ≥ 18 preflight, `npm install`,
+  `npm run setup` as the console user). Release CI gained a macOS job; README offers `.exe`
+  and `.pkg`. Built by CI (not compiled locally); code-signing/Homebrew deferred.
+- **Brand** (`brand/`): adopted the AIEOS logo (navy "A" peak + blue "i" + AIEOS wordmark) as
+  editable SVGs (`aieos-logo.svg`, `aieos-mark.svg`) + palette; shown atop the README. The
+  SVGs are a faithful vector recreation of the supplied raster (drop the exact PNG in `brand/`).
+
+#### Added — 2026-06-29 (council fork-detection + orphan agents, Decision 0011)
+- **`no-stdlib-fork`** now also covers **councils** (combined 3-file content; real councils
+  score ≤ 0.05 vs stdlib, 0.60 cutoff). **`orphan-entity`** (new, warn): an agent not listed
+  in its parent department README is flagged as undiscoverable (all 189 existing agents pass).
+- Re-examined "identity-block without README" → no fix needed; `agent-structure` already
+  errors on a missing README. Gate: **14 rules, 0/0** in both scopes.
+
+#### Changed — 2026-06-29 (inheritance check covers link-style tables, Decision 0010)
+- `inheritance-claims-resolve` now parses **both** override-table styles — backtick
+  (company-root-relative) and markdown-link (AIEOS.md-relative) — so the ~half of companies
+  using link-style tables are no longer unchecked. Real repo 0/0; negative-tested.
+
+#### Added — 2026-06-29 (fork detection, Decision 0009)
+- **`no-stdlib-fork` rule**: flags a company workflow/register that is a near-copy of a
+  stdlib file under a different name (Jaccard ≥ 0.60 over content lines; same-name by-name
+  overrides exempt). Closes the careless-contributor fork gap from 0008. Real repo scores
+  ≤ 0.16 (no false positives); a verbatim copy scores 1.00. Gate: **13 rules, 0/0**.
+
+#### Added — 2026-06-29 ("people entering" simulation + hardening, Decision 0008)
+- Simulated four newcomers (legit / careless / malicious / end-user) against isolated repo
+  copies to see how the system behaves as it opens up; their findings drove this pass.
+- **Harm-law anti-inversion** (`forge/runtime/integrity.mjs`): the Directive #11 clause is
+  now scanned for permission/exception phrasings, so a law *rewritten to permit* harm fails
+  the gate (previously only removal/gutting was caught). No false-positive on the real law.
+- **package.json script guard** (new rule `package-scripts-safe`): ERRORs on dangerous
+  commands in scripts and WARNs on npm lifecycle hooks (closes the unguarded `postinstall`
+  attack surface). Reuses the memory guard's danger patterns.
+- **Memory guard**: prompt-injection entries are now quarantined (non-publishable), and the
+  `rm -rf` pattern also catches `$HOME`/`%USERPROFILE%`/bare `.`/`..` (not `node_modules`).
+- **Onboarding docs**: README gained a plain-English "Quick start" (with a real `/aieos`
+  example and a safety note) before the mental model; CONTRIBUTING states the literal gate
+  commands. Gate: **12 rules, 0/0** in both scopes.
+
+#### Added — 2026-06-29 (memory capture + security guard, Decision 0007)
+- **Memory ledger** (`memory/ledger/`): one inert, append-only entry per session, captured
+  by a Stop hook (`scripts/memory-capture.mjs`) and synced to GitHub manually/grouped via
+  `npm run memory:push`. **Context-scoped**: only AIEOS-context sessions are recorded, and a
+  supported project's memory is written into that project's own `resumo/ledger/` (not
+  centralized into AIEOS); unrelated sessions are skipped.
+- **Security guard** (`scripts/lib/memory-guard.mjs`): every capture is evaluated before it
+  is stored — **secrets redacted**, **dangerous content** (destructive/remote-exec/AV-tamper)
+  flagged and **quarantined** (`memory/ledger/quarantine/`, git-ignored, never published),
+  and all text stored **inert** (defused + labelled "data, not instructions"). `memory:push`
+  re-scans as a second gate and refuses to push anything still risky. Negative-tested.
+
+#### Added — 2026-06-29 (open source + native installer, Decision 0006)
+- **Open-source community pack**: `.github/` issue forms (bug, feature, Directive-#7
+  framework proposal) + `PULL_REQUEST_TEMPLATE.md`; root `CODE_OF_CONDUCT.md` and
+  `SECURITY.md`; README now offers a two-option Install (installer vs. from source).
+- **Native Windows installer** (`installer/`): Inno Setup script that installs per-user
+  (no admin), checks Node ≥ 18, bundles AIEOS, and **auto-configures while installing**
+  (`npm install` + `npm run setup`); uninstall runs `npm run teardown`.
+- **Release CI** (`.github/workflows/release.yml`): builds and attaches the `.exe` to a
+  GitHub Release on a `v*` tag.
+- `kebab-case` rule allowlists `CODE_OF_CONDUCT.md` / `SECURITY.md` (Directive #7 ratified
+  in Decision 0006). Gate stays **11 rules, 0/0** in both scopes.
+
+#### Added — 2026-06-29 (system-experience review, Decision 0005)
+- **Machine-wide activation**: `npm run setup` registers a global `/aieos` command and a
+  session bootstrap (`~/.claude/CLAUDE.md`) so every Claude Code session operates as AIEOS;
+  `npm run teardown` cleanly removes both. Install/verify/uninstall documented in `README.md`.
+- **Conformance hardened** (the compiler now enforces more of the contracts):
+  `workflow-sections` upgraded from 3 sections (warn) to all **ten sections in order**
+  (error); new **`inheritance-claims-resolve`** rule asserts every local-override entity
+  named in a company `AIEOS.md` exists on disk. Gate: **11 rules, 0/0** in both scopes.
+- Fixed `workflows/hotfix.md` section order (Memory Updates before Failure / Rollback).
+
+#### Changed — 2026-06-29
+- **Doctrine softened on summaries**: the **audio** summary stays mandatory; the **PDF**
+  report is now explicitly **optional** (no automated PDF generator exists yet). Aligned
+  `README.md`, the `/aieos` command, the machine-wide bootstrap, and the resumo READMEs.
+- Corrected the default-voice docs to match code (`thalita`, not `jinx`).
+
 #### Added — 2026-06-26
 - Established the AIEOS root structure: `kernel/`, `government/`, `templates/`,
   `workflows/`, `councils/`, `memory/`, `shared/`, `companies/`, `docs/`,

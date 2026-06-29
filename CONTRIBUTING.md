@@ -36,6 +36,24 @@ Run the [conformance checklist](tests/conformance-checklist.md) before you open 
 pull request. The Chief Auditor runs the same checks; failing them is the most
 common reason a contribution bounces.
 
+### Run the gate
+
+The checklist is enforced by a runnable conformance gate. From the AIEOS root:
+
+```sh
+npm test                          # the conformance gate; must be 0 errors
+# or, equivalently:
+node tests/conformance/run.mjs
+
+npm run conformance               # same gate
+npm run conformance:all           # same gate, including legacy entities
+
+node tests/conformance/run.mjs --fix   # auto-repair fixable issues (e.g. broken links)
+```
+
+A pull request must leave the gate **green** — 0 errors. The Chief Auditor runs the
+same gate on your branch.
+
 ## Inherit, don't fork
 
 Do not copy a standard-library workflow, council, or schema into your company just
@@ -85,3 +103,11 @@ conversation is local, the OS is for everyone.
 - [ ] Directive #11 left intact or stricter — `harm-law-intact` passes.
 - [ ] Passes [tests/conformance-checklist.md](tests/conformance-checklist.md).
 - [ ] Artifacts in English; cross-links are relative and resolve.
+
+## Community & conduct
+
+By participating you agree to the [Code of Conduct](CODE_OF_CONDUCT.md). To report a
+security issue, follow [SECURITY.md](SECURITY.md) — please do not open a public issue
+for vulnerabilities. New here? Open an issue using one of the templates: a bug, a
+feature/new entity, or — for any kernel/contract/stdlib change — a **framework
+proposal** (Directive #7) before the PR.

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-label="AIEOS">
+  <title>AIEOS</title>
+  <rect width="1000" height="1000" fill="#ffffff"/>
+
+  <!-- Icon: the "A" peak with a blue "i" inside, reading "Ai" -->
+  <path d="M 322 566 L 500 262 L 678 566" fill="none" stroke="#111a2e"
+        stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="500" cy="430" r="22" fill="#3a2bff"/>
+  <rect x="482" y="470" width="36" height="96" rx="18" fill="#3a2bff"/>
+
+  <!-- Wordmark: A I E O S, monoline geometric; the I is blue -->
+  <g fill="none" stroke="#111a2e" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Λ -->
+    <path d="M 227 856 L 267 712 L 307 856"/>
+    <!-- E -->
+    <path d="M 427 712 L 427 856 M 427 712 L 497 712 M 427 784 L 487 784 M 427 856 L 497 856"/>
+    <!-- O -->
+    <rect x="557" y="712" width="78" height="144" rx="39"/>
+    <!-- S -->
+    <path d="M 758 740 C 758 718 700 716 700 744 C 700 768 760 778 760 806 C 760 836 706 842 698 816"/>
+  </g>
+  <!-- I (blue) -->
+  <path d="M 367 712 L 367 856" fill="none" stroke="#3a2bff" stroke-width="16" stroke-linecap="round"/>
+</svg>

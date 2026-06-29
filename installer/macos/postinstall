@@ -1,0 +1,38 @@
+#!/bin/bash
+# AIEOS macOS .pkg postinstall — configures AIEOS for the logged-in user after the payload
+# is installed to /usr/local/aieos. This is the analog of the Windows post-install.ps1:
+# it installs dependencies and runs `npm run setup` so /aieos is ready in every project.
+#
+# NOTE: a .pkg postinstall runs as ROOT. Dependencies are installed in the shared payload,
+# but the per-user config (~/.claude) must be written for the actual console user — so the
+# setup step is run via `sudo -u <console-user>`.
+set -u
+AIEOS_ROOT="/usr/local/aieos"
+
+# Node.js >= 18 is a prerequisite (kept consistent with the Windows installer's preflight).
+if ! command -v node >/dev/null 2>&1; then
+  echo "AIEOS: Node.js >= 18 is required. Install it from https://nodejs.org and re-run the installer." >&2
+  exit 1
+fi
+NODE_MAJOR="$(node -p 'process.versions.node.split(".")[0]' 2>/dev/null || echo 0)"
+if [ "${NODE_MAJOR:-0}" -lt 18 ]; then
+  echo "AIEOS: Node.js >= 18 required (found $(node -v))." >&2
+  exit 1
+fi
+
+cd "$AIEOS_ROOT" || { echo "AIEOS: install payload not found at $AIEOS_ROOT" >&2; exit 1; }
+
+echo "AIEOS: installing dependencies…"
+npm install --omit=dev >/dev/null 2>&1 || npm install >/dev/null 2>&1 || true
+
+# Configure for the logged-in user (postinstall runs as root).
+CONSOLE_USER="$(stat -f%Su /dev/console 2>/dev/null || echo '')"
+echo "AIEOS: registering the global /aieos command…"
+if [ -n "$CONSOLE_USER" ] && [ "$CONSOLE_USER" != "root" ]; then
+  sudo -u "$CONSOLE_USER" node "$AIEOS_ROOT/scripts/install-command.mjs" || true
+else
+  node "$AIEOS_ROOT/scripts/install-command.mjs" || true
+fi
+
+echo "AIEOS: done. Open a new Claude Code session and type /aieos."
+exit 0

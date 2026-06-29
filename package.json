@@ -4,12 +4,19 @@
   "private": true,
   "type": "module",
   "description": "AIEOS — AI Enterprise Operating System. Conformance checker (the OS's compiler).",
+  "bin": {
+    "aieos": "bin/aieos"
+  },
   "scripts": {
+    "setup": "node scripts/install-command.mjs",
+    "teardown": "node scripts/teardown-command.mjs",
     "test": "node tests/conformance/run.mjs",
     "conformance": "node tests/conformance/run.mjs",
     "conformance:all": "node tests/conformance/run.mjs --include-legacy",
     "dashboard": "node government/dashboard/build-dashboard.mjs",
     "audio": "node scripts/gen-audio.mjs",
+    "memory:capture": "node scripts/memory-capture.mjs",
+    "memory:push": "node scripts/memory-push.mjs",
     "forge": "node forge/create-agent.mjs",
     "forge:run": "node forge/run.mjs",
     "forge:consolidate": "node forge/consolidate.mjs"

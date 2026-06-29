@@ -56,12 +56,12 @@ The deployed hotfix, a containment record, and a postmortem with follow-ups.
 - [ ] Postmortem written with root cause and dated follow-ups.
 - [ ] Memory registers appended.
 
-## Failure / Rollback
-Fix fails or worsens impact → roll back to containment, try the next option.
-Containment itself fails → escalate the incident scope. The temporary fix always
-gets a permanent follow-up; an un-postmortemed incident is not closed.
-
 ## Memory Updates
 - [known-issues](../memory/registers/known-issues.md) — timeline, impact, containment, fix.
 - [meeting-history](../memory/registers/meeting-history.md) — irreversible calls made under pressure.
 - [lessons-learned](../memory/registers/lessons-learned.md) — postmortem findings and prevention follow-ups.
+
+## Failure / Rollback
+Fix fails or worsens impact → roll back to containment, try the next option.
+Containment itself fails → escalate the incident scope. The temporary fix always
+gets a permanent follow-up; an un-postmortemed incident is not closed.

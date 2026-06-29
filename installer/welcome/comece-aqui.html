@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIEOS — Comece Aqui</title>
+<style>
+  :root{
+    --navy:#111a2e; --blue:#3a2bff; --paper:#eef1f7; --card:#ffffff;
+    --ink:#1c2433; --muted:#5b6678; --line:#e2e6ef; --ok:#16a34a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;line-height:1.55}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 22px 64px}
+  /* Hero */
+  .hero{text-align:center;background:var(--card);border:1px solid var(--line);
+    border-radius:22px;padding:40px 28px;box-shadow:0 10px 30px rgba(17,26,46,.06)}
+  .logo{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:10px}
+  .wordmark{font-size:46px;font-weight:700;letter-spacing:10px;color:var(--navy);margin-top:6px}
+  .wordmark b{color:var(--blue);font-weight:700}
+  .tagline{color:var(--muted);font-size:17px;margin:6px 0 0}
+  .pill{display:inline-block;margin-top:16px;background:var(--navy);color:#fff;
+    padding:8px 18px;border-radius:999px;font-size:14px;font-weight:600;letter-spacing:.3px}
+  h2{font-size:22px;margin:38px 0 14px;color:var(--navy)}
+  p{margin:0 0 12px}
+  .lead{font-size:17px;color:var(--ink)}
+  /* Cards */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;
+    box-shadow:0 6px 18px rgba(17,26,46,.05)}
+  .card h3{margin:0 0 6px;font-size:17px;color:var(--navy)}
+  .card .ic{font-size:26px}
+  .muted{color:var(--muted);font-size:14.5px}
+  /* Steps */
+  .step{display:flex;gap:18px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
+    border-radius:16px;padding:20px 22px;margin:14px 0;box-shadow:0 6px 18px rgba(17,26,46,.05)}
+  .num{flex:0 0 44px;height:44px;border-radius:12px;background:var(--blue);color:#fff;
+    font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center}
+  .step h3{margin:2px 0 6px;font-size:18px;color:var(--navy)}
+  /* Callout */
+  .warn{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:12px 16px;margin:10px 0 0;font-size:14.5px}
+  .warn b{color:#b45309}
+  /* Terminal mockup */
+  .term{margin-top:14px;border-radius:12px;overflow:hidden;border:1px solid #0b1220;
+    box-shadow:0 10px 24px rgba(17,26,46,.18)}
+  .term .bar{background:#0b1220;padding:9px 14px;display:flex;gap:7px;align-items:center}
+  .dot{width:11px;height:11px;border-radius:50%}
+  .term .body{background:#0e1726;color:#cfe3ff;padding:16px 18px;font-family:'Cascadia Code',Consolas,monospace;font-size:15px}
+  .term .body .cmd{color:#9fb4ff}
+  .term .body .you{color:#fff}
+  .term .body .blink{color:var(--blue)}
+  .ex{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 18px;margin:8px 0}
+  code.k{background:#eef1ff;color:var(--blue);padding:2px 8px;border-radius:6px;font-family:Consolas,monospace;font-weight:600}
+  .foot{text-align:center;color:var(--muted);font-size:13.5px;margin-top:40px}
+  a{color:var(--blue);text-decoration:none;font-weight:600}
+  @media(max-width:620px){.grid{grid-template-columns:1fr}.wordmark{font-size:36px;letter-spacing:7px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="logo">
+      <svg width="120" height="100" viewBox="0 0 400 320" aria-label="AIEOS">
+        <path d="M 70 270 L 200 58 L 330 270" fill="none" stroke="#111a2e" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="200" cy="180" r="20" fill="#3a2bff"/>
+        <rect x="184" y="216" width="32" height="78" rx="16" fill="#3a2bff"/>
+      </svg>
+    </div>
+    <div class="wordmark">A<b>I</b>EOS</div>
+    <p class="tagline">O sistema operacional para organizações de IA dentro do Claude Code</p>
+    <span class="pill">👋 Guia de Início Rápido</span>
+  </div>
+
+  <!-- O QUE É -->
+  <h2>O que é o AIEOS?</h2>
+  <p class="lead">É um sistema que faz o <b>Claude Code</b> trabalhar como uma empresa de verdade:
+  ele <b>recebe seu pedido, planeja, coloca vários agentes trabalhando em paralelo, revisa a
+  qualidade e registra o que aprendeu</b> — tudo com um comando só: <code class="k">/aieos</code>.</p>
+
+  <!-- PRÉ-REQUISITOS -->
+  <h2>Antes de começar, você precisa de 2 coisas</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="ic">🟢</div>
+      <h3>Node.js 18 ou superior</h3>
+      <p class="muted">O AIEOS usa o Node para se configurar. Baixe em
+      <a href="https://nodejs.org">nodejs.org</a> (botão verde “LTS”) e instale clicando em Avançar.</p>
+    </div>
+    <div class="card">
+      <div class="ic">🤖</div>
+      <h3>Claude Code</h3>
+      <p class="muted">O AIEOS funciona <b>dentro</b> do Claude Code. Se ainda não tem, instale o
+      Claude Code primeiro — é onde você vai digitar o <code class="k">/aieos</code>.</p>
+    </div>
+  </div>
+
+  <!-- PASSO A PASSO -->
+  <h2>Passo a passo</h2>
+
+  <div class="step">
+    <div class="num">1</div>
+    <div>
+      <h3>Instale o Node.js</h3>
+      <p class="muted">Se ainda não tem, baixe a versão <b>LTS</b> em
+      <a href="https://nodejs.org">nodejs.org</a> e instale. (Se já tem, pule esta etapa.)</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">2</div>
+    <div>
+      <h3>Tenha o Claude Code aberto</h3>
+      <p class="muted">Garanta que o Claude Code está instalado e funcionando no seu computador.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">3</div>
+    <div>
+      <h3>Rode o instalador do AIEOS</h3>
+      <p class="muted">Dê dois cliques em <b>AIEOS-Setup-0.1.0.exe</b>. Ele instala e
+      <b>se configura sozinho</b> (não precisa de administrador).</p>
+      <div class="warn">⚠️ <b>Se o Windows mostrar um aviso azul</b> (“O Windows protegeu o seu PC”),
+      clique em <b>“Mais informações”</b> e depois em <b>“Executar assim mesmo”</b>.
+      Isso acontece porque o app ainda é novo e não está assinado — é seguro.</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">4</div>
+    <div>
+      <h3>Abra um projeto no Claude Code e use o <code class="k">/aieos</code></h3>
+      <p class="muted">Abra <b>qualquer pasta de projeto</b> no Claude Code e digite o comando.
+      Pronto — o AIEOS assume e conduz a conversa.</p>
+      <div class="term">
+        <div class="bar">
+          <span class="dot" style="background:#ff5f56"></span>
+          <span class="dot" style="background:#ffbd2e"></span>
+          <span class="dot" style="background:#27c93f"></span>
+        </div>
+        <div class="body">
+          <span class="cmd">claude code</span> <span class="muted" style="color:#6b7a99">— seu projeto</span><br><br>
+          <span class="blink">&gt;</span> <span class="you">/aieos faça um resumo do que tem neste projeto</span><br>
+          <span style="color:#6b7a99">AIEOS: roteando → planejando → executando → relatório…</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXEMPLOS -->
+  <h2>O que você pode pedir</h2>
+  <div class="ex">📋 <code class="k">/aieos revise esta função e sugira melhorias</code></div>
+  <div class="ex">🚀 <code class="k">/aieos crie um endpoint de cadastro de usuário, com testes</code></div>
+  <div class="ex">🔎 <code class="k">/aieos explique a arquitetura deste projeto em linguagem simples</code></div>
+  <p class="muted">É só descrever o que você quer em português — o AIEOS decide o tamanho do trabalho,
+  quem cuida e como entregar.</p>
+
+  <!-- SEGURANÇA -->
+  <h2>É seguro?</h2>
+  <p class="muted">Sim. Toda decisão é registrada (sem apagar histórico), segredos como senhas e
+  chaves são <b>ocultados automaticamente</b>, e conteúdo perigoso é colocado em quarentena antes
+  de qualquer coisa ser compartilhada. Para desinstalar a qualquer momento: <b>Adicionar ou Remover
+  Programas</b> → AIEOS → Desinstalar.</p>
+
+  <div class="foot">
+    AIEOS — AI Enterprise Operating System · Guia de início rápido<br>
+    Problemas ou dúvidas? Tire um print e envie para quem te passou o instalador. 💜
+  </div>
+
+</div>
+</body>
+</html>
