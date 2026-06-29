@@ -8,6 +8,18 @@ because it has no compiled releases yet.
 
 ### Phase 1 — Foundation (in progress)
 
+#### Added — 2026-06-29 (autopilot: self-update, status, auto-memory, Decision 0015)
+- **Self-update** (`aieos update`): pulls the latest from GitHub without reinstalling
+  (`git pull` on a checkout, tarball overlay on the installed copy; local memory preserved).
+- **Status hub** (`aieos status`): version + update availability, conformance, memory, git sync.
+- **Autopilot** (`scripts/auto-sync.mjs`, SessionStart hook): throttled, fail-silent — self-
+  updates and pushes guarded memory automatically. `npm run setup` now installs the
+  `Stop → capture` and `SessionStart → auto-sync` hooks (teardown removes them);
+  `AIEOS_NO_AUTOSYNC=1` disables it.
+- Automatic memory push stays safe — the guard runs on capture and again before push.
+- Note: end-user auto-update needs the GitHub repo to be **public** (currently private; the
+  authenticated dev/admin machine self-updates via `git pull` regardless).
+
 #### Added — 2026-06-29 (end-user welcome tutorial, Decision 0014)
 - **Welcome tutorial** (`installer/welcome/comece-aqui.html`): a self-contained, image-rich
   offline guide; the installer drops it in a Desktop folder ("AIEOS - Comece Aqui") and opens

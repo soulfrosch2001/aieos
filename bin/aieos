@@ -13,6 +13,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const COMMANDS = {
   setup: 'scripts/install-command.mjs',
   teardown: 'scripts/teardown-command.mjs',
+  update: 'scripts/update.mjs',
+  status: 'scripts/status.mjs',
   conformance: 'tests/conformance/run.mjs',
   audio: 'scripts/gen-audio.mjs',
   'memory:push': 'scripts/memory-push.mjs',
@@ -25,8 +27,10 @@ if (!cmd || cmd === 'help' || cmd === '-h' || cmd === '--help') {
   console.log('AIEOS — AI Enterprise Operating System');
   console.log('Usage: aieos <command> [args]\n');
   console.log('Commands:');
-  console.log('  setup             Register the global /aieos command + machine-wide bootstrap');
-  console.log('  teardown          Remove the global command and the machine-wide bootstrap');
+  console.log('  setup             Register the global /aieos command, hooks + machine-wide bootstrap');
+  console.log('  teardown          Remove the global command, hooks and the machine-wide bootstrap');
+  console.log('  update [--check]  Update AIEOS from GitHub without reinstalling');
+  console.log('  status            Show the AIEOS status hub (version, update, memory, …)');
   console.log('  conformance       Run the conformance gate (the OS compiler)');
   console.log('  audio <in> <out>  Generate a spoken summary (free pt-BR neural TTS)');
   console.log('  memory:push       Sync guarded memory to GitHub (grouped, gated)');

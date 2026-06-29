@@ -4,12 +4,18 @@
   "private": true,
   "type": "module",
   "description": "AIEOS — AI Enterprise Operating System. Conformance checker (the OS's compiler).",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/soulfrosch2001/aieos.git"
+  },
   "bin": {
     "aieos": "bin/aieos"
   },
   "scripts": {
     "setup": "node scripts/install-command.mjs",
     "teardown": "node scripts/teardown-command.mjs",
+    "update": "node scripts/update.mjs",
+    "status": "node scripts/status.mjs",
     "test": "node tests/conformance/run.mjs",
     "conformance": "node tests/conformance/run.mjs",
     "conformance:all": "node tests/conformance/run.mjs --include-legacy",

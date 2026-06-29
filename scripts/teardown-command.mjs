@@ -49,6 +49,28 @@ if (fs.existsSync(BOOTSTRAP)) {
   }
 }
 
+// 3. Remove the autopilot hooks (capture + auto-sync) from settings.json, keeping any others.
+const SETTINGS = path.join(CLAUDE_DIR, 'settings.json');
+if (fs.existsSync(SETTINGS)) {
+  try {
+    const settings = JSON.parse(fs.readFileSync(SETTINGS, 'utf8'));
+    let changed = false;
+    if (settings.hooks) {
+      for (const event of Object.keys(settings.hooks)) {
+        const arr = settings.hooks[event];
+        if (!Array.isArray(arr)) continue;
+        const kept = arr.filter((e) => !(Array.isArray(e.hooks) && e.hooks.some((h) =>
+          typeof h.command === 'string' && (h.command.includes('memory-capture.mjs') || h.command.includes('auto-sync.mjs')))));
+        if (kept.length !== arr.length) { changed = true; if (kept.length) settings.hooks[event] = kept; else delete settings.hooks[event]; }
+      }
+    }
+    if (changed) {
+      fs.writeFileSync(SETTINGS, JSON.stringify(settings, null, 2), 'utf8');
+      removed.push(`autopilot hooks  → ${SETTINGS} (capture + auto-sync removed, your others kept)`);
+    }
+  } catch { /* leave settings untouched on parse error */ }
+}
+
 if (removed.length === 0) {
   console.log('AIEOS is not installed machine-wide — nothing to remove.');
   process.exit(0);

@@ -125,8 +125,29 @@ if (fs.existsSync(BOOTSTRAP)) {
 }
 fs.writeFileSync(BOOTSTRAP, bootstrapContent, 'utf8');
 
+// 3. Register the autopilot hooks in ~/.claude/settings.json (preserving any others):
+//    Stop → capture the session as guarded memory; SessionStart → auto-sync (self-update +
+//    guarded memory push). Identified by script name so re-running setup refreshes the paths
+//    without duplicating, and `npm run teardown` can remove exactly these.
+const SETTINGS = path.join(CLAUDE_DIR, 'settings.json');
+let settings = {};
+try { settings = JSON.parse(fs.readFileSync(SETTINGS, 'utf8')); } catch { /* none yet */ }
+settings.hooks = settings.hooks || {};
+function manageHook(event, scriptFile, statusMessage) {
+  const command = `node "${path.join(AIEOS_ROOT, 'scripts', scriptFile)}"`;
+  const arr = settings.hooks[event] || [];
+  const kept = arr.filter((e) => !(Array.isArray(e.hooks) && e.hooks.some((h) => typeof h.command === 'string' && h.command.includes(scriptFile))));
+  kept.push({ hooks: [{ type: 'command', command, async: true, statusMessage }] });
+  settings.hooks[event] = kept;
+}
+manageHook('Stop', 'memory-capture.mjs', 'AIEOS: capturando memoria da sessao');
+manageHook('SessionStart', 'auto-sync.mjs', 'AIEOS: sincronizando (update + memoria)');
+fs.mkdirSync(CLAUDE_DIR, { recursive: true });
+fs.writeFileSync(SETTINGS, JSON.stringify(settings, null, 2), 'utf8');
+
 console.log('AIEOS installed machine-wide.');
 console.log(`  /aieos command   → ${TARGET}`);
+console.log(`  autopilot hooks  → ${SETTINGS} (capture + auto-sync)`);
 console.log(`  session bootstrap → ${BOOTSTRAP}`);
 console.log(`  AIEOS install root: ${AIEOS_ROOT}`);
 console.log(`  Date: ${DATE}`);
