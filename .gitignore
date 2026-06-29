@@ -12,6 +12,11 @@ installer/macos/Output/
 *.exe
 *.pkg
 
+# Personal / non-summary audio must NEVER be published — only the NNNN-resumo.* decision
+# summaries belong in the public repo. (A personal voice recording leaked here once.)
+government/decisions/resumo/audio/*.m4a
+government/decisions/resumo/audio/*.wav
+
 # Memory ledger — captured conversation summaries stay LOCAL (never pushed to a public repo).
 # Only the folder docs are tracked; the dated session entries are not.
 memory/ledger/*.md
