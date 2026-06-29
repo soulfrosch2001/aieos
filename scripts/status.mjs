@@ -14,6 +14,12 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const pkg = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')); } catch { return {}; } })();
 const ver = pkg.version || '0.0.0';
 
+function cmpVer(a, b) {
+  const pa = String(a).split('.').map((n) => parseInt(n, 10) || 0);
+  const pb = String(b).split('.').map((n) => parseInt(n, 10) || 0);
+  for (let i = 0; i < 3; i++) { if ((pa[i] || 0) > (pb[i] || 0)) return 1; if ((pa[i] || 0) < (pb[i] || 0)) return -1; }
+  return 0;
+}
 function slug() {
   const r = pkg.repository; const url = typeof r === 'string' ? r : (r && r.url) || '';
   const m = url.match(/github\.com[:/]+([^/]+)\/([^/.]+)/i); return m ? `${m[1]}/${m[2]}` : null;
@@ -41,7 +47,7 @@ const dirty = isGit ? sh('git', ['status', '--porcelain']).length > 0 : false;
 const hasRemote = isGit ? !!sh('git', ['remote']) : false;
 
 const remoteVer = await remoteVersion();
-const upd = remoteVer == null ? 'unknown (offline?)' : (remoteVer !== ver ? `update available → ${remoteVer}  (run: aieos update)` : 'up to date');
+const upd = remoteVer == null ? 'unknown (offline?)' : (cmpVer(remoteVer, ver) > 0 ? `update available → ${remoteVer}  (run: aieos update)` : 'up to date');
 
 const line = (k, v) => `  ${(k + ':').padEnd(16)} ${v}`;
 console.log('');

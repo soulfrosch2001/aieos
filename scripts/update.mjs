@@ -50,6 +50,14 @@ function downloadTo(url, dest) {
   });
 }
 
+// Numeric semver compare (avoids string pitfalls like "0.2.0" < "0.10.0"): 1 if a>b, -1 if a<b.
+function cmpVer(a, b) {
+  const pa = String(a).split('.').map((n) => parseInt(n, 10) || 0);
+  const pb = String(b).split('.').map((n) => parseInt(n, 10) || 0);
+  for (let i = 0; i < 3; i++) { if ((pa[i] || 0) > (pb[i] || 0)) return 1; if ((pa[i] || 0) < (pb[i] || 0)) return -1; }
+  return 0;
+}
+
 const slug = repoSlug();
 const localVer = readPkg(AIEOS_ROOT).version || '0.0.0';
 
@@ -63,7 +71,7 @@ if (CHECK) {
   try {
     const remote = JSON.parse(await get(`https://raw.githubusercontent.com/${slug}/main/package.json`));
     const remoteVer = remote.version || '0.0.0';
-    if (remoteVer !== localVer) {
+    if (cmpVer(remoteVer, localVer) > 0) {
       console.log(`Update available: ${localVer} → ${remoteVer}. Run \`aieos update\`.`);
     } else {
       console.log(`AIEOS is up to date (${localVer}).`);
@@ -89,7 +97,11 @@ if (fs.existsSync(path.join(AIEOS_ROOT, '.git'))) {
   const ex = spawnSync('tar', ['-xzf', tgz, '-C', tmp], { stdio: 'inherit' });
   if (ex.status !== 0) { console.error('Extraction failed (tar not available?).'); process.exit(1); }
   const top = fs.readdirSync(tmp).map((n) => path.join(tmp, n)).find((p) => fs.statSync(p).isDirectory());
-  if (!top) { console.error('Unexpected archive layout.'); process.exit(1); }
+  if (!top || !fs.existsSync(path.join(top, 'package.json'))) {
+    console.error('Downloaded archive looks invalid (no package.json) — aborting to protect the install.');
+    fs.rmSync(tmp, { recursive: true, force: true });
+    process.exit(1);
+  }
   // Overlay extracted files onto the install, preserving node_modules/.git and local memory.
   fs.cpSync(top, AIEOS_ROOT, {
     recursive: true, force: true,
@@ -106,7 +118,11 @@ if (fs.existsSync(path.join(AIEOS_ROOT, '.git'))) {
 }
 
 console.log('Installing dependencies …');
-spawnSync('npm', ['install', '--omit=dev'], { cwd: AIEOS_ROOT, stdio: 'inherit', shell: process.platform === 'win32' });
+const ni = spawnSync('npm', ['install', '--omit=dev'], { cwd: AIEOS_ROOT, stdio: 'inherit', shell: process.platform === 'win32' });
+if (ni.status !== 0) {
+  console.error('npm install failed during update — the install may be incomplete. Re-run `aieos update` or `npm install` manually.');
+  process.exit(1);
+}
 console.log('Re-registering the global command …');
 spawnSync(process.execPath, [path.join(AIEOS_ROOT, 'scripts', 'install-command.mjs')], { cwd: AIEOS_ROOT, stdio: 'inherit' });
 

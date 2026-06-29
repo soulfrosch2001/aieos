@@ -42,7 +42,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 ; Copy the entire repo (this .iss lives in installer\, so ..\* is the repo root) into
 ; {app}, excluding build/runtime junk. Excludes are matched relative to each Source dir.
 Source: "..\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs; \
-  Excludes: "\node_modules\*,\.git\*,\installer\Output\*,\installer\macos\build\*,\memory\ledger\20*.md,\memory\ledger\quarantine\20*.md,*.log"
+  Excludes: "\node_modules\*,\.git\*,\installer\Output\*,\installer\macos\build\*,\memory\ledger\20*.md,\memory\ledger\quarantine\20*.md,\government\decisions\resumo\audio\*,\government\decisions\resumo\pdf\*,*.m4a,*.wav,*.log"
 ; Onboarding tutorial → a friendly folder on the user's Desktop.
 Source: "welcome\comece-aqui.html"; DestDir: "{userdesktop}\AIEOS - Comece Aqui"; \
   DestName: "AIEOS - Comece Aqui.html"; Flags: ignoreversion

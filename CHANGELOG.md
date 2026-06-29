@@ -8,6 +8,17 @@ because it has no compiled releases yet.
 
 ### Phase 1 — Foundation (in progress)
 
+#### Fixed — 2026-06-29 (council review + hardening, Decision 0017)
+- **Security:** purged a personal voice recording that had become publicly accessible (history
+  rewrite + force-push; GitHub now 404). Ignore `*.m4a`/`*.wav` in decision audio; exclude
+  `resumo/audio` + `resumo/pdf` from the installer (the `.exe` no longer ships it and dropped
+  from 13.7 MB to 3.8 MB).
+- **Autopilot robustness:** `update.mjs` guards `npm install` failure, validates the downloaded
+  archive before overlaying, and compares versions semantically (not as strings); `status.mjs`
+  too.
+- **UX:** the welcome tutorial now explains auto-update and that memory stays local.
+- Reviewed by a 4-member council; remaining findings recorded as backlog in Decision 0017.
+
 #### Changed — 2026-06-29 (repository made public, Decision 0016)
 - Repository is now **public**, enabling end-user auto-update (`aieos update --check` resolves;
   was 404 while private). Before flipping, history was rewritten to purge the conversation
