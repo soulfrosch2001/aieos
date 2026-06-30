@@ -36,19 +36,12 @@ const isEntry = (f) => f.endsWith('.md') && f !== 'README.md';
 async function status() {
   const ver = pkg.version || '0.0.0';
   const remote = await remoteVersion();
-  const memRepo = path.join(os.homedir(), '.claude', 'aieos-memory', 'ledger');
-  const usersDir = path.join(memRepo, 'users');
-  let users = 0, userMem = 0;
-  try { for (const u of fs.readdirSync(usersDir)) { if (fs.statSync(path.join(usersDir, u)).isDirectory()) { users++; userMem += countDir(path.join(usersDir, u), isEntry); } } } catch { /* none */ }
   return {
     version: ver,
     remoteVersion: remote,
     updateAvailable: remote != null && cmpVer(remote, ver) > 0,
     online: remote != null,
     rules: countDir(path.join(ROOT, 'tests', 'conformance', 'rules'), (f) => f.endsWith('.mjs')),
-    yours: fs.existsSync(memRepo) ? countDir(memRepo, (f) => isEntry(f) && (() => { try { return fs.statSync(path.join(memRepo, f)).isFile(); } catch { return false; } })()) : 0,
-    users, userMemories: userMem,
-    quarantined: countDir(path.join(memRepo, 'quarantine'), isEntry),
     node: process.version,
     isGit: fs.existsSync(path.join(ROOT, '.git')),
   };
@@ -85,7 +78,7 @@ pre{background:#0e1726;color:#cfe3ff;border-radius:12px;padding:14px;font-size:1
 <div class="grid">
   <div class="card"><div class="n" id="ver">—</div><div class="l">Versão instalada</div></div>
   <div class="card"><div class="n" id="rules">—</div><div class="l">Regras de qualidade</div></div>
-  <div class="card"><div class="n" id="users">—</div><div class="l">Usuários (memórias)</div></div>
+  <div class="card"><div class="n" id="conn">—</div><div class="l">Conexão</div></div>
 </div>
 <div class="row">
   <button onclick="refresh()">🔄 Atualizar status</button>
@@ -99,7 +92,7 @@ async function refresh(){
   const s = await (await fetch('/api/status')).json();
   document.getElementById('ver').textContent = s.version;
   document.getElementById('rules').textContent = s.rules;
-  document.getElementById('users').textContent = s.users + ' ('+s.userMemories+')';
+  document.getElementById('conn').textContent = s.online ? 'online' : 'offline';
   const b = document.getElementById('banner');
   if(!s.online){ b.className='banner off'; b.innerHTML='<div><h2>Status offline</h2><p>Não foi possível verificar atualizações agora.</p></div>'; }
   else if(s.updateAvailable){ b.className='banner upd'; b.innerHTML='<div><h2>Atualização disponível → '+s.remoteVersion+'</h2><p>Sua versão: '+s.version+'. Clique para atualizar.</p></div><button class="btn" onclick="doUpdate()">⬇️ Atualizar agora</button>'; }

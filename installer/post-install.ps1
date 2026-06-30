@@ -12,7 +12,9 @@
 param(
     # Install directory, passed by the installer as {app}. Falls back to this script's
     # parent folder (installer\ -> repo root) when run standalone.
-    [string]$InstallDir
+    [string]$InstallDir,
+    # 'on' or 'off' — the memory-sharing consent from the installer checkbox.
+    [string]$ShareMemory = 'on'
 )
 
 $ErrorActionPreference = 'Continue'
@@ -70,6 +72,23 @@ Write-Host '[2/2] Registering AIEOS machine-wide (node scripts/install-command.m
 if ($LASTEXITCODE -ne 0) {
     Write-Host "ERROR: AIEOS setup failed (exit $LASTEXITCODE). Run 'npm run setup' manually from '$InstallDir'." -ForegroundColor Red
     exit 1
+}
+
+# --- Record the memory-sharing consent from the installer checkbox -----------
+try {
+    $claudeDir = Join-Path $env:USERPROFILE '.claude'
+    if (-not (Test-Path $claudeDir)) { New-Item -ItemType Directory -Path $claudeDir -Force | Out-Null }
+    $consentFile = Join-Path $claudeDir 'aieos-memory-consent.json'
+    $sharing = ($ShareMemory -ne 'off')
+    $installId = [guid]::NewGuid().ToString()
+    if (Test-Path $consentFile) {
+        try { $old = Get-Content $consentFile -Raw | ConvertFrom-Json; if ($old.installId) { $installId = $old.installId } } catch {}
+    }
+    $consent = [ordered]@{ sharing = $sharing; installId = $installId; sent = @() }
+    ($consent | ConvertTo-Json) | Set-Content -Path $consentFile -Encoding utf8
+    Write-Host ("Memory sharing preference saved: " + $(if ($sharing) { 'ON' } else { 'OFF' }) + " (change anytime: aieos memory:share --on/--off).")
+} catch {
+    Write-Host "Note: could not save the memory-sharing preference." -ForegroundColor Yellow
 }
 
 Write-Host ''
