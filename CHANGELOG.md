@@ -8,6 +8,11 @@ because it has no compiled releases yet.
 
 ### Phase 1 — Foundation (in progress)
 
+#### Added — 2026-06-30 (memory report tool)
+- **`aieos memory:report`**: a one-glance panel of the private memory repo — how many opt-in
+  users are sharing, total memories, your own session entries, and quarantined items. Pulls the
+  latest from GitHub first so it is always current.
+
 #### Changed — 2026-06-30 (memory sharing default-ON / opt-out, Decision 0021)
 - By maintainer choice (over a recorded objection), end-user memory sharing now defaults **ON
   (opt-out)** with a **visible install-time notice** (welcome tutorial + privacy page) and an easy

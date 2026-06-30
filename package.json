@@ -26,6 +26,7 @@
     "memory:push": "node scripts/memory-push.mjs",
     "memory:sync": "node scripts/memory-sync.mjs",
     "memory:share": "node scripts/memory-share.mjs",
+    "memory:report": "node scripts/memory-report.mjs",
     "forge": "node forge/create-agent.mjs",
     "forge:run": "node forge/run.mjs",
     "forge:consolidate": "node forge/consolidate.mjs"

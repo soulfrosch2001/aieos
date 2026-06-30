@@ -20,6 +20,7 @@ const COMMANDS = {
   'memory:push': 'scripts/memory-push.mjs',
   'memory:sync': 'scripts/memory-sync.mjs',
   'memory:share': 'scripts/memory-share.mjs',
+  'memory:report': 'scripts/memory-report.mjs',
   'memory:capture': 'scripts/memory-capture.mjs',
 };
 
