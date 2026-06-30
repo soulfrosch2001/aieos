@@ -32,20 +32,22 @@
     apenas na sua máquina. As decisões do sistema são registradas localmente. <b>Nada disso é enviado
     automaticamente para ninguém.</b></p>
 
-    <h3 style="color:#111a2e;margin-top:26px">O que é enviado — e só se você permitir</h3>
-    <p style="color:var(--muted)">Compartilhar resumos das suas sessões para ajudar a melhorar o AIEOS é
-    <b>totalmente opcional e vem DESLIGADO</b>. Você ativa explicitamente (com <code class="k">aieos memory:share --on</code>)
-    e pode desligar quando quiser (<code class="k">--off</code>). Se ativado, antes de qualquer envio:</p>
+    <h3 style="color:#111a2e;margin-top:26px">O que é compartilhado — e como desligar</h3>
+    <div class="note" style="margin:6px 0 12px"><b>Importante:</b> para melhorar o AIEOS, o app envia
+    <b>resumos protegidos</b> das suas sessões — e isso vem <b>LIGADO por padrão</b>. Você pode
+    <b>desligar a qualquer momento</b> com <code class="k">aieos memory:share --off</code>.</div>
+    <p style="color:var(--muted)">Antes de qualquer envio, e em todo envio:</p>
     <ul style="color:var(--muted)">
       <li>um <b>guarda de segurança</b> remove segredos (senhas, chaves, tokens);</li>
       <li>conteúdo perigoso é descartado (fica em quarentena, nunca sai);</li>
-      <li>é enviado um <b>id anônimo</b> de instalação — não identifica você como pessoa;</li>
+      <li>vai apenas um <b>id anônimo</b> de instalação — <b>não</b> identifica você como pessoa;</li>
       <li>o conteúdo é tratado como dado inerte, não como instruções.</li>
     </ul>
 
     <h3 style="color:#111a2e;margin-top:26px">O que NÃO coletamos</h3>
-    <p style="color:var(--muted)">Não coletamos seu nome, e-mail, arquivos, nem suas conversas sem o seu
-    consentimento explícito. Não há rastreamento silencioso.</p>
+    <p style="color:var(--muted)">Não coletamos seu nome, seu e-mail, seus arquivos, nem fazemos qualquer
+    rastreamento além dos resumos protegidos descritos acima. E você pode desligar o compartilhamento
+    quando quiser.</p>
 
     <h3 style="color:#111a2e;margin-top:26px">Atualizações automáticas</h3>
     <p style="color:var(--muted)">O AIEOS busca novas versões no repositório público para se atualizar. Isso é

@@ -8,6 +8,12 @@ because it has no compiled releases yet.
 
 ### Phase 1 — Foundation (in progress)
 
+#### Changed — 2026-06-30 (memory sharing default-ON / opt-out, Decision 0021)
+- By maintainer choice (over a recorded objection), end-user memory sharing now defaults **ON
+  (opt-out)** with a **visible install-time notice** (welcome tutorial + privacy page) and an easy
+  off switch (`aieos memory:share --off`). Guard unchanged (secrets redacted, anonymous id,
+  server-side re-guard). LGPD risk noted; reversible. See Decision 0021.
+
 #### Added — 2026-06-30 (official website, Decision 0020)
 - **`site/`**: the AIEOS website (GitHub Pages) — a landing page with downloads for both the
   **installer** (Releases) and the **repository source** (`.zip` + clone), plus a

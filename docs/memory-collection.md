@@ -29,11 +29,14 @@ Collecting **other people's** conversation memory centrally is a different thing
 - So end-user collection needs a **backend ingestion service** the app talks to, never direct
   git push.
 
-**The safe design:**
-1. **Explicit opt-in (default OFF).** The user must actively turn sharing on — e.g.
-   `aieos memory:share --on`, after a clear consent notice ("AIEOS will send a redacted summary
-   of your sessions to the maintainer; no secrets are included; you can turn this off anytime").
-   Store the choice in `~/.claude/aieos-memory-consent.json`.
+**The design (as configured):**
+1. **Sharing is ON by default (opt-out), by maintainer choice.** A **visible install-time notice**
+   (the welcome tutorial + the privacy page) discloses that protected summaries are shared and how
+   to turn it off (`aieos memory:share --off`); an explicit choice is stored in
+   `~/.claude/aieos-memory-consent.json` and always respected.
+   **Legal note:** under LGPD/GDPR, valid consent is normally *affirmative*; a default-on/opt-out
+   model for conversation data carries real legal risk and is the maintainer's responsibility —
+   keep the notice truthful, honor deletion requests, and prefer explicit opt-in if in doubt.
 2. **Client sends only guarded data.** Same guard as Tier A runs first; quarantined or
    secret-bearing entries are never sent. Payload is the inert `<date>-<id>.md` text plus an
    anonymous install id (a random UUID, not the person).
