@@ -8,6 +8,13 @@ because it has no compiled releases yet.
 
 ### Phase 1 — Foundation (in progress)
 
+#### Added — 2026-06-30 (official website, Decision 0020)
+- **`site/`**: the AIEOS website (GitHub Pages) — a landing page with downloads for both the
+  **installer** (Releases) and the **repository source** (`.zip` + clone), plus a
+  **privacy/LGPD page** for the opt-in memory sharing. Auto-deployed by `.github/workflows/pages.yml`.
+- Enable once: Settings → Pages → Source: GitHub Actions → live at
+  `https://soulfrosch2001.github.io/aieos/`.
+
 #### Added — 2026-06-30 (end-user memory collection, opt-in, Decision 0019)
 - **Tier B built:** a Cloudflare Worker (`backend/worker.js`) ingests opt-in user memory,
   re-guards it server-side, and writes to the private `aieos-memory` repo with a server-side

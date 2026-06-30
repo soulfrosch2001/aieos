@@ -4,6 +4,11 @@
   <img src="brand/aieos-logo.png" alt="AIEOS" width="300">
 </p>
 
+<p align="center">
+  <b>Website:</b> <a href="https://soulfrosch2001.github.io/aieos/">soulfrosch2001.github.io/aieos</a>
+  · <a href="site/">source</a>
+</p>
+
 > An open-source operating system for AI organizations. It hosts an unlimited number
 > of independent AI companies inside Claude Code, each inheriting the same kernel,
 > the same communication protocol, the same workflow engine, and the same memory
