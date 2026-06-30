@@ -27,7 +27,8 @@ DisableProgramGroupPage=yes
 ; The compiled .exe lands in installer\Output\AIEOS-Setup-<version>.exe (a sibling
 ; release workflow relies on this exact path + name).
 OutputDir=Output
-OutputBaseFilename=AIEOS-Setup-{#AppVersion}
+; Version-less filename so the website's "latest" direct-download link never breaks.
+OutputBaseFilename=AIEOS-Setup
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern

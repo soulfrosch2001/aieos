@@ -44,10 +44,10 @@ your machine). To build it locally instead, install Inno Setup and run from the 
 ISCC installer\aieos.iss
 ```
 
-The compiled artifact is written to **`installer/Output/AIEOS-Setup-<version>.exe`**
-(e.g. `installer/Output/AIEOS-Setup-0.1.0.exe`). The version comes from the `AppVersion`
-define in [aieos.iss](aieos.iss) and must match `version` in
-[../package.json](../package.json).
+The compiled artifact is written to **`installer/Output/AIEOS-Setup.exe`** (a version-less
+name so the website's `releases/latest/download/AIEOS-Setup.exe` link never breaks). The app's
+internal version comes from the `AppVersion` define in [aieos.iss](aieos.iss) and should match
+`version` in [../package.json](../package.json).
 
 ## How to uninstall
 
