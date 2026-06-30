@@ -1,0 +1,11 @@
+name = "aieos-memory-ingest"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+# Public variable: the PRIVATE repo the worker writes to.
+[vars]
+MEMORY_REPO = "soulfrosch2001/aieos-memory"
+
+# Secret (NEVER in this file or the client): a GitHub fine-grained token with
+# Contents: read/write on the aieos-memory repo only. Set it with:
+#   wrangler secret put GH_TOKEN

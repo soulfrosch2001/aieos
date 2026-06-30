@@ -8,6 +8,7 @@
     "type": "git",
     "url": "https://github.com/soulfrosch2001/aieos.git"
   },
+  "memoryEndpoint": "",
   "bin": {
     "aieos": "bin/aieos"
   },
@@ -24,6 +25,7 @@
     "memory:capture": "node scripts/memory-capture.mjs",
     "memory:push": "node scripts/memory-push.mjs",
     "memory:sync": "node scripts/memory-sync.mjs",
+    "memory:share": "node scripts/memory-share.mjs",
     "forge": "node forge/create-agent.mjs",
     "forge:run": "node forge/run.mjs",
     "forge:consolidate": "node forge/consolidate.mjs"

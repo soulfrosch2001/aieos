@@ -41,6 +41,10 @@ try {
 //    (e.g. an end user with no access) it exits cleanly and memory stays local.
 try { run('memory-sync.mjs'); } catch { /* fail-silent */ }
 
+// 3) If the user opted in to share memory (default OFF), send new safe entries to the
+//    ingestion endpoint. No-ops unless both consent and an endpoint are set.
+try { run('memory-share.mjs'); } catch { /* fail-silent */ }
+
 state.lastSync = now;
 try { fs.mkdirSync(path.dirname(stampFile), { recursive: true }); fs.writeFileSync(stampFile, JSON.stringify(state)); } catch { /* ignore */ }
 process.exit(0);

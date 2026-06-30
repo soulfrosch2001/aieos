@@ -8,6 +8,14 @@ because it has no compiled releases yet.
 
 ### Phase 1 — Foundation (in progress)
 
+#### Added — 2026-06-30 (end-user memory collection, opt-in, Decision 0019)
+- **Tier B built:** a Cloudflare Worker (`backend/worker.js`) ingests opt-in user memory,
+  re-guards it server-side, and writes to the private `aieos-memory` repo with a server-side
+  token. An **opt-in client** (`aieos memory:share`, default OFF, with a consent notice) sends
+  only guard-safe entries; the autopilot wires it in. Fails closed without consent + endpoint.
+- Remaining: a one-time maintainer deploy (Worker + token + `memoryEndpoint` URL) — see
+  `backend/README.md`.
+
 #### Added — 2026-06-30 (private memory store + standard voice, Decision 0018)
 - **Private memory pipeline:** guarded conversation memory now goes to a **private** repo
   (`aieos-memory`), separate from the public code repo — capture writes to

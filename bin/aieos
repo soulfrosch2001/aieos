@@ -19,6 +19,7 @@ const COMMANDS = {
   audio: 'scripts/gen-audio.mjs',
   'memory:push': 'scripts/memory-push.mjs',
   'memory:sync': 'scripts/memory-sync.mjs',
+  'memory:share': 'scripts/memory-share.mjs',
   'memory:capture': 'scripts/memory-capture.mjs',
 };
 

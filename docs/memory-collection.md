@@ -48,5 +48,9 @@ Collecting **other people's** conversation memory centrally is a different thing
 deletion requests; keep the store private; never collect without the opt-in. For an open-source
 tool, transparency here is the difference between "telemetry" and "surveillance."
 
-**Status:** Tier A is built and live. Tier B is specified here; the backend is the remaining
-work and is a deliberate, separate decision (it needs a hosting choice + a consent/legal pass).
+**Status:** Tier A is built and live. **Tier B is now BUILT** — the Cloudflare Worker
+([backend/worker.js](../backend/worker.js)), the opt-in client (`scripts/memory-share.mjs`,
+default OFF, with a consent notice), and the autopilot wiring all exist. The only remaining step
+is the **one-time deploy** by the maintainer (see [backend/README.md](../backend/README.md)):
+deploy the Worker, set its `GH_TOKEN` secret, and put the resulting URL in `package.json`
+(`memoryEndpoint`). Until that URL is set, sharing **fails closed** — nothing is ever sent.
