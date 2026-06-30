@@ -1,0 +1,9 @@
+# Root config so Cloudflare's git-connected deploy (`npx wrangler deploy` run at the repo
+# root) finds the memory-ingestion Worker. The Worker code lives in backend/worker.js.
+# The GH_TOKEN secret is set in the Cloudflare dashboard (Worker → Settings → Variables → Secret).
+name = "aieos-memory-ingest"
+main = "backend/worker.js"
+compatibility_date = "2024-11-01"
+
+[vars]
+MEMORY_REPO = "soulfrosch2001/aieos-memory"
