@@ -38,9 +38,10 @@ pkgbuild \
   --install-location "/" \
   "$BUILD/aieos-component.pkg"
 
+# Version-less filename so the website's "latest" direct-download link never breaks.
 productbuild \
   --distribution "$HERE/distribution.xml" \
   --package-path "$BUILD" \
-  "$OUT/AIEOS-$VERSION.pkg"
+  "$OUT/AIEOS.pkg"
 
-echo "Built $OUT/AIEOS-$VERSION.pkg"
+echo "Built $OUT/AIEOS.pkg"
