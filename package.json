@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/soulfrosch2001/aieos.git"
   },
-  "memoryEndpoint": "",
+  "memoryEndpoint": "https://aieos-memory-ingest.iurinascimento2001.workers.dev/",
   "bin": {
     "aieos": "bin/aieos"
   },
