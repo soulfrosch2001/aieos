@@ -74,6 +74,18 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
+# --- Confirm the /aieos command + Claude Code presence (the riskiest handoff) ----------
+$claudeHome = Join-Path $env:USERPROFILE '.claude'
+$cmdFile = Join-Path $claudeHome 'commands\aieos.md'
+if (Test-Path $cmdFile) {
+    Write-Host 'OK: the /aieos command is registered. In Claude Code, type  /aieos  to use it.'
+} else {
+    Write-Host 'WARNING: the /aieos command file was not found. If /aieos does not appear, run "npm run setup" again.' -ForegroundColor Yellow
+}
+if (-not (Test-Path $claudeHome)) {
+    Write-Host 'NOTE: Claude Code does not seem to be installed (~/.claude not found). Install Claude Code to use /aieos.' -ForegroundColor Yellow
+}
+
 # --- Record the memory-sharing consent from the installer checkbox -----------
 try {
     $claudeDir = Join-Path $env:USERPROFILE '.claude'

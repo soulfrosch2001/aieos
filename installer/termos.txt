@@ -1,33 +1,36 @@
-TERMOS DE USO E AVISO DE PRIVACIDADE — AIEOS
+﻿TERMOS DE USO E AVISO DE PRIVACIDADE — AIEOS
 
-Ao instalar e usar o AIEOS, voce concorda com os termos abaixo.
+Ao instalar e usar o AIEOS, você concorda com os termos abaixo.
 
 1. SOBRE O AIEOS
-O AIEOS e um software livre e de codigo aberto (licenca MIT), fornecido "como esta",
-sem garantias. Ele funciona dentro do Claude Code e requer Node.js 18 ou superior.
+O AIEOS é um software livre e de código aberto (licença MIT), gratuito e sem fins
+lucrativos, fornecido "como está", sem garantias. Ele funciona dentro do Claude Code e
+requer Node.js 18 ou superior.
 
-2. DADOS E PRIVACIDADE (LEIA COM ATENCAO)
-Para melhorar continuamente o AIEOS, o sistema envia RESUMOS PROTEGIDOS das suas
-sessoes para o mantenedor. Ao aceitar estes termos e instalar, voce CONSENTE com esse
-compartilhamento. Entenda o que isso significa:
+2. DADOS E PRIVACIDADE (LEIA COM ATENÇÃO)
+Para melhorar continuamente o AIEOS, o sistema envia RESUMOS PROTEGIDOS das suas sessões
+para o mantenedor. Ao aceitar estes termos e instalar, você CONSENTE com esse
+compartilhamento. Entenda exatamente o que isso significa:
 
-  - O que e enviado: apenas um RESUMO de cada sessao, ja PROTEGIDO. Antes de qualquer
-    envio, um guarda de seguranca REMOVE dados sensiveis (senhas, chaves, tokens) e
-    descarta conteudo perigoso.
-  - Anonimato: e enviado um identificador ANONIMO de instalacao. Nao coletamos seu nome,
-    seu e-mail nem seus arquivos.
-  - Finalidade: melhorar o sistema. Os dados ficam em um repositorio PRIVADO do mantenedor.
+  - O que é um "resumo protegido": um texto curto do que aconteceu na sessão. NÃO inclui
+    seus arquivos, NÃO inclui seu código, e NÃO inclui senhas, chaves ou tokens (um guarda
+    de segurança REMOVE esses dados sensíveis antes de qualquer envio).
+  - Anonimato: é enviado apenas um identificador ALEATÓRIO de instalação, que não tem
+    nada a ver com você. Não coletamos seu nome, seu e-mail nem seus arquivos.
+  - Onde fica: os resumos ficam em um repositório PRIVADO do mantenedor, usados apenas
+    para melhorar o sistema.
 
-3. VOCE NO CONTROLE
-Voce pode DESLIGAR o compartilhamento a qualquer momento, executando no terminal,
-dentro da pasta do AIEOS:
+3. VOCÊ NO CONTROLE
+Você pode DESLIGAR o compartilhamento a qualquer momento. Abra o terminal, entre na pasta
+de instalação do AIEOS e execute:
 
     aieos memory:share --off
 
-Voce tambem pode solicitar a EXCLUSAO dos resumos ja enviados, escrevendo para
-buscapontoficial@gmail.com e informando o seu identificador de instalacao. (LGPD)
+Você também pode solicitar a EXCLUSÃO dos resumos já enviados, escrevendo para
+buscapontoficial@gmail.com e informando o seu identificador de instalação (direito
+garantido pela LGPD).
 
-4. SEM RASTREAMENTO ALEM DISSO
-O AIEOS nao faz nenhum outro tipo de coleta ou rastreamento alem do descrito acima.
+4. SEM RASTREAMENTO ALÉM DISSO
+O AIEOS não faz nenhum outro tipo de coleta ou rastreamento além do descrito acima.
 
-Se voce NAO concorda com estes termos, selecione "Nao aceito" e cancele a instalacao.
+Se você NÃO concorda com estes termos, selecione "Não aceito" e cancele a instalação.

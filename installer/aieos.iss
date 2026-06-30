@@ -52,13 +52,14 @@ Source: "welcome\comece-aqui.html"; DestDir: "{userdesktop}\AIEOS - Comece Aqui"
   DestName: "AIEOS - Comece Aqui.html"; Flags: ignoreversion
 
 [Icons]
-; A clickable "AIEOS" program (Desktop + Start Menu) that opens the native launcher window
-; (status + one-click update) — no terminal, no browser.
+; A clickable "AIEOS" program (Desktop + Start Menu) that opens the modern "Navy Aurora" hub
+; window (status + one-click update) — no terminal, no browser tab. Falls back to the native
+; WinForms launcher when no Chromium browser is present (handled inside aieos-app.ps1).
 Name: "{userdesktop}\AIEOS"; Filename: "powershell.exe"; \
-  Parameters: "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File ""{app}\installer\aieos-launcher.ps1"""; \
+  Parameters: "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File ""{app}\installer\aieos-app.ps1"""; \
   WorkingDir: "{app}"; Comment: "Status e atualizacoes do AIEOS"
 Name: "{userprograms}\AIEOS"; Filename: "powershell.exe"; \
-  Parameters: "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File ""{app}\installer\aieos-launcher.ps1"""; \
+  Parameters: "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File ""{app}\installer\aieos-app.ps1"""; \
   WorkingDir: "{app}"; Comment: "Status e atualizacoes do AIEOS"
 
 [Run]

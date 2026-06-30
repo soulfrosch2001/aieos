@@ -1,0 +1,9 @@
+Resumo da decisão zero zero vinte e três do AIEOS: o novo visual do programa, chamado Navy Aurora.
+
+O programa do AIEOS virou um launcher imersivo, no estilo do cliente da Riot: uma tela escura com um grande botão de ação embaixo. Você não quis um aplicativo de barra lateral; quis um launcher. Depois de ver seis modelos, escolheu juntar o número um, o Riot Navy, com o número cinco, o Aurora.
+
+O Conselho de Design refinou essa fusão em duas rodadas. Primeiro definiu a direção: o produto fica escuro, mas o site continua claro, e o hub em HTML vira o programa oficial, aberto como uma janela de aplicativo sem barra de navegador. Depois, três especialistas deram as medidas exatas.
+
+A cor: base azul-marinho com três manchas de aurora como luz ambiente nas bordas, o azul liderando e o ciano e o magenta suaves nos cantos. O contraste: um véu escuro sob o texto garante leitura perfeita, nível triplo A, em qualquer posição da aurora. E o acabamento: o título com um degradê do branco ao lilás, o botão com brilho no topo e um leve salto ao passar o mouse, e um ponto de status que pulsa: verde quando está tudo certo, azul quando há atualização.
+
+O hub agora é o programa oficial. O atalho da área de trabalho abre essa janela; se não houver Edge ou Chrome, ele cai para o launcher nativo. O site segue claro. O portão de qualidade passou: quatorze regras, zero erros. Tudo registrado e pronto.

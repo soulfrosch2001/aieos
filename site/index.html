@@ -37,10 +37,17 @@
     trabalho como uma empresa de verdade — roteia, planeja, executa em paralelo, revisa e
     registra — com um comando só: <code class="k">/aieos</code>.</p>
     <div class="btns">
-      <a class="btn" href="#download">⬇️ Baixar o AIEOS</a>
+      <a class="btn" id="dlbtn" href="https://github.com/soulfrosch2001/aieos/releases/latest/download/AIEOS-Setup.exe" download>⬇️ Baixar para Windows</a>
       <a class="btn ghost" href="#como">Ver como funciona</a>
     </div>
-    <div class="req">Requisitos: Windows + Node.js 18+ + Claude Code · grátis e open-source (MIT)</div>
+    <div class="req">Grátis e open-source (MIT) · requer Node.js 18+ e o Claude Code · <a href="#download">outras opções</a></div>
+    <div class="term" style="margin-top:26px">
+      <div class="bar"><i style="background:#ff5f56"></i><i style="background:#ffbd2e"></i><i style="background:#27c93f"></i></div>
+      <div class="body">
+        <span class="p">&gt;</span> <span class="typed">/aieos revise meu código</span>
+        <span class="out">AIEOS: roteando → planejando → 3 agentes em paralelo → revisão → relatório ✓</span>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -50,20 +57,6 @@
       <div class="card"><div class="ic">⚙️</div><h3>Auto-configura</h3><p>O instalador instala e configura tudo sozinho. Depois é só digitar <code class="k">/aieos</code> em qualquer projeto.</p></div>
       <div class="card"><div class="ic">🔄</div><h3>Atualiza sozinho</h3><p>Novas versões chegam automaticamente — sem reinstalar nada.</p></div>
       <div class="card"><div class="ic">⚡</div><h3>Vários agentes em paralelo</h3><p>O AIEOS divide o trabalho entre vários agentes ao mesmo tempo e revisa a qualidade antes de entregar.</p></div>
-    </div>
-  </div>
-</section>
-
-<section id="demo">
-  <div class="wrap">
-    <h2 style="text-align:center">Veja em ação</h2>
-    <p style="color:var(--muted);text-align:center;max-width:560px;margin:0 auto 6px">Você descreve o que quer em português — o AIEOS decide o tamanho, quem cuida e como entregar.</p>
-    <div class="term">
-      <div class="bar"><i style="background:#ff5f56"></i><i style="background:#ffbd2e"></i><i style="background:#27c93f"></i></div>
-      <div class="body">
-        <span class="p">&gt;</span> <span class="typed">/aieos revise meu código</span>
-        <span class="out">AIEOS: roteando → planejando → 3 agentes em paralelo → revisão → relatório ✓</span>
-      </div>
     </div>
   </div>
 </section>
@@ -139,7 +132,7 @@
     </details>
     <details>
       <summary>O Windows mostrou um aviso azul. É vírus?</summary>
-      <p class="a">Não. O aviso aparece porque o app é novo e ainda não tem assinatura digital. Clique em "Mais informações → Executar assim mesmo". O código é aberto e auditável no GitHub.</p>
+      <p class="a">Não. O aviso aparece só porque o app é novo e ainda não pagou pela assinatura digital da Microsoft — é gratuito e sem fins lucrativos. Clique em "Mais informações → Executar assim mesmo". O código é totalmente aberto (open-source, MIT).</p>
     </details>
     <details>
       <summary>Ele atualiza sozinho?</summary>
@@ -155,5 +148,15 @@
   </div>
 </footer>
 
+<script>
+  // Download button adapts to the visitor's OS (Windows .exe by default, macOS .pkg on a Mac).
+  (function () {
+    var b = document.getElementById('dlbtn');
+    if (b && /Mac/i.test(navigator.platform || navigator.userAgent)) {
+      b.href = 'https://github.com/soulfrosch2001/aieos/releases/latest/download/AIEOS.pkg';
+      b.textContent = '⬇️ Baixar para macOS';
+    }
+  })();
+</script>
 </body>
 </html>
