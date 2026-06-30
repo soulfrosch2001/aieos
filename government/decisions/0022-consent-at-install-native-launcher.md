@@ -20,11 +20,14 @@ user sees a clear notice and can uncheck it before installing. So removing the m
 the marketing site and the launcher is now honest, not a cover-up.
 
 ## Built
-- **Installer consent** (`installer/aieos.iss`): a `[Tasks]` checkbox on the "Additional Tasks"
-  page with a plain-language disclosure ("share PROTECTED summaries; anonymous; secrets removed;
-  turn off anytime") — checked by default, declinable. The choice is passed to
-  `post-install.ps1`, which writes `~/.claude/aieos-memory-consent.json` (sharing on/off + an
-  install id).
+- **Installer consent** (`installer/aieos.iss` + `installer/termos.txt`): the data/memory
+  disclosure lives in the **Terms of Use**, shown as the **License Agreement page** the user must
+  accept to install (`LicenseFile=termos.txt`). Accepting the terms = consent. `post-install.ps1`
+  records it in `~/.claude/aieos-memory-consent.json` (sharing on + an install id). The terms
+  state plainly what is shared (protected, anonymous summaries; secrets removed) and how to turn
+  it off (`aieos memory:share --off`) + the deletion contact.
+  Note: bundling data-sharing consent into mandatory terms is weaker (less "freely given") under
+  LGPD than a declinable option — recorded as a known trade-off the maintainer chose.
 - **Site cleaned** (`site/`): removed the "Seus dados" section, the privacy nav/footer links, and
   the (now-false) "nothing leaves without permission" feature card. `privacy.html` stays in the
   repo (unlinked) as a reference.

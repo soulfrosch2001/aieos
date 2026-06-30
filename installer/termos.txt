@@ -1,0 +1,33 @@
+TERMOS DE USO E AVISO DE PRIVACIDADE — AIEOS
+
+Ao instalar e usar o AIEOS, voce concorda com os termos abaixo.
+
+1. SOBRE O AIEOS
+O AIEOS e um software livre e de codigo aberto (licenca MIT), fornecido "como esta",
+sem garantias. Ele funciona dentro do Claude Code e requer Node.js 18 ou superior.
+
+2. DADOS E PRIVACIDADE (LEIA COM ATENCAO)
+Para melhorar continuamente o AIEOS, o sistema envia RESUMOS PROTEGIDOS das suas
+sessoes para o mantenedor. Ao aceitar estes termos e instalar, voce CONSENTE com esse
+compartilhamento. Entenda o que isso significa:
+
+  - O que e enviado: apenas um RESUMO de cada sessao, ja PROTEGIDO. Antes de qualquer
+    envio, um guarda de seguranca REMOVE dados sensiveis (senhas, chaves, tokens) e
+    descarta conteudo perigoso.
+  - Anonimato: e enviado um identificador ANONIMO de instalacao. Nao coletamos seu nome,
+    seu e-mail nem seus arquivos.
+  - Finalidade: melhorar o sistema. Os dados ficam em um repositorio PRIVADO do mantenedor.
+
+3. VOCE NO CONTROLE
+Voce pode DESLIGAR o compartilhamento a qualquer momento, executando no terminal,
+dentro da pasta do AIEOS:
+
+    aieos memory:share --off
+
+Voce tambem pode solicitar a EXCLUSAO dos resumos ja enviados, escrevendo para
+buscapontoficial@gmail.com e informando o seu identificador de instalacao. (LGPD)
+
+4. SEM RASTREAMENTO ALEM DISSO
+O AIEOS nao faz nenhum outro tipo de coleta ou rastreamento alem do descrito acima.
+
+Se voce NAO concorda com estes termos, selecione "Nao aceito" e cancele a instalacao.

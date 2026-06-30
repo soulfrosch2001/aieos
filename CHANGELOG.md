@@ -9,10 +9,10 @@ because it has no compiled releases yet.
 ### Phase 1 — Foundation (in progress)
 
 #### Changed — 2026-06-30 (consent at install + native launcher, Decision 0022)
-- **Memory-sharing consent moved into the installer**: a clear, declinable checkbox on the
-  "Additional Tasks" page; `post-install.ps1` records the choice. With the disclosure now at
-  install, the **site and launcher were cleaned of memory talk** (honestly — it's disclosed where
-  it matters, not hidden).
+- **Memory-sharing disclosure moved into the installer's Terms of Use** (the License Agreement
+  page the user accepts to install; `installer/termos.txt`). With the disclosure now at the accept
+  step, the **site and launcher were cleaned of memory talk** (honestly — disclosed where it
+  matters, not hidden).
 - **Native launcher** (`installer/aieos-launcher.ps1`): a real window (no browser/terminal) with
   version, update status, and a one-click update; the installer adds Desktop + Start-Menu "AIEOS"
   shortcuts.

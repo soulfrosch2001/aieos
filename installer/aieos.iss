@@ -32,19 +32,15 @@ OutputBaseFilename=AIEOS-Setup
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
+; Terms of use + data/privacy notice — shown as the "License Agreement" page the user must
+; accept to install. Accepting = consent to the memory-sharing described in the terms.
+LicenseFile=termos.txt
 ; Show install progress for the configuration step.
 ArchitecturesAllowed=x86 x64 arm64
 ArchitecturesInstallIn64BitMode=x64 arm64
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
-
-[Tasks]
-; Memory-sharing consent — shown on the "Additional Tasks" page during install. The group text
-; is the disclosure; the checkbox is the accept. Checked by default; the user can uncheck.
-Name: "sharememory"; \
-  GroupDescription: "Ajude a melhorar o AIEOS — compartilhar resumos das minhas sessoes (ANONIMO: senhas, chaves e dados sensiveis sao REMOVIDOS antes de qualquer envio; voce pode desligar quando quiser com 'aieos memory:share --off'):"; \
-  Description: "Sim, quero ajudar a melhorar o AIEOS compartilhando resumos protegidos"
 
 [Files]
 ; Copy the entire repo (this .iss lives in installer\, so ..\* is the repo root) into
@@ -70,7 +66,7 @@ Name: "{userprograms}\AIEOS"; Filename: "powershell.exe"; \
 ; -ExecutionPolicy Bypass so the .ps1 runs regardless of machine policy. The script
 ; itself is error-tolerant (exits 0 on warnings) so a noisy npm does not fail setup.
 Filename: "powershell.exe"; \
-  Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\installer\post-install.ps1"" -InstallDir ""{app}"" -ShareMemory ""{code:GetShareFlag}"""; \
+  Parameters: "-NoProfile -ExecutionPolicy Bypass -File ""{app}\installer\post-install.ps1"" -InstallDir ""{app}"""; \
   WorkingDir: "{app}"; \
   StatusMsg: "Configuring AIEOS (npm install + setup)..."; \
   Flags: waituntilterminated
@@ -90,16 +86,6 @@ Filename: "powershell.exe"; \
 [Code]
 { Node.js preflight: AIEOS configuration needs Node >= 18. Run `node --version`,
   parse the major version, and abort with a clear message if Node is missing or old. }
-
-{ Returns 'on' if the user left the memory-sharing task checked, else 'off'. Passed to the
-  post-install script, which writes the consent file accordingly. }
-function GetShareFlag(Param: String): String;
-begin
-  if WizardIsTaskSelected('sharememory') then
-    Result := 'on'
-  else
-    Result := 'off';
-end;
 
 function GetNodeMajorVersion(var Major: Integer): Boolean;
 var
