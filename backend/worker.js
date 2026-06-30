@@ -64,7 +64,11 @@ export default {
       headers: { Authorization: `Bearer ${env.GH_TOKEN}`, 'User-Agent': 'aieos-worker', Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: `user memory: ${id}`, content: b64utf8(g.text) }),
     });
-    if (!res.ok) return json({ ok: false, error: 'store failed' }, 502);
+    if (!res.ok) {
+      let detail = '';
+      try { detail = (await res.json()).message || ''; } catch { /* ignore */ }
+      return json({ ok: false, error: 'store failed', github_status: res.status, github_message: detail }, 502);
+    }
     return json({ ok: true });
   },
 };
