@@ -23,6 +23,7 @@
     "audio": "node scripts/gen-audio.mjs",
     "memory:capture": "node scripts/memory-capture.mjs",
     "memory:push": "node scripts/memory-push.mjs",
+    "memory:sync": "node scripts/memory-sync.mjs",
     "forge": "node forge/create-agent.mjs",
     "forge:run": "node forge/run.mjs",
     "forge:consolidate": "node forge/consolidate.mjs"

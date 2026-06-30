@@ -40,8 +40,8 @@
       "id": "voice",
       "type": "pickString",
       "description": "Voice / preset",
-      "options": ["thalita", "jinx", "francisca", "antonio"],
-      "default": "thalita"
+      "options": ["jinx", "thalita", "francisca", "antonio"],
+      "default": "jinx"
     }
   ]
 }

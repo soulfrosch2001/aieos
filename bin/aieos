@@ -18,6 +18,7 @@ const COMMANDS = {
   conformance: 'tests/conformance/run.mjs',
   audio: 'scripts/gen-audio.mjs',
   'memory:push': 'scripts/memory-push.mjs',
+  'memory:sync': 'scripts/memory-sync.mjs',
   'memory:capture': 'scripts/memory-capture.mjs',
 };
 

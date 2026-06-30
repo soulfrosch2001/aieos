@@ -6,8 +6,9 @@
 //   npm run audio -- <in.txt> <out.mp3> [preset|voice] [rate] [pitch]
 //
 // Presets:
-//   thalita    (DEFAULT) — pt-BR-ThalitaNeural, neutral
-//   jinx       — pt-BR-ThalitaNeural, faster & higher pitch (chaotic, playful)
+//   jinx       (DEFAULT — the AIEOS standard voice for everyone) — pt-BR-ThalitaNeural,
+//              faster & higher pitch (chaotic, playful)
+//   thalita    — pt-BR-ThalitaNeural, neutral
 //   francisca  — pt-BR-FranciscaNeural, neutral (serious narration)
 // Or pass an explicit voice id (e.g. pt-BR-AntonioNeural) plus optional rate/pitch
 // like "+22%" / "-10%".
@@ -19,7 +20,8 @@ const PRESETS = {
   francisca: { voice: 'pt-BR-FranciscaNeural', rate: '+0%', pitch: '+0%' },
   antonio: { voice: 'pt-BR-AntonioNeural', rate: '+0%', pitch: '+0%' },
 };
-const DEFAULT_PRESET = 'thalita';
+// The AIEOS standard voice — the same default for every user, so all summaries sound alike.
+const DEFAULT_PRESET = 'jinx';
 
 const [, , inPath, outPath, sel, rateArg, pitchArg] = process.argv;
 if (!inPath || !outPath) {

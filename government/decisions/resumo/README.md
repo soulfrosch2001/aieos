@@ -23,8 +23,9 @@ npm install      # once, to enable the audio tool (installs msedge-tts)
 npm run audio -- government/decisions/resumo/audio/0001-resumo.txt government/decisions/resumo/audio/0001-resumo.mp3
 ```
 
-The default preset is **`thalita`** (`pt-BR-ThalitaNeural`, neutral). Pass a different
-preset or voice as the third argument: `thalita` (default), `jinx` (faster/higher pitch —
-playful/chaotic), `francisca` (neutral/serious), `antonio`, or an explicit voice id;
+The default preset is **`jinx`** (`pt-BR-ThalitaNeural`, faster/higher pitch) — the AIEOS
+standard voice, identical for every user. Pass a different
+preset or voice as the third argument: `jinx` (default), `thalita` (neutral),
+`francisca` (neutral/serious), `antonio`, or an explicit voice id;
 optional rate/pitch follow (e.g. `+22%`). See
 [../../../scripts/gen-audio.mjs](../../../scripts/gen-audio.mjs).

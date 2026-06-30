@@ -16,6 +16,7 @@
 // It NEVER throws into the session: any error is swallowed and it exits 0. For manual use:
 //   node scripts/memory-capture.mjs --transcript <file.jsonl> --session <id>
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import guard from './lib/memory-guard.mjs';
@@ -59,10 +60,15 @@ if (!transcript || !fs.existsSync(transcript)) fail('no transcript path');
 //   - inside the AIEOS repo (or its mount parent)   → AIEOS's own memory/ledger
 //   - a project AIEOS supports (has a resumo/ folder) → that project's resumo/ledger
 //   - anything else                                  → skip (don't collect)
+// A private central memory store (~/.claude/aieos-memory), if present, is where AIEOS-context
+// memory goes — keeping conversation summaries OUT of the public code repo and in one private
+// place the admin machine can pull. Falls back to the code repo's local ledger if absent.
+const MEMORY_REPO = path.join(os.homedir(), '.claude', 'aieos-memory');
+const central = fs.existsSync(MEMORY_REPO) ? path.join(MEMORY_REPO, 'ledger') : null;
 const rcwd = path.resolve(cwd);
 let LEDGER;
 if (rcwd === AIEOS_ROOT || rcwd.startsWith(AIEOS_ROOT + path.sep) || rcwd === path.dirname(AIEOS_ROOT)) {
-  LEDGER = path.join(AIEOS_ROOT, 'memory', 'ledger');
+  LEDGER = central || path.join(AIEOS_ROOT, 'memory', 'ledger');
 } else if (fs.existsSync(path.join(rcwd, 'resumo'))) {
   LEDGER = path.join(rcwd, 'resumo', 'ledger');
 } else {

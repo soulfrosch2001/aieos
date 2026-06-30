@@ -36,9 +36,10 @@ try {
   }
 } catch { /* fail-silent */ }
 
-// 2) Push captured memory to GitHub. memory-push.mjs re-runs the security guard and
-//    refuses anything unsafe; with no git remote it exits cleanly (end users stay local).
-try { run('memory-push.mjs'); } catch { /* fail-silent */ }
+// 2) Sync captured memory to the PRIVATE memory repo (~/.claude/aieos-memory). memory-sync.mjs
+//    re-runs the security guard and refuses anything unsafe; if the private store isn't present
+//    (e.g. an end user with no access) it exits cleanly and memory stays local.
+try { run('memory-sync.mjs'); } catch { /* fail-silent */ }
 
 state.lastSync = now;
 try { fs.mkdirSync(path.dirname(stampFile), { recursive: true }); fs.writeFileSync(stampFile, JSON.stringify(state)); } catch { /* ignore */ }

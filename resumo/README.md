@@ -19,6 +19,6 @@ contexts (every recorded discussion gets a spoken summary); only the **location*
 | AIEOS operating on itself (this repo) | `government/decisions/resumo/audio/` |
 | AIEOS supporting another project | this `resumo/` folder (the support root) |
 
-Generate with `npm run audio` (default voice: thalita). See
+Generate with `npm run audio` (default voice: jinx — the AIEOS standard for everyone). See
 [../scripts/gen-audio.mjs](../scripts/gen-audio.mjs) and the doctrine entry in
 [../kernel/laws/operating-doctrine.md](../kernel/laws/operating-doctrine.md).

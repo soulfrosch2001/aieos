@@ -8,6 +8,17 @@ because it has no compiled releases yet.
 
 ### Phase 1 — Foundation (in progress)
 
+#### Added — 2026-06-30 (private memory store + standard voice, Decision 0018)
+- **Private memory pipeline:** guarded conversation memory now goes to a **private** repo
+  (`aieos-memory`), separate from the public code repo — capture writes to
+  `~/.claude/aieos-memory/ledger/`, `aieos memory:sync` re-guards and pushes it, and the
+  autopilot syncs there. The admin machine reads memory by cloning that private repo. End users
+  without access keep memory **local**. (Reconciles the collection that going-public had disabled.)
+- **Standard audio voice:** the audio default is now **`jinx`** everywhere — one AIEOS voice for
+  every user, no configuration needed (aligned code, READMEs, and `.vscode/tasks.json`).
+- **Designed** end-user memory collection (opt-in + backend + consent) in
+  `docs/memory-collection.md` — a separate, not-yet-deployed step.
+
 #### Fixed — 2026-06-29 (council review + hardening, Decision 0017)
 - **Security:** purged a personal voice recording that had become publicly accessible (history
   rewrite + force-push; GitHub now 404). Ignore `*.m4a`/`*.wav` in decision audio; exclude
