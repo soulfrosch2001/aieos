@@ -15,6 +15,7 @@ const COMMANDS = {
   teardown: 'scripts/teardown-command.mjs',
   update: 'scripts/update.mjs',
   status: 'scripts/status.mjs',
+  hub: 'scripts/hub.mjs',
   conformance: 'tests/conformance/run.mjs',
   audio: 'scripts/gen-audio.mjs',
   'memory:push': 'scripts/memory-push.mjs',

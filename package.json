@@ -17,6 +17,7 @@
     "teardown": "node scripts/teardown-command.mjs",
     "update": "node scripts/update.mjs",
     "status": "node scripts/status.mjs",
+    "hub": "node scripts/hub.mjs",
     "test": "node tests/conformance/run.mjs",
     "conformance": "node tests/conformance/run.mjs",
     "conformance:all": "node tests/conformance/run.mjs --include-legacy",

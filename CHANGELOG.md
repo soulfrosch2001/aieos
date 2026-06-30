@@ -8,6 +8,11 @@ because it has no compiled releases yet.
 
 ### Phase 1 — Foundation (in progress)
 
+#### Added — 2026-06-30 (visual hub)
+- **`aieos hub`**: a local, private control panel (opens in the browser, no extra dependencies)
+  that shows whether the system is up to date, the quality-rule count, and memory status — and
+  updates the system with one click. Local-only server (127.0.0.1).
+
 #### Added — 2026-06-30 (memory report tool)
 - **`aieos memory:report`**: a one-glance panel of the private memory repo — how many opt-in
   users are sharing, total memories, your own session entries, and quarantined items. Pulls the
