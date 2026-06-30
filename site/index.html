@@ -55,6 +55,44 @@
   </div>
 </section>
 
+<section id="demo">
+  <div class="wrap">
+    <h2 style="text-align:center">Veja em ação</h2>
+    <p style="color:var(--muted);text-align:center;max-width:560px;margin:0 auto 6px">Você descreve o que quer em português — o AIEOS decide o tamanho, quem cuida e como entregar.</p>
+    <div class="term">
+      <div class="bar"><i style="background:#ff5f56"></i><i style="background:#ffbd2e"></i><i style="background:#27c93f"></i></div>
+      <div class="body">
+        <span class="p">&gt;</span> <span class="typed">/aieos revise meu código</span>
+        <span class="out">AIEOS: roteando → planejando → 3 agentes em paralelo → revisão → relatório ✓</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="para-quem">
+  <div class="wrap">
+    <h2>Para quem é</h2>
+    <div class="who">
+      <div class="card yes">
+        <h3>✅ É pra você se…</h3>
+        <ul>
+          <li>você já usa (ou quer usar) o <b>Claude Code</b>;</li>
+          <li>quer organizar tarefas de IA como uma equipe, não um chat solto;</li>
+          <li>topa instalar o Node.js (1 clique) para rodar.</li>
+        </ul>
+      </div>
+      <div class="card no">
+        <h3>⛔ Talvez ainda não se…</h3>
+        <ul>
+          <li>você nunca usou o Claude Code (o AIEOS funciona <b>dentro</b> dele);</li>
+          <li>procura um app "stand-alone" que abre sozinho;</li>
+          <li>não quer instalar pré-requisitos.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="download">
   <div class="wrap">
     <h2>Download</h2>
@@ -64,8 +102,9 @@
       <p style="max-width:480px;margin:6px auto 0">O jeito recomendado. Baixe o <b>.exe</b>, rode, e está
       pronto — ele instala e se configura sozinho.</p>
       <p style="margin-top:18px"><a class="btn" href="https://github.com/soulfrosch2001/aieos/releases/latest/download/AIEOS-Setup.exe" download>⬇️ Baixar o instalador</a></p>
-      <p class="req" style="margin-top:12px">Requisitos: Windows + Node.js 18+ + Claude Code ·
-      desenvolvedores: <a href="https://github.com/soulfrosch2001/aieos">código no GitHub</a></p>
+      <p class="req" style="margin-top:12px">Requisitos: Windows + Node.js 18+ + Claude Code</p>
+      <p class="req" style="margin-top:4px">🍎 No macOS? Baixe o <a href="https://github.com/soulfrosch2001/aieos/releases/latest">.pkg na página de releases</a>
+      · 📦 desenvolvedores: <a href="https://github.com/soulfrosch2001/aieos">código no GitHub</a></p>
     </div>
     <div class="note" style="margin-top:16px">⚠️ Como o app ainda é novo e não está assinado, o Windows pode mostrar
     “O Windows protegeu o seu PC” — clique em <b>“Mais informações” → “Executar assim mesmo”</b>. É seguro.</div>
@@ -80,6 +119,36 @@
       <div class="step"><b>2</b><div><h3 style="margin:2px 0;color:#111a2e">Rode o instalador do AIEOS</h3>Dois cliques no <code class="k">.exe</code>. Ele instala e se configura sozinho.</div></div>
       <div class="step"><b>3</b><div><h3 style="margin:2px 0;color:#111a2e">Digite <code class="k">/aieos</code> no Claude Code</h3>Abra qualquer projeto e descreva o que quer. O AIEOS assume e conduz.</div></div>
     </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Perguntas frequentes</h2>
+    <details>
+      <summary>Preciso pagar alguma coisa?</summary>
+      <p class="a">Não. O AIEOS é gratuito e open-source (licença MIT). Você só precisa do Claude Code e do Node.js, que também são gratuitos.</p>
+    </details>
+    <details>
+      <summary>Preciso saber programar?</summary>
+      <p class="a">Para instalar, não — é só rodar o instalador. Para usar bem, ajuda estar confortável com o Claude Code, já que o AIEOS funciona dentro dele.</p>
+    </details>
+    <details>
+      <summary>Funciona no Mac e no Linux?</summary>
+      <p class="a">Tem instalador para <b>Windows</b> (.exe) e <b>macOS</b> (.pkg). No Linux, dá para rodar a partir do código-fonte (clone do repositório).</p>
+    </details>
+    <details>
+      <summary>O Windows mostrou um aviso azul. É vírus?</summary>
+      <p class="a">Não. O aviso aparece porque o app é novo e ainda não tem assinatura digital. Clique em "Mais informações → Executar assim mesmo". O código é aberto e auditável no GitHub.</p>
+    </details>
+    <details>
+      <summary>Ele atualiza sozinho?</summary>
+      <p class="a">Sim. A partir desta versão, novas atualizações chegam automaticamente — você não precisa baixar nada de novo.</p>
+    </details>
+    <details>
+      <summary>Como desligo o compartilhamento de resumos?</summary>
+      <p class="a">Rode <code class="k">aieos memory:share --off</code> a qualquer momento. Veja a <a href="privacy.html">página de privacidade</a> para todos os detalhes.</p>
+    </details>
   </div>
 </section>
 

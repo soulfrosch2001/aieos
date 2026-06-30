@@ -39,5 +39,31 @@ h2{font-size:26px;color:var(--navy);margin:0 0 16px}
 code.k{background:#eef1ff;color:var(--blue);padding:2px 8px;border-radius:6px;font-family:Consolas,monospace;font-weight:600}
 .note{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:14px 18px;font-size:14.5px}
 .note b{color:#b45309}
+/* terminal + typing */
+.term{margin:14px auto 0;max-width:620px;border-radius:12px;overflow:hidden;border:1px solid #0b1220;box-shadow:0 12px 28px rgba(17,26,46,.18)}
+.term .bar{background:#0b1220;padding:9px 14px;display:flex;gap:7px}
+.term .bar i{width:11px;height:11px;border-radius:50%;display:block}
+.term .body{background:#0e1726;color:#cfe3ff;padding:18px;font-family:'Cascadia Code',Consolas,monospace;font-size:15px;line-height:1.8;min-height:96px}
+.term .body .p{color:#3a2bff;font-weight:700}
+.typed{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;width:0;
+  border-right:2px solid #3a2bff;animation:typing 2.2s steps(24,end) .6s forwards, blink .8s step-end infinite}
+.term .out{display:block;color:#6b7a99;opacity:0;animation:fadein .6s ease 3.1s forwards}
+@keyframes typing{to{width:24ch}}
+@keyframes blink{50%{border-color:transparent}}
+@keyframes fadein{to{opacity:1}}
+/* who is it for */
+.who{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.who .card{border-top:none}
+.who .yes{border-left:4px solid var(--ok)}
+.who .no{border-left:4px solid #ef4444}
+.who ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:14.5px}
+.who li{margin:4px 0}
+/* faq */
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:2px 18px;margin:10px 0}
+details summary{cursor:pointer;font-weight:600;color:var(--navy);padding:14px 0;list-style:none;outline:none}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:'+';color:var(--blue);font-weight:700;margin-right:10px}
+details[open] summary::before{content:'\2212'}
+details .a{color:var(--muted);margin:0 0 16px;font-size:14.5px}
 footer{border-top:1px solid var(--line);margin-top:30px;padding:26px 0;color:var(--muted);font-size:13.5px;text-align:center}
 @media(max-width:680px){.grid{grid-template-columns:1fr}.hero .wordmark{font-size:40px;letter-spacing:8px}.nav .links{display:none}}
