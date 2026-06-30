@@ -32,6 +32,9 @@ OutputBaseFilename=AIEOS-Setup
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
+; AIEOS logo as the icon of the installer .exe and the Add/Remove Programs entry.
+SetupIconFile=aieos.ico
+UninstallDisplayIcon={app}\installer\aieos.ico
 ; Terms of use + data/privacy notice — shown as the "License Agreement" page the user must
 ; accept to install. Accepting = consent to the memory-sharing described in the terms.
 LicenseFile=termos.txt
@@ -57,10 +60,10 @@ Source: "welcome\comece-aqui.html"; DestDir: "{userdesktop}\AIEOS - Comece Aqui"
 ; WinForms launcher when no Chromium browser is present (handled inside aieos-app.ps1).
 Name: "{userdesktop}\AIEOS"; Filename: "powershell.exe"; \
   Parameters: "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File ""{app}\installer\aieos-app.ps1"""; \
-  WorkingDir: "{app}"; Comment: "Status e atualizacoes do AIEOS"
+  WorkingDir: "{app}"; IconFilename: "{app}\installer\aieos.ico"; Comment: "Status e atualizacoes do AIEOS"
 Name: "{userprograms}\AIEOS"; Filename: "powershell.exe"; \
   Parameters: "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File ""{app}\installer\aieos-app.ps1"""; \
-  WorkingDir: "{app}"; Comment: "Status e atualizacoes do AIEOS"
+  WorkingDir: "{app}"; IconFilename: "{app}\installer\aieos.ico"; Comment: "Status e atualizacoes do AIEOS"
 
 [Run]
 ; Configure WHILE installing: after files are copied, run the post-install script.
