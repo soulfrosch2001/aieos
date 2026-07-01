@@ -131,10 +131,10 @@ $xaml = @'
 
           <!-- Right side nav -->
           <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-            <TextBlock x:Name="navGuide" Text="Guia" Cursor="Hand" Foreground="#a7b2c9"
-                       FontSize="13" VerticalAlignment="Center" Margin="0,0,22,0"/>
-            <TextBlock x:Name="navAbout" Text="Sobre" Cursor="Hand" Foreground="#a7b2c9"
-                       FontSize="13" VerticalAlignment="Center" Margin="0,0,22,0"/>
+            <TextBlock x:Name="navGuide" Text="Guia" Cursor="Hand" Background="Transparent" Foreground="#a7b2c9"
+                       FontSize="13" VerticalAlignment="Center" Padding="6,4" Margin="0,0,16,0"/>
+            <TextBlock x:Name="navAbout" Text="Sobre" Cursor="Hand" Background="Transparent" Foreground="#a7b2c9"
+                       FontSize="13" VerticalAlignment="Center" Padding="6,4" Margin="0,0,22,0"/>
             <Border Background="#141d3a" CornerRadius="20" Padding="14,7" Margin="0,0,16,0">
               <StackPanel Orientation="Horizontal">
                 <Ellipse x:Name="dot" Width="9" Height="9" Fill="#8893ab" VerticalAlignment="Center"/>
@@ -142,10 +142,10 @@ $xaml = @'
                            VerticalAlignment="Center" Margin="8,0,0,0"/>
               </StackPanel>
             </Border>
-            <TextBlock x:Name="minBtn" Text="&#x2013;" Cursor="Hand" Foreground="#a7b2c9"
-                       FontSize="15" FontWeight="Bold" VerticalAlignment="Center" Padding="8,2" Margin="0,0,4,0"/>
-            <TextBlock x:Name="closeBtn" Text="&#x2715;" Cursor="Hand" Foreground="#a7b2c9"
-                       FontSize="15" VerticalAlignment="Center" Padding="8,2"/>
+            <TextBlock x:Name="minBtn" Text="&#x2013;" Cursor="Hand" Background="Transparent" Foreground="#a7b2c9"
+                       FontSize="15" FontWeight="Bold" VerticalAlignment="Center" Padding="9,4" Margin="0,0,4,0"/>
+            <TextBlock x:Name="closeBtn" Text="&#x2715;" Cursor="Hand" Background="Transparent" Foreground="#a7b2c9"
+                       FontSize="15" VerticalAlignment="Center" Padding="9,4"/>
           </StackPanel>
         </Grid>
 
@@ -328,7 +328,15 @@ function Set-Dot($hex, [bool]$pulse) {
 }
 
 # ---- top-bar interactions ----
-$topbar.Add_MouseLeftButtonDown({ $win.DragMove() })
+# Drag the window only from the EMPTY top-bar area. Interactive controls in the bar mark
+# button-down as handled so it never bubbles up to DragMove (which captures the mouse and
+# would otherwise swallow their click). Actions fire on button-up as usual.
+$topbar.Add_MouseLeftButtonDown({ try { $win.DragMove() } catch { } })
+$eat = { param($s, $e) $e.Handled = $true }
+$minBtn.Add_MouseLeftButtonDown($eat)
+$closeBtn.Add_MouseLeftButtonDown($eat)
+$navAbout.Add_MouseLeftButtonDown($eat)
+$navGuide.Add_MouseLeftButtonDown($eat)
 $minBtn.Add_MouseLeftButtonUp({ $win.WindowState = 'Minimized' })
 $closeBtn.Add_MouseLeftButtonUp({ $win.Close() })
 $navAbout.Add_MouseLeftButtonUp({ $ov.Visibility = 'Visible' })
