@@ -24,6 +24,27 @@ jobs:
       - name: Install Inno Setup
         run: choco install innosetup -y --no-progress
 
+      - name: Build AIEOS.exe launcher (PS2EXE, no-console GUI subsystem)
+        shell: pwsh
+        run: |
+          Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+          Install-Module -Name ps2exe -Scope CurrentUser -Force -AllowClobber
+          Import-Module ps2exe
+          Invoke-ps2exe -inputFile installer\aieos-launcher.ps1 -outputFile installer\AIEOS.exe `
+            -noConsole -iconFile installer\aieos.ico -title 'AIEOS' -product 'AIEOS' -company 'AIEOS' -STA
+          if (-not (Test-Path installer\AIEOS.exe)) { throw "AIEOS.exe was not produced" }
+          Get-Item installer\AIEOS.exe | Format-List Name,Length,LastWriteTime
+
+      - name: Sign AIEOS.exe launcher (only if a code-signing cert is configured)
+        if: ${{ env.WINDOWS_CERT_BASE64 != '' }}
+        shell: pwsh
+        run: |
+          $pfx = Join-Path $env:RUNNER_TEMP "aieos-cert.pfx"
+          [IO.File]::WriteAllBytes($pfx, [Convert]::FromBase64String($env:WINDOWS_CERT_BASE64))
+          $signtool = (Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin\*\x64\signtool.exe" |
+            Sort-Object FullName -Descending | Select-Object -First 1).FullName
+          & $signtool sign /f $pfx /p $env:WINDOWS_CERT_PASSWORD /fd sha256 /tr http://timestamp.digicert.com /td sha256 installer\AIEOS.exe
+
       - name: Compile installer
         shell: pwsh
         run: |

@@ -1,0 +1,9 @@
+Resumo da decisão zero zero vinte e quatro do AIEOS: o programa agora é nativo.
+
+Você deixou claro que o AIEOS precisa ser um programa de verdade do Windows, e não uma página HTML aberta dentro do navegador. Isso substitui a escolha anterior, da decisão vinte e três, que usava o hub em HTML como programa oficial.
+
+Agora o visual Navy Aurora foi feito como um aplicativo nativo, em WPF, a tecnologia de aplicativos do Windows. Mantivemos exatamente a mesma aparência: a aurora nas bordas, o título com degradê, o botão grande brilhando e o ponto de status que pulsa. Só que sem navegador, sem servidor local e sem depender do Edge.
+
+A construção foi feita por dois agentes qualificados. Um engenheiro de WPF montou a janela nativa e validou que ela renderiza sem erros, com todos os elementos no lugar. Depois, um revisor de qualidade auditou tudo, removeu uma gambiarra de cor, conferiu os três estados, as cores do botão e a animação do ponto, e gerou uma imagem provando o resultado.
+
+O atalho na área de trabalho, com o ícone do logo, abre esse programa nativo. É o ponto de acesso do usuário para as futuras atualizações. O hub em HTML continua existindo pelo comando aieos hub, mas não é mais o programa oficial. O portão de qualidade passou: quatorze regras, zero erros.

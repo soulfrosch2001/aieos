@@ -9,6 +9,8 @@ npm-debug.log*
 installer/Output/
 installer/macos/build/
 installer/macos/Output/
+# The clickable launcher exe (compiled from aieos-launcher.ps1 by PS2EXE in CI).
+installer/AIEOS.exe
 *.exe
 *.pkg
 

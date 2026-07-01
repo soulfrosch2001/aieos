@@ -56,14 +56,14 @@ Source: "welcome\comece-aqui.html"; DestDir: "{userdesktop}\AIEOS - Comece Aqui"
 
 [Icons]
 ; A clickable "AIEOS" program (Desktop + Start Menu) that opens the modern "Navy Aurora" hub
-; window (status + one-click update) — no terminal, no browser tab. Falls back to the native
-; WinForms launcher when no Chromium browser is present (handled inside aieos-app.ps1).
-Name: "{userdesktop}\AIEOS"; Filename: "powershell.exe"; \
-  Parameters: "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File ""{app}\installer\aieos-app.ps1"""; \
-  WorkingDir: "{app}"; IconFilename: "{app}\installer\aieos.ico"; Comment: "Status e atualizacoes do AIEOS"
-Name: "{userprograms}\AIEOS"; Filename: "powershell.exe"; \
-  Parameters: "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File ""{app}\installer\aieos-app.ps1"""; \
-  WorkingDir: "{app}"; IconFilename: "{app}\installer\aieos.ico"; Comment: "Status e atualizacoes do AIEOS"
+; window (status + one-click update) — no terminal, no browser tab. This launches the compiled
+; GUI-subsystem AIEOS.exe (built from aieos-launcher.ps1 by PS2EXE in CI): a real Windows app,
+; so there is NO powershell.exe and NO console/cmd window flash at all. The exe embeds the AIEOS
+; logo; IconFilename is set anyway so the shortcut shows the logo before first launch.
+Name: "{userdesktop}\AIEOS"; Filename: "{app}\installer\AIEOS.exe"; \
+  WorkingDir: "{app}"; IconFilename: "{app}\installer\aieos.ico"; AppUserModelID: "AIEOS.App"; Comment: "Status e atualizacoes do AIEOS"
+Name: "{userprograms}\AIEOS"; Filename: "{app}\installer\AIEOS.exe"; \
+  WorkingDir: "{app}"; IconFilename: "{app}\installer\aieos.ico"; AppUserModelID: "AIEOS.App"; Comment: "Status e atualizacoes do AIEOS"
 
 [Run]
 ; Configure WHILE installing: after files are copied, run the post-install script.

@@ -1,0 +1,9 @@
+Resumo da decisão zero zero vinte e cinco do AIEOS: o programa nativo virou um executável de verdade e passou por um teste do conselho.
+
+Primeiro, empacotamos o launcher nativo num AIEOS ponto exe, usando PS2EXE. Ele é do subsistema gráfico do Windows, então não abre nenhum console, nenhum cmd pisca ao clicar. O ícone do logo fica embutido, e o atalho na área de trabalho aponta direto para o exe, sem powershell.
+
+Depois, o conselho testou o programa em quatro frentes: qualidade funcional, experiência, integração com o Windows e confiabilidade. Eles acharam problemas reais. O mais grave: quando o script vira exe, a variável de caminho fica vazia, então o programa não encontrava os arquivos. Outros: o update travava a janela porque rodava na thread da interface; os erros ficavam invisíveis; a comparação de versão era por texto, com risco de baixar uma versão mais antiga; faltava trava de instância única; e o exe interno não era assinado.
+
+Aí três engenheiros corrigiram tudo em paralelo, cada um no seu arquivo. O primeiro consertou o launcher: caminho seguro sob PS2EXE, update assíncrono sem travar, erros aparecendo na tela, comparação numérica de versão, trava de instância única, e todos os acentos do português com codificação correta, além de ícone e nome na barra de tarefas, botão de minimizar e o texto certo nos botões. O segundo cuidou do CI e do instalador: assina o exe interno e dá identidade na barra de tarefas. O terceiro deixou o atualizador falar claro, com mensagens de erro e sucesso em português.
+
+Validamos de verdade: um teste compilado provou que o caminho agora resolve certo e lê a versão. A janela abre sem console nenhum, e o portão de qualidade passou: quatorze regras, zero erros.
