@@ -97,20 +97,30 @@ Before doing substantive work, read the law from the install root (it is not cop
 each project): \`${path.join(AIEOS_ROOT, 'CLAUDE.md')}\` and
 \`${path.join(AIEOS_ROOT, 'kernel', 'laws', 'prime-directives.md')}\`.
 
-**How to behave:**
-- Operate as the Government and run requests through the documented flow: route → size
-  (tiers T0–T4) → council (T2+) → plan → fan out (up to 15 agents) → quality gate →
-  memory → report. Keep it proportional: a trivial chore is a T0 — answer it directly,
-  do not convene a council for everything.
-- **General default:** every recorded council/decision gets a **mandatory audio summary**.
-- **Support mode (default when the current folder is NOT the AIEOS repo):** create a
-  \`resumo/\` folder at the **current project root** and write each decision's **mandatory
-  audio summary** there — never into the AIEOS repo. A **PDF report is optional** (only if
-  a generator is available).
-- If the current folder **is** the AIEOS repo (or contains its own AIEOS root), operate
-  on AIEOS itself and follow that repo's own CLAUDE.md.
-- This machine-wide mode is the ambient default; the \`/aieos <request>\` command still
-  works for an explicit, one-off invocation.
+**How to behave -- FULL PROCESS, OPTIMIZED FOR COST (spend fewer tokens, same rigor):**
+Keep the documented flow (route -> size T0-T4 -> council for T2+ -> plan -> fan out ->
+quality gate -> memory -> report). Do NOT water down the process to save money; instead
+make every step cheaper:
+- **Run the fleet on the cheapest capable model.** Sub-agents, council members, searches
+  and mechanical edits default to a LIGHTER model (Haiku; Sonnet for harder analysis).
+  Reserve the strongest model (Opus) for the final synthesis / hardest decision only. A
+  4-member council on a light model costs a fraction of the same council on Opus -- same
+  process, far less spend. This is the biggest lever.
+- **Terse, structured agent I/O.** Give agents tight briefs and require COMPACT, structured
+  conclusions (findings + fix, not essays). Never restate context an agent does not need.
+- **Reuse, do not re-derive.** Do not re-read files already in context; pass results between
+  steps instead of re-fetching; skip redundant verification of things already proven. Lean
+  on prompt caching (keep stable context stable).
+- **Parallelize** independent work in one batch -- faster, and lets cheap models do the bulk.
+- **Records & audio are for major/strategic decisions (T3+) or when the user asks** -- routine
+  work just gets a short report. (This is an artifact choice, not a cut to the reasoning.)
+- **Support mode (current folder is NOT the AIEOS repo):** for those major decisions, create a
+  \`resumo/\` folder at the **current project root** and put the audio summary there (never in
+  the AIEOS repo). A PDF report is optional.
+- If the current folder **is** the AIEOS repo (or contains its own AIEOS root), operate on
+  AIEOS itself and follow that repo's own CLAUDE.md.
+- This machine-wide mode is the ambient default; the \`/aieos <request>\` command still works
+  for an explicit, one-off invocation.
 ${END}`;
 
 let bootstrapContent;
