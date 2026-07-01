@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" role="img" aria-label="AIEOS mark (dark background)">
+  <title>AIEOS mark — dark background variant</title>
+  <!-- Icon only (transparent): white "A" peak with a blue "i" — for dark surfaces (the native
+       app, dark UI). Same geometry as aieos-mark.svg; white stroke + the on-dark blue tint
+       (#5a4dff) agreed by the Design Council instead of the light-surface brand blue (#3a2bff). -->
+  <path d="M 70 270 L 200 58 L 330 270" fill="none" stroke="#ffffff"
+        stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="200" cy="180" r="20" fill="#5a4dff"/>
+  <rect x="184" y="216" width="32" height="78" rx="16" fill="#5a4dff"/>
+</svg>

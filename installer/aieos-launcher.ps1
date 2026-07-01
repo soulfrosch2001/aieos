@@ -19,6 +19,10 @@ $exeDir = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent ([Diagn
 $root = Split-Path -Parent $exeDir   # exe/script lives in installer\ -> app root is its parent
 $pkgPath = Join-Path $root 'package.json'
 $script:rootValid = Test-Path $pkgPath
+# Branch to check/update from — override via env var or package.json "updateBranch"; defaults to "main".
+$script:updateBranch = $env:AIEOS_UPDATE_BRANCH
+if (-not $script:updateBranch) { try { $script:updateBranch = (Get-Content $pkgPath -Raw | ConvertFrom-Json).updateBranch } catch { } }
+if (-not $script:updateBranch) { $script:updateBranch = 'main' }
 
 function Get-LocalVer { try { (Get-Content $pkgPath -Raw | ConvertFrom-Json).version } catch { '0.0.0' } }
 function Get-RemoteVer {
@@ -26,7 +30,7 @@ function Get-RemoteVer {
     $url = (Get-Content $pkgPath -Raw | ConvertFrom-Json).repository.url
     if ($url -match 'github\.com[:/]+([^/]+)/([^/.]+)') {
       $slug = "$($Matches[1])/$($Matches[2])"
-      return (Invoke-RestMethod -Uri "https://raw.githubusercontent.com/$slug/main/package.json" -TimeoutSec 6).version
+      return (Invoke-RestMethod -Uri "https://raw.githubusercontent.com/$slug/$($script:updateBranch)/package.json" -TimeoutSec 6).version
     }
   } catch { }
   return $null
@@ -114,7 +118,8 @@ $xaml = @'
             <ColumnDefinition Width="Auto"/>
           </Grid.ColumnDefinitions>
 
-          <!-- Logo + wordmark -->
+          <!-- Logo + wordmark. Geometry mirrors the canonical dark mark at
+               brand/aieos-mark-dark.svg — keep both in sync. -->
           <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
             <Viewbox Width="28" Height="24">
               <Canvas Width="400" Height="320">
@@ -162,7 +167,7 @@ $xaml = @'
             </Canvas>
           </Viewbox>
 
-          <StackPanel Margin="64,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
+          <StackPanel x:Name="heroText" Margin="64,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
             <TextBlock x:Name="eyebrow" Text="AIEOS" Foreground="#a99dff" FontWeight="Bold"
                        FontSize="12" Margin="0,0,0,14">
               <TextBlock.LayoutTransform><ScaleTransform/></TextBlock.LayoutTransform>
@@ -289,6 +294,7 @@ $navGuide = $win.FindName('navGuide')
 $navAbout = $win.FindName('navAbout')
 $dot      = $win.FindName('dot')
 $conn     = $win.FindName('conn')
+$heroText = $win.FindName('heroText')
 $eyebrow  = $win.FindName('eyebrow')
 $head     = $win.FindName('head')
 $lead     = $win.FindName('lead')
@@ -411,6 +417,7 @@ function Invoke-Update {
   $script:updErr = [System.IO.Path]::Combine([System.IO.Path]::GetTempPath(), "aieos-update-err-$PID.log")
 
   try {
+    $env:AIEOS_UPDATE_BRANCH = $script:updateBranch   # inherited by the child node process
     $script:updProc = Start-Process -FilePath $node -ArgumentList $updateScript `
       -WorkingDirectory $root -WindowStyle Hidden -PassThru `
       -RedirectStandardOutput $script:updOut -RedirectStandardError $script:updErr
@@ -453,7 +460,19 @@ function Invoke-Update {
 # ---- state machine ----
 $script:PlayMode = 'check'   # check | update | recheck
 
+# Small crossfade pulse on the hero text whenever the state (headline/lead) changes.
+function Pulse-HeroText {
+  try {
+    $anim = New-Object Windows.Media.Animation.DoubleAnimation
+    $anim.From = 0.35
+    $anim.To = 1
+    $anim.Duration = [Windows.Duration]::new([TimeSpan]::FromMilliseconds(220))
+    $heroText.BeginAnimation([Windows.UIElement]::OpacityProperty, $anim)
+  } catch { }
+}
+
 function Set-CheckingState {
+  Pulse-HeroText
   Set-Dot '#8a7dff' $true
   $conn.Text    = 'verificando…'
   $eyebrow.Text = 'AIEOS'
@@ -463,6 +482,7 @@ function Set-CheckingState {
 }
 
 function Set-RefreshState($local, $remote) {
+  Pulse-HeroText
   $ver.Text = "Versão $local"
 
   if ($null -eq $remote) {
@@ -503,6 +523,7 @@ function Set-RefreshState($local, $remote) {
 # Async refresh: paint "Verificando…" first, then check remotely off-thread and marshal back.
 function Refresh {
   if (-not $script:rootValid) {
+    Pulse-HeroText
     Set-Dot '#ff6b6b' $false
     $conn.Text    = 'erro'
     $eyebrow.Text = 'AIEOS'
@@ -525,12 +546,12 @@ function Refresh {
 
   $ps = [PowerShell]::Create()
   $ps.AddScript({
-    param($slug)
+    param($slug, $branch)
     if (-not $slug) { return $null }
     try {
-      return (Invoke-RestMethod -Uri "https://raw.githubusercontent.com/$slug/main/package.json" -TimeoutSec 6).version
+      return (Invoke-RestMethod -Uri "https://raw.githubusercontent.com/$slug/$branch/package.json" -TimeoutSec 6).version
     } catch { return $null }
-  }).AddArgument($slug) | Out-Null
+  }).AddArgument($slug).AddArgument($script:updateBranch) | Out-Null
 
   $handle = $ps.BeginInvoke()
 

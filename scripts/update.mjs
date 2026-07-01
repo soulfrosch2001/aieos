@@ -86,6 +86,8 @@ function cmpVer(a, b) {
 
 const slug = repoSlug();
 const localVer = readPkg(AIEOS_ROOT).version || '0.0.0';
+// Branch to pull from — override via env var or package.json "updateBranch"; defaults to "main".
+const BRANCH = process.env.AIEOS_UPDATE_BRANCH || readPkg(AIEOS_ROOT).updateBranch || 'main';
 
 if (!slug) {
   fail('nenhum repositório GitHub configurado em package.json ("repository") — atualização automática indisponível.');
@@ -94,7 +96,7 @@ if (!slug) {
 // ---- --check: compare local vs remote version, change nothing ----
 if (CHECK) {
   try {
-    const remote = JSON.parse(await get(`https://raw.githubusercontent.com/${slug}/main/package.json`));
+    const remote = JSON.parse(await get(`https://raw.githubusercontent.com/${slug}/${BRANCH}/package.json`));
     const remoteVer = remote.version || '0.0.0';
     if (cmpVer(remoteVer, localVer) > 0) {
       console.log(`OK: atualização disponível: ${localVer} → ${remoteVer}. Rode \`aieos update\`.`);
@@ -113,7 +115,7 @@ console.log(`Atualizando AIEOS em ${AIEOS_ROOT} …`);
 // Determine the remote version up front so we can short-circuit "already up to date" (#4).
 let remoteVer = null;
 try {
-  const remote = JSON.parse(await get(`https://raw.githubusercontent.com/${slug}/main/package.json`));
+  const remote = JSON.parse(await get(`https://raw.githubusercontent.com/${slug}/${BRANCH}/package.json`));
   remoteVer = remote.version || null;
 } catch (e) {
   // Non-fatal: proceed with the update anyway, but note it. The step guards below still protect us.
@@ -146,7 +148,7 @@ if (isGit) {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'aieos-update-'));
   const tgz = path.join(tmp, 'aieos.tar.gz');
   console.log('Baixando a versão mais recente do GitHub …');
-  try { await downloadTo(`https://codeload.github.com/${slug}/tar.gz/refs/heads/main`, tgz); }
+  try { await downloadTo(`https://codeload.github.com/${slug}/tar.gz/refs/heads/${BRANCH}`, tgz); }
   catch (e) {
     fs.rmSync(tmp, { recursive: true, force: true });
     fail('download falhou (o repositório é público?)', e.message);

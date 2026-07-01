@@ -44,6 +44,7 @@ function openGuide() {
   try { spawn(op[0], op[1], { stdio: 'ignore', detached: true }).unref(); } catch { /* ignore */ }
 }
 
+// Geometry mirrors the canonical dark mark at brand/aieos-mark-dark.svg — keep both in sync.
 const MARK = (s, w, h) => `<svg width="${w}" height="${h}" viewBox="0 0 400 320"><path d="M70 270 L200 58 L330 270" fill="none" stroke="${s}" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/><circle cx="200" cy="180" r="20" fill="#5a4dff"/><rect x="184" y="216" width="32" height="78" rx="16" fill="#5a4dff"/></svg>`;
 
 const PAGE = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">
