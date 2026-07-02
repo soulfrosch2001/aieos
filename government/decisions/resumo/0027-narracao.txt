@@ -1,0 +1,11 @@
+Resumo da decisão zero zero vinte e sete do AIEOS: delegação paralela no Forge, fechando uma lacuna em relação ao Fable 5.
+
+Você pediu para comparar o AIEOS com as capacidades nativas do Fable 5 e fechar as lacunas reais. Ao ler o código de verdade do Forge, descobri que a maior parte do que eu tinha listado como lacuna já estava construída: memória recuperada automaticamente, registro de lições em toda execução, checagem estrutural própria. A lacuna genuína e segura de fechar era outra: a delegação de sub-agentes rodava uma de cada vez, mesmo quando o modelo pedia várias tarefas independentes na mesma resposta.
+
+Corrigimos isso: agora, quando o modelo pede duas ou mais delegações na mesma resposta, elas rodam em paralelo, de verdade, ao mesmo tempo, em vez de esperar uma terminar pra começar a próxima. Com zero ou uma delegação, o comportamento continua exatamente igual a antes, então nada que já funcionava foi alterado.
+
+Testamos: o caminho antigo continua produzindo o mesmo resultado de sempre. O caminho novo, testado com um cenário artificial de duas delegações numa resposta só, completou as duas com sucesso. Os testes unitários passaram, treze de treze, e o portão de qualidade fechou limpo, quatorze regras, zero erros.
+
+Fui honesto sobre um limite: não consegui isolar um teste específico pra garantir que o limite de profundidade de delegação continua bloqueando corretamente nesse novo caminho paralelo, por causa de uma peculiaridade que já existia no código antes da minha mudança. Confirmei a correção lendo o código, não testando isoladamente, e deixei isso registrado.
+
+Ainda ficaram lacunas em aberto da lista do Fable 5: verificação contínua durante execuções longas, composição programática de chamadas de ferramenta, e geração de entregáveis complexos como planilhas e apresentações. Não foram tentadas nesta rodada.

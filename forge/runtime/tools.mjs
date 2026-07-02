@@ -26,7 +26,7 @@ export function toolSchemas({ depth = 0 } = {}) {
     { name: 'finish', description: 'End the run with a short summary of what was accomplished.', input_schema: { type: 'object', properties: { summary: { type: 'string' } }, required: ['summary'] } },
   ];
   if (subagentsEnabled(depth)) {
-    schemas.push({ name: 'delegate', description: 'Decompose a self-contained sub-task into a bounded sub-run (same workspace, its own gate). Use sparingly for a distinct, decomposable piece of work; depth-capped.', input_schema: { type: 'object', properties: { task: { type: 'string', description: 'The self-contained sub-task for the sub-run to accomplish.' } }, required: ['task'] } });
+    schemas.push({ name: 'delegate', description: 'Decompose a self-contained sub-task into a bounded sub-run (same workspace, its own gate). Use sparingly for a distinct, decomposable piece of work; depth-capped. If you have MULTIPLE independent sub-tasks, call this tool more than once in the SAME turn — those calls run concurrently, not one-at-a-time.', input_schema: { type: 'object', properties: { task: { type: 'string', description: 'The self-contained sub-task for the sub-run to accomplish.' } }, required: ['task'] } });
   }
   return schemas;
 }

@@ -196,6 +196,35 @@ Under `--dry-run` delegation is exercised by a **sentinel goal**: the stub emits
 model and no key —
 `FORGE_SUBAGENTS=on node forge/run.mjs <agent-dir> "delegate-smoke: decompose and finish" --dry-run`.
 
+### Parallel fan-out (concurrent sub-runs)
+
+When the model requests **two or more** `delegate` calls in the **same** turn, the runtime
+dispatches them **concurrently** (`Promise.all`) instead of one-at-a-time — independent
+sub-tasks no longer wait on each other's wall-clock time. This is the async-sub-agent
+counterpart the runtime was missing: a single turn can now spawn several ongoing sub-runs
+at once, the same way a model can request several tools in parallel. The tool's own
+description tells the model it may do this.
+
+With 0 or 1 `delegate` calls in a turn the code path is **byte-identical to before**
+(falls straight through to the existing sequential branch) — this is purely additive, the
+same guarantee the cost router makes. Every guardrail is unchanged and still per-call: the
+depth cap is checked **before** each call is dispatched (an over-cap call in a parallel
+batch is refused synchronously and never joins the `Promise.all`), and `dirtyWrites`/
+`gateClean` are updated the same way regardless of how many sub-runs wrote — if *any*
+concurrent sub-run left the workspace dirty without a clean gate, the parent's gate
+requirement re-arms exactly as it would for a single delegate call.
+
+Test it offline with the **parallel sentinel** — the stub emits two `delegate` calls in
+one turn:
+`FORGE_SUBAGENTS=on node forge/run.mjs <agent-dir> "parallel-delegate-smoke: decompose two and finish" --dry-run`.
+
+**Known limitation of concurrent sub-runs:** parallel sub-runs share the *same* workspace
+(same as sequential delegation always has). Nothing new stops two concurrent sub-tasks
+from writing the same file at once — that risk exists whenever `FORGE_SUBAGENTS=on`, it is
+just more likely to matter now that sub-runs can genuinely overlap in time. Keep parallel
+sub-tasks to genuinely independent pieces of work (the tool description says so), the same
+discipline already expected of sequential delegation.
+
 ## Self-check (structural verdict)
 
 After the loop ends, the runtime runs a deterministic structural self-check over the

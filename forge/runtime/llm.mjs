@@ -171,18 +171,34 @@ function sizeOf(messages) {
 }
 
 // Deterministic stand-in: plan → act (list_dir) → observe → finish. Proves the loop.
-// Sentinel: when the opening goal contains "delegate-smoke", the stub instead emits a
-// single `delegate` call then finishes — exercising the sub-delegation path end-to-end
-// offline. The SUB-run (its goal won't contain the sentinel) falls through to the normal
-// list_dir → finish branch, so recursion terminates without the cap ever being needed.
+// Sentinels (opening goal text):
+//   "delegate-smoke"          — one `delegate` call, then finish. Exercises the sequential
+//                                sub-delegation path end-to-end offline.
+//   "parallel-delegate-smoke" — TWO `delegate` calls in the SAME turn, then finish.
+//                                Exercises the concurrent fan-out path (loop.mjs) offline —
+//                                both sub-runs must complete and both tool_results must be
+//                                threaded back before the parent proceeds.
+// The SUB-run's goal won't contain either sentinel, so it falls through to the normal
+// list_dir → finish branch — recursion terminates without the depth cap ever being needed.
 function stub(messages) {
   const hasResult = messages.some(
     (m) => Array.isArray(m.content) && m.content.some((c) => c.type === 'tool_result')
   );
   const openingText = firstUserText(messages);
   const isDelegateSentinel = /delegate-smoke/i.test(openingText);
+  const isParallelSentinel = /parallel-delegate-smoke/i.test(openingText);
 
   if (!hasResult) {
+    if (isParallelSentinel) {
+      return {
+        content: [
+          { type: 'text', text: 'Plan: delegate two independent sub-tasks in parallel, then finish.' },
+          { type: 'tool_use', id: 'd1', name: 'delegate', input: { task: 'Sub-task A: inspect the workspace and finish.' } },
+          { type: 'tool_use', id: 'd2', name: 'delegate', input: { task: 'Sub-task B: inspect the workspace and finish.' } },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
     if (isDelegateSentinel) {
       return {
         content: [
@@ -200,7 +216,9 @@ function stub(messages) {
       stop_reason: 'tool_use',
     };
   }
-  const summary = isDelegateSentinel
+  const summary = isParallelSentinel
+    ? 'Dry-run complete — the parallel delegate fan-out path works end-to-end.'
+    : isDelegateSentinel
     ? 'Dry-run complete — the delegate sub-run path works end-to-end.'
     : 'Dry-run complete — the plan → act → observe → finish loop works end-to-end.';
   return {

@@ -104,7 +104,61 @@ export async function runLoop({
     const results = [];
     let stop = false;
 
+    // One delegate call resolved to a plain result object — no shared-state mutation inside,
+    // so it is safe to run several of these concurrently via Promise.all. The depth-cap
+    // guardrail is checked FIRST and synchronously, exactly as before: an over-cap call is
+    // refused immediately and never reaches the async `delegate()` call.
+    async function resolveDelegate(tu) {
+      if (depth >= maxDepth) {
+        const msg = `GUARDRAIL: delegation depth cap reached (depth ${depth} ≥ ${maxDepth}). Do the work directly.`;
+        return { tu, ok: false, output: msg, subMs: 0, subWrote: false, subGateClean: true };
+      }
+      onEvent({ kind: 'act', n, name: 'delegate', input: tu.input });
+      const td = performance.now();
+      let dr;
+      try {
+        dr = await delegate({ task: (tu.input && tu.input.task) || '', ctx, model, dryRun, depth: depth + 1, system, agent });
+      } catch (e) {
+        dr = { output: 'GUARDRAIL/ERROR: ' + e.message, result: { outcome: 'error', gateClean: false } };
+      }
+      const subMs = Math.round(performance.now() - td);
+      const subDone = dr.result && dr.result.outcome === 'done';
+      const subWrote = dr.result && dr.result.steps
+        ? dr.result.steps.some((s) => (s.actions || []).some((a) => a.name === 'write_file' && a.ok))
+        : false;
+      return { tu, ok: subDone, output: dr.output, subMs, subWrote, subGateClean: !!(dr.result && dr.result.gateClean) };
+    }
+
+    // Apply one resolved delegate result to the shared step/trace state, in the SAME shape
+    // as the original inline handling (dirtyWrites/gateClean, results[], step.actions[],
+    // onEvent 'observe', and totals.ms). Called once per delegate call, either right after
+    // Promise.all (parallel fan-out) or inline (the single-call sequential path) — the state
+    // mutation itself is always synchronous, so concurrent async work never races here.
+    function applyDelegateResult(r) {
+      handledIds.add(r.tu.id);
+      totals.ms += r.subMs;
+      if (r.subWrote && !r.subGateClean) { dirtyWrites = true; gateClean = false; }
+      results.push({ type: 'tool_result', tool_use_id: r.tu.id, content: r.output, is_error: !r.ok });
+      step.actions.push({ name: 'delegate', input: r.tu.input, ok: r.ok, output: r.output, ms: r.subMs });
+      onEvent({ kind: 'observe', n, name: 'delegate', ok: r.ok });
+    }
+
+    // Async fan-out: when the model requests TWO OR MORE `delegate` calls in the SAME turn,
+    // dispatch them concurrently (Promise.all) instead of one-at-a-time — independent
+    // sub-tasks no longer wait on each other's wall-clock time. This is the runtime's answer
+    // to "async sub-agent delegation": a single turn can spawn several ongoing sub-runs at
+    // once. With 0 or 1 delegate calls the behavior is BYTE-IDENTICAL to before (falls
+    // through to the sequential branch below) — this is purely additive, same as the router.
+    const delegateCalls = toolUses.filter((tu) => tu.name === 'delegate');
+    const handledIds = new Set();
+    if (delegateCalls.length > 1) {
+      const settled = await Promise.all(delegateCalls.map((tu) => resolveDelegate(tu)));
+      for (const r of settled) applyDelegateResult(r);
+    }
+
     for (const tu of toolUses) {
+      if (handledIds.has(tu.id)) continue; // already resolved by the parallel fan-out above
+
       const sig = tu.name + ':' + JSON.stringify(tu.input || {});
       if (sig === lastSig) sameCount++; else { lastSig = sig; sameCount = 1; }
 
@@ -119,40 +173,11 @@ export async function runLoop({
         continue;
       }
 
-      // Sub-delegation: run a bounded child loop in-lane (same ctx/workspace, its own
-      // trace + gate). Hard depth guardrail FIRST — if we are already at the cap, refuse
-      // and return a tool_result, never recursing. A successful sub-run's writes leave the
-      // workspace dirty, so we conservatively re-arm the gate requirement.
+      // Sub-delegation (single call this turn — the common case): run a bounded child loop
+      // in-lane (same ctx/workspace, its own trace + gate), sequentially as before.
       if (tu.name === 'delegate') {
-        if (depth >= maxDepth) {
-          const msg = `GUARDRAIL: delegation depth cap reached (depth ${depth} ≥ ${maxDepth}). Do the work directly.`;
-          results.push({ type: 'tool_result', tool_use_id: tu.id, content: msg, is_error: true });
-          step.actions.push({ name: 'delegate', input: tu.input, ok: false, output: msg });
-          onEvent({ kind: 'observe', n, name: 'delegate', ok: false });
-          continue;
-        }
-        onEvent({ kind: 'act', n, name: 'delegate', input: tu.input });
-        const td = performance.now();
-        let dr;
-        try {
-          dr = await delegate({ task: (tu.input && tu.input.task) || '', ctx, model, dryRun, depth: depth + 1, system, agent });
-        } catch (e) {
-          dr = { output: 'GUARDRAIL/ERROR: ' + e.message, result: { outcome: 'error', gateClean: false } };
-        }
-        const subMs = Math.round(performance.now() - td);
-        totals.ms += subMs;
-        const subDone = dr.result && dr.result.outcome === 'done';
-        // A sub-run that reached `done` has already satisfied its OWN gate-before-finish
-        // guardrail (it shares this workspace), so it leaves nothing ungated for the parent.
-        // We only re-arm the parent's gate requirement if the sub-run ended dirty: it wrote
-        // but its gate was not clean (only possible when it did NOT reach a clean finish).
-        const subWrote = dr.result && dr.result.steps
-          ? dr.result.steps.some((s) => (s.actions || []).some((a) => a.name === 'write_file' && a.ok))
-          : false;
-        if (subWrote && !(dr.result && dr.result.gateClean)) { dirtyWrites = true; gateClean = false; }
-        results.push({ type: 'tool_result', tool_use_id: tu.id, content: dr.output, is_error: !subDone });
-        step.actions.push({ name: 'delegate', input: tu.input, ok: !!subDone, output: dr.output, ms: subMs });
-        onEvent({ kind: 'observe', n, name: 'delegate', ok: !!subDone });
+        const r = await resolveDelegate(tu);
+        applyDelegateResult(r);
         continue;
       }
 
