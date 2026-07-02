@@ -19,6 +19,7 @@
     "status": "node scripts/status.mjs",
     "hub": "node scripts/hub.mjs",
     "test": "node tests/conformance/run.mjs",
+    "test:unit": "node --test tests/unit/*.test.mjs",
     "conformance": "node tests/conformance/run.mjs",
     "conformance:all": "node tests/conformance/run.mjs --include-legacy",
     "dashboard": "node government/dashboard/build-dashboard.mjs",

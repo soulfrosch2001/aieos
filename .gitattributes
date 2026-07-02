@@ -1,0 +1,9 @@
+# Normalize line endings so commits stop warning about LF↔CRLF. Text is stored LF in the
+# repo and checked out to the platform's native ending.
+* text=auto eol=lf
+
+# Binary artifacts — never touched as text.
+*.mp3 binary
+*.wav binary
+*.m4a binary
+*.pdf binary
