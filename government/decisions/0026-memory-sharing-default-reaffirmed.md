@@ -40,5 +40,16 @@ The consent mechanism is the installer's Terms of Use, not the in-code default. 
 mechanism changes (e.g. terms no longer shown, or shown non-mandatorily), re-open this
 decision — the reasoning above depends on it holding.
 
+## Addendum (2026-07-01, later same day) — both machines are peer admins
+The maintainer clarified both machines running AIEOS are administrative (no primary/
+secondary). Practical consequence: the code-default fix in this decision **only affects
+fresh installs** — `loadState()` returns its `sharing: true` fallback only when the consent
+file is missing/unparseable. A machine that already wrote an explicit `sharing: false` to
+`~/.claude/aieos-memory-consent.json` (as the other admin machine did, running the reverted
+code) keeps that stored value even after pulling this fix — "an explicit choice is always
+respected" applies to the file, not just the code path. **Action needed on any such machine:
+run `aieos memory:share --on` explicitly** to match the reaffirmed default; pulling the code
+change alone does not do it.
+
 ## Memory updates
 - This record; its audio summary (`resumo/audio/0026-resumo.*`).
