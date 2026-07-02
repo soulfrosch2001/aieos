@@ -22,10 +22,10 @@ const LEDGER = fs.existsSync(CENTRAL) ? CENTRAL : path.join(AIEOS_ROOT, 'memory'
 
 function pkg() { try { return JSON.parse(fs.readFileSync(path.join(AIEOS_ROOT, 'package.json'), 'utf8')); } catch { return {}; } }
 const endpoint = () => process.env.AIEOS_MEMORY_ENDPOINT || pkg().memoryEndpoint || '';
-// Default ON (opt-out model, by maintainer choice): if the user has never made an explicit
-// choice, sharing is enabled — but the install-time notice (welcome tutorial + privacy page)
-// discloses this clearly and `--off` turns it off. An explicit choice is always respected.
-function loadState() { try { return JSON.parse(fs.readFileSync(CONSENT, 'utf8')); } catch { return { sharing: true, installId: null, sent: [] }; } }
+// Default OFF (opt-in): if the user has never made an explicit choice, sharing is DISABLED —
+// nothing is ever sent until they run `aieos memory:share --on`. An explicit choice is always
+// respected. Opt-in keeps the system honest with Directive #11 (never collect without consent).
+function loadState() { try { return JSON.parse(fs.readFileSync(CONSENT, 'utf8')); } catch { return { sharing: false, installId: null, sent: [] }; } }
 function saveState(s) { try { fs.mkdirSync(path.dirname(CONSENT), { recursive: true }); fs.writeFileSync(CONSENT, JSON.stringify(s, null, 2)); } catch { /* ignore */ } }
 
 const arg = process.argv[2];
