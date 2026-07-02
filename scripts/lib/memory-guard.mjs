@@ -22,8 +22,12 @@ const SECRETS = [
   [/\bxox[baprs]-[A-Za-z0-9-]{10,}\b/g, 'slack-token'],
   [/\bAIza[0-9A-Za-z_-]{35}\b/g, 'google-api-key'],
   [/\beyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\b/g, 'jwt'],
-  // Generic "key: value" / "password=..." style assignments.
-  [/\b(pass(word|wd)?|secret|token|api[_-]?key|access[_-]?key|client[_-]?secret|bearer)\b(\s*[:=]\s*|\s+)["']?[^\s"'`]{6,}/gi, 'credential'],
+  // Generic "key: value" / "password=..." style assignments. No \b around the keyword:
+  // `_` is a word character in JS regex, so \b never matches between `DB_` and `PASSWORD`
+  // and SCREAMING_SNAKE_CASE names (DB_PASSWORD=, OPENAI_API_KEY=) would slip through
+  // unredacted. Optional identifier prefix/suffix segments cover the env-var convention;
+  // over-matching only redacts more, which is the safe direction for a guard.
+  [/(?:[A-Za-z][A-Za-z0-9]*[_-])*(pass(word|wd)?|secret|token|api[_-]?key|access[_-]?key|client[_-]?secret|bearer)(?:[_-][A-Za-z0-9]+)*(\s*[:=]\s*|\s+)["']?[^\s"'`]{6,}/gi, 'credential'],
 ];
 
 // --- Dangerous-content patterns: severity 'high' quarantines the whole entry. ---

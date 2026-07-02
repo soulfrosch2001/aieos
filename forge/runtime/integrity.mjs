@@ -68,7 +68,10 @@ export function evaluateHarmLaw(primeText, harmText) {
   // genuine prohibition never contains ("may harm", "harm is permitted", "may override … to
   // harm", "do no harm — unless …"). The real clause says harm is "refused and aborted" and
   // that "no override … may set aside to cause harm" — a NEGATED form none of these match.
-  const sec = norm((prime.match(/^##\s*11\.[\s\S]*?(?=\n##\s|\n---|\n#\s|$)/m) || [''])[0]);
+  // End-of-string must be (?![\s\S]) — a plain $ inside the lookahead would match at every
+  // line end under the /m flag, making the lazy quantifier stop at the heading line and
+  // leaving the clause body unscanned (the whole anti-inversion check would be dead code).
+  const sec = norm((prime.match(/^##\s*11\.[\s\S]*?(?=\n##\s|\n---|\n#\s|(?![\s\S]))/m) || [''])[0]);
   const INVERSION = [
     /\b(may|can|allowed to|permitted to)\s+(harm|deceive|exploit|surveil|endanger|defraud|manipulat\w*)\b/,
     /\b(harm|deceive|exploit|surveil|endanger|defraud|manipulat\w*|weapon\w*)\b[^.]{0,30}\b(is|are)\s+(permitted|allowed|acceptable|authoriz\w*|ok)\b/,
