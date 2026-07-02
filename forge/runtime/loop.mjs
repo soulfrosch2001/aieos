@@ -7,6 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { performance } from 'node:perf_hooks';
 import { callModel, trimMessages } from './llm.mjs';
+import { tiersFromEnv, choose, maxEscalations } from './router.mjs';
 import { toolSchemas, runTool } from './tools.mjs';
 import { makePlan, applyPlanUpdate, renderPlan } from './plan.mjs';
 import { evaluate } from './eval.mjs';
@@ -41,14 +42,30 @@ export async function runLoop({
   let bareEndTurns = 0;            // consecutive assistant turns with no tool use
   let lastSig = null, sameCount = 0; // consecutive identical tool calls
 
+  // Cost router: resolve the tier ladder once from the environment. With only FORGE_MODEL
+  // set, all three tiers collapse to it and routing is a no-op (byte-identical behaviour).
+  // `escalated` is monotonic — a failed gate climbs the ladder and the run never drops back.
+  const tiers = tiersFromEnv();
+  const escCap = maxEscalations();
+  let escalated = 0, lastGateFailed = false, lastEvalFailed = false;
+
   for (let n = 1; n <= maxSteps; n++) {
     // Trim before each call so long runs stay within context (never drops the first user
     // turn or the last tool result). No-op when under budget and under --dry-run anyway.
     const trimmed = trimMessages(messages);
     if (trimmed !== messages) { messages.length = 0; messages.push(...trimmed); }
 
+    // Route this step to a tier BEFORE the call. The decision is computed and logged even
+    // under --dry-run (where the stub ignores the model), which is how the routing logic is
+    // proven offline. `chosenModel` falls back to the run-level `model` when no tiers are
+    // configured, preserving today's behaviour exactly.
+    const { tier, model: chosenModel } = choose(tiers, {
+      stepIndex: n, escalated, lastGateFailed, lastEvalFailed,
+    });
+    const stepModel = chosenModel || model;
+
     const t0 = performance.now();
-    const { content, stop_reason, usage } = await callModel({ system, messages, tools, model, dryRun });
+    const { content, stop_reason, usage } = await callModel({ system, messages, tools, model: stepModel, dryRun });
     const callMs = Math.round(performance.now() - t0);
     totals.ms += callMs;
     if (usage) {
@@ -64,6 +81,12 @@ export async function runLoop({
     if (text) onEvent({ kind: 'plan', n, text });
 
     const step = { n, text, actions: [], stop_reason, ms: callMs, usage: usage || null };
+    // Always stamp the routed TIER — it is a policy label (cheap/mid/strong), not a model id,
+    // so it is model-agnostic and proves the routing decision offline under --dry-run. The
+    // concrete model id is stamped only when the ladder actually resolved one (FORGE_MODEL set),
+    // so a keyless dry-run records the decision without inventing a model id.
+    step.tier = tier;
+    if (stepModel) step.model = stepModel;
 
     // No tool use → a stall. Nudge once, then give up as incomplete.
     if (toolUses.length === 0) {
@@ -157,7 +180,13 @@ export async function runLoop({
       totals.ms += toolMs;
 
       if (tu.name === 'write_file' && r.ok) { dirtyWrites = true; gateClean = false; }
-      if (tu.name === 'run_gate') gateClean = r.ok; // a failing gate is an observation, not a stop
+      if (tu.name === 'run_gate') {
+        gateClean = r.ok; // a failing gate is an observation, not a stop
+        // Escalation seam: a failed gate climbs the tier ladder, so the NEXT iteration
+        // re-routes up (cheap → strong) — retry-with-a-stronger-model, capped by escCap.
+        if (!r.ok) { lastGateFailed = true; if (escalated < escCap) escalated++; }
+        else { lastGateFailed = false; }
+      }
 
       results.push({ type: 'tool_result', tool_use_id: tu.id, content: r.output ?? '', is_error: !r.ok });
       step.actions.push({ name: tu.name, input: tu.input, ok: r.ok, output: r.output ?? '', ms: toolMs });

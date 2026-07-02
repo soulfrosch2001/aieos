@@ -1,0 +1,12 @@
+[
+  {
+    "agent": "forge/examples/balance-scout",
+    "goal": "Smoke test: list the repo and finish.",
+    "maxSteps": 4
+  },
+  {
+    "agent": "forge/examples/balance-scout",
+    "goal": "Inspect the workspace and report what you see, then finish.",
+    "maxSteps": 4
+  }
+]

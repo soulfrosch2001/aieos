@@ -10,6 +10,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { costOfTrace, resolvePrices, fmt$ } from './cost.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const runsDir = path.join(here, 'runs');
@@ -56,8 +57,9 @@ function list() {
       ? `${t.totals.usage.input_tokens}/${t.totals.usage.output_tokens} tok`
       : 'no-usage';
     const ms = t.totals?.ms != null ? `${t.totals.ms}ms` : '-';
+    const cost = fmt$(costOfTrace(t, resolvePrices()).total);
     process.stdout.write(
-      `${path.basename(f)}  outcome=${t.outcome}  verdict=${v}  steps=${steps}  ${ms}  ${usage}\n`
+      `${path.basename(f)}  outcome=${t.outcome}  verdict=${v}  steps=${steps}  ${ms}  ${usage}  ${cost}\n`
     );
   }
 }
@@ -82,6 +84,15 @@ function show(file) {
       '  in=' + (t.totals.usage?.input_tokens ?? 0) +
       ' out=' + (t.totals.usage?.output_tokens ?? 0) + ' tok');
   }
+  // Cost: computed from the trace's per-step usage + model against the price table (pure,
+  // free, offline). One tier line per stamped tier when routing produced a split.
+  const c = costOfTrace(t, resolvePrices());
+  L('  cost:     ' + fmt$(c.total) + ' (' + fmt$(c.blendedPerMtok) + '/Mtok)');
+  if (c.byTier.length > 1) {
+    for (const g of c.byTier) {
+      L('              - ' + (g.tier || g.model || g.label) + ': ' + fmt$(g.cost) + ' (' + g.tokens + ' tok)');
+    }
+  }
   if (t.plan?.steps?.length) {
     L('  plan:');
     t.plan.steps.forEach((s, i) => {
@@ -93,8 +104,9 @@ function show(file) {
   L('  steps:');
   for (const s of t.steps || []) {
     const timing = s.ms != null ? `  (${s.ms}ms)` : '';
-    if (s.text) L('    [' + s.n + '] ' + firstLine(s.text) + timing);
-    else L('    [' + s.n + ']' + timing);
+    const tierTag = s.tier ? `  <${s.tier}>` : '';
+    if (s.text) L('    [' + s.n + ']' + tierTag + ' ' + firstLine(s.text) + timing);
+    else L('    [' + s.n + ']' + tierTag + timing);
     for (const a of s.actions || []) {
       L('        ' + (a.ok ? 'ok ' : 'ERR') + ' ' + a.name + compact(a.input));
     }

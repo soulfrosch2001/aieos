@@ -243,6 +243,35 @@ tied to any particular model.
   clearly and exits — it does **not** pick a default. The per-call response budget is
   `FORGE_MAX_TOKENS` (default 2048).
 
+## Cost router (model per step)
+
+The runtime does not have to call one model for the whole run. [router.mjs](router.mjs)
+resolves three **tiers** from the environment — `FORGE_MODEL` (strong),
+`FORGE_MODEL_CHEAP`, and `FORGE_MODEL_MID` (each falling back to `FORGE_MODEL` when
+unset) — and picks one per step: **cheap by default**, **mid on the plan turn**, and
+**strong once the run has escalated**. The policy is monotonic (a step is never
+downgraded mid-run) and capped by `FORGE_MAX_ESCALATIONS` (default 2). With only
+`FORGE_MODEL` set, all three tiers collapse to it and behaviour is byte-identical to
+before — the router is purely additive.
+
+Escalation is wired into the loop: a **failed gate is an observation, not a stop**, so
+when it fails the escalation counter rises and the next turn re-routes up a tier
+(cheap -> strong). That is the retry-with-a-stronger-model mechanism, and it is what lets
+a cheap-first policy keep strong-model result-parity on verifiable tasks. Each step is
+stamped with its `tier` and `model` in the trace. The router is **pure and
+model-agnostic** (no literal id) and its decision is computed and logged even under
+`--dry-run`, where there is no real model — proving the logic offline.
+
+[`forge/cost.mjs`](../cost.mjs) turns a trace into money: it attributes each step to its
+stamped model, looks the price up in a configurable, clearly-fake example table
+(overridable via arg or `FORGE_PRICES`), and returns the total, a by-tier split, and a
+blended $/Mtok. `inspect.mjs` renders these. [`forge/bench.mjs`](../bench.mjs) runs a
+task list as a routed arm vs. a `FORGE_MODEL`-only baseline and reports parity (gate +
+eval) against cost. Under `--dry-run` the stub returns zero usage and identical output,
+so both arms are trivially equal at $0.00 — dry-run proves the **plumbing only**; the
+live parity-times-cost measurement needs a key. The full design is in
+[`docs/cost-router.md`](../../docs/cost-router.md).
+
 ## Traces
 
 Every run writes an append-mostly JSON trace under `forge/runs/` at
@@ -301,6 +330,9 @@ no key.
   corpus documents.
 - [plan.mjs](plan.mjs) — render and apply the explicit plan checklist.
 - [eval.mjs](eval.mjs) — the structural, model-free self-check verdict.
+- [router.mjs](router.mjs) — pure, model-agnostic per-step tier/model choice.
+- [`forge/cost.mjs`](../cost.mjs) — pure cost-of-trace, price table, by-tier split.
+- [`forge/bench.mjs`](../bench.mjs) — routed-vs-baseline parity-times-cost harness.
 - `subagent.mjs` — the bounded in-lane `delegate` sub-run (flag-gated).
 - [loop.mjs](loop.mjs) — the plan → act → observe → reflect orchestration + trace.
 - `forge/run.mjs` — the CLI: load an agent, retrieve memory, run the loop, report.

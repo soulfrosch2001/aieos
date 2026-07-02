@@ -53,6 +53,47 @@ The model is chosen via `FORGE_MODEL` (no hardcoded default); a live run with it
 errors clearly. Each run writes a [trace](runs/README.md) under `forge/runs/`. See
 [runtime/loop.mjs](runtime/loop.mjs) and [run.mjs](run.mjs).
 
+## The cost router — cheap-first, escalate on failure
+
+The runtime routes each step to a **model tier** so the cheap model carries the easy
+majority of steps and the strong model is spent only when a step is hard or a gate/eval
+failed. Tiers come from the environment — no model id is hardcoded:
+
+```
+FORGE_MODEL=<strong>            # required for a live run (the anchor / ceiling)
+FORGE_MODEL_CHEAP=<cheap>       # optional; falls back to FORGE_MODEL
+FORGE_MODEL_MID=<mid>           # optional; falls back to FORGE_MODEL
+FORGE_MAX_ESCALATIONS=2         # optional ladder-climb ceiling (default 2)
+```
+
+Policy ([runtime/router.mjs](runtime/router.mjs)): start `cheap`; the plan turn gets
+`mid`; a failed gate climbs the ladder so the next step re-routes up to `strong` (monotonic
+— it never drops back). With **only** `FORGE_MODEL` set, all tiers collapse to it and
+behaviour is byte-identical to before the router existed. The chosen tier is stamped per
+step in the trace.
+
+Cost is computed for free from the trace (per-step usage × a configurable, **example**
+price table — override with `FORGE_PRICES` JSON): `node forge/cost.mjs <trace.json>`, and
+`inspect.mjs` now prints a `cost:` line with a per-tier split. See
+[cost.mjs](cost.mjs).
+
+## The bench — parity × cost
+
+```
+node forge/bench.mjs forge/bench-tasks.json [--dry-run] [--json]
+```
+
+Runs each task twice — **baseline** (every step pinned to `FORGE_MODEL`) vs **routed**
+(cheap-first) — and reports the result verdict (free structural eval + gate) and dollar
+cost per arm plus the routed/baseline ratio.
+
+> **Honest boundary.** Under `--dry-run` the stub returns zero usage and identical output
+> for both arms, so parity is trivially equal and every cost is `$0.00` — dry-run proves the
+> **plumbing only**, never equivalence. The real parity × cost measurement needs a key
+> (`ANTHROPIC_API_KEY` + `FORGE_MODEL` [+ `FORGE_MODEL_CHEAP`/`MID`]). The equivalence claim
+> holds only on **verifiable** tasks, where the free conformance gate + structural eval
+> actually adjudicate result-parity; it is not a general-quality claim.
+
 ## How it relates to the rest of AIEOS
 - It **inherits the kernel**, never forks it (Directive #6). A forged agent is a normal
   agent; it lives in a department and obeys decision-authority.
