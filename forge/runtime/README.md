@@ -151,7 +151,14 @@ exec, delete, or network-write tool, so there is no irreversible-action surface.
 - `list_dir` — list entries at a path (read, repo-wide).
 - `read_file` — read a UTF-8 file (read, repo-wide; output is bounded with a
   truncation footer so nothing is silently withheld).
+- `read_many` — read up to 20 UTF-8 files in **one round trip** instead of one
+  `read_file` call per file. Same per-path containment as `read_file`; a bad path in the
+  batch becomes an inline error line rather than failing the whole call. This is the safe
+  subset of "programmatic tool calling" — see [Batched reads](#batched-reads-safe-programmatic-tool-calling) below.
 - `write_file` — write a file, **restricted to the agent workspace**.
+- `write_csv` — write a spreadsheet-compatible CSV file, **restricted to the agent
+  workspace** (same confinement as `write_file`) — the dependency-free equivalent of a
+  spreadsheet deliverable. See [Deliverable generation](#deliverable-generation-csv-only-for-now) below.
 - `run_gate` — run the conformance gate (`node tests/conformance/run.mjs`) so the agent
   can verify before it claims ([Directive #9](../../kernel/laws/prime-directives.md)).
 - `finish` — end the run with a short summary, including a one-line self-check of
@@ -160,6 +167,34 @@ exec, delete, or network-write tool, so there is no irreversible-action surface.
 - `update_plan` — mark steps done or revise the checklist as the work proceeds.
 - `delegate` — spawn a bounded **in-lane** sub-run to decompose a task (off by default;
   see [Sub-delegation](#sub-delegation-in-lane) below).
+
+### Batched reads (safe "programmatic tool calling")
+
+Real programmatic tool calling (a model writing code that composes several tool calls
+without a full round trip per call) needs a code-execution environment — and the Forge
+deliberately has none: "no exec... tool, so there is no irreversible-action surface" is an
+existing, intentional boundary (see the guardrails list below), not an oversight. Adding a
+real exec tool would cross that boundary and deserves a discussion first
+([Directive #6](../../kernel/laws/prime-directives.md)), not a silent addition.
+
+`read_many` is the part of that idea that is safe to add unilaterally: it reduces round
+trips for the common "I already know which files I need next" pattern, and introduces
+**zero new safety surface** — every path still goes through the exact same containment
+check a single `read_file` call would, one at a time; it is just batched into one response.
+
+### Deliverable generation (CSV only, for now)
+
+`write_csv` is a dependency-free (Node built-ins only, same as the rest of the runtime)
+spreadsheet writer — proper RFC-4180-ish quoting, CRLF line endings, opens natively in
+Excel/Sheets/Numbers. It is genuinely useful and adds no new risk (same workspace
+confinement as `write_file`).
+
+**What this does NOT cover:** real Office binary formats (`.docx`, `.pptx`, `.xlsx`) need an
+external library — there is no dependency-free way to emit them correctly, and the project
+has a strong, consistent zero-new-dependency stance across the Forge (`consolidate.mjs`,
+`subagent.mjs`, this file). Adding such a library is a legitimate thing to want, but it is a
+deliberate supply-chain decision, not something to add mid-task — flagged here rather than
+silently decided either way.
 
 Every tool returns a uniform `{ ok, output }` envelope. A failure is fed back to the
 model as an errored observation, not raised as a crash — failures are data the agent
@@ -234,6 +269,25 @@ passed, writes were produced, and the loop did not stall. The result lands in
 never gates `finish`, it only reports. Because it reads the trace and nothing else, it
 runs identically under `--dry-run`. The rubric it documents lives in
 [`forge/eval-rubric.md`](../eval-rubric.md); implemented in [eval.mjs](eval.mjs).
+
+## Continuous self-verification (checkpoints)
+
+The end-of-run self-check above is a single verdict — useful, but it only speaks once, at
+the finish line. A run that goes long (many steps before `finish`) gets no interim signal.
+[checkpoint.mjs](checkpoint.mjs) closes that gap: every `FORGE_CHECKPOINT_INTERVAL` steps
+(default 5), the loop computes a free, deterministic progress note — plan completion
+(`N/M steps done`), whether there are unverified writes pending — and threads it back into
+the conversation the same way the plan checklist is echoed, so the model sees its own
+progress mid-run instead of only reflecting at the end. It explicitly tells the model to
+ground any progress claim against it (do not report done work that was not verified) —
+directly answering the "grounded progress reporting" pattern long-horizon runs need.
+
+Like the end-of-run self-check, this is **advisory only** — it never gates anything, it
+only injects an observation. Every fired checkpoint is recorded on its step
+(`step.checkpoint`) and collected into `trace.data.checkpoints`, so the trace shows exactly
+when and what the run was told about itself. Pure and dry-run-safe (no model call, no I/O
+beyond what the loop already tracks) — exercised offline by the `checkpoint-smoke` sentinel
+in [llm.mjs](llm.mjs)'s stub, which runs long enough to guarantee at least one fires.
 
 ## Robustness on live runs
 
@@ -358,7 +412,9 @@ no key.
 - [episodic.mjs](episodic.mjs) — summarize `forge/runs/*.json` traces into recallable
   corpus documents.
 - [plan.mjs](plan.mjs) — render and apply the explicit plan checklist.
-- [eval.mjs](eval.mjs) — the structural, model-free self-check verdict.
+- [eval.mjs](eval.mjs) — the structural, model-free self-check verdict (end of run).
+- [checkpoint.mjs](checkpoint.mjs) — the structural, model-free progress note (periodic,
+  during a run).
 - [router.mjs](router.mjs) — pure, model-agnostic per-step tier/model choice.
 - [`forge/cost.mjs`](../cost.mjs) — pure cost-of-trace, price table, by-tier split.
 - [`forge/bench.mjs`](../bench.mjs) — routed-vs-baseline parity-times-cost harness.

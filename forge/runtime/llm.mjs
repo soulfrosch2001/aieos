@@ -178,15 +178,98 @@ function sizeOf(messages) {
 //                                Exercises the concurrent fan-out path (loop.mjs) offline —
 //                                both sub-runs must complete and both tool_results must be
 //                                threaded back before the parent proceeds.
-// The SUB-run's goal won't contain either sentinel, so it falls through to the normal
+//   "checkpoint-smoke"        — repeats a harmless `list_dir` for enough turns to cross the
+//                                default checkpoint interval (5 steps) before finishing, so
+//                                the periodic self-verification note (checkpoint.mjs) fires
+//                                at least once, exercised end-to-end offline.
+// The SUB-run's goal won't contain any sentinel, so it falls through to the normal
 // list_dir → finish branch — recursion terminates without the depth cap ever being needed.
 function stub(messages) {
   const hasResult = messages.some(
     (m) => Array.isArray(m.content) && m.content.some((c) => c.type === 'tool_result')
   );
-  const openingText = firstUserText(messages);
+  const openingText = firstUserGoalText(messages);
   const isDelegateSentinel = /delegate-smoke/i.test(openingText);
   const isParallelSentinel = /parallel-delegate-smoke/i.test(openingText);
+  const isCheckpointSentinel = /checkpoint-smoke/i.test(openingText);
+  const isReadManySentinel = /readmany-smoke/i.test(openingText);
+  const isCsvSentinel = /csv-smoke/i.test(openingText);
+
+  if (isReadManySentinel) {
+    // One read_many call (two real, always-present repo files), then finish.
+    if (!hasResult) {
+      return {
+        content: [
+          { type: 'text', text: 'Plan: read two files in one batched call, then finish.' },
+          { type: 'tool_use', id: 'r1', name: 'read_many', input: { paths: ['package.json', 'kernel/VERSION'] } },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
+    return {
+      content: [
+        { type: 'text', text: 'Observed both files.' },
+        { type: 'tool_use', id: 'rf', name: 'finish', input: { summary: 'Dry-run complete — the read_many batch path works end-to-end.' } },
+      ],
+      stop_reason: 'tool_use',
+    };
+  }
+
+  if (isCsvSentinel) {
+    // write_csv → run_gate → finish: exercises the write-then-gate-before-finish guardrail
+    // (Directive #9) on the new tool, the same shape write_file already has to satisfy.
+    const priorSteps = messages.filter((m) => m.role === 'assistant').length;
+    if (priorSteps === 0) {
+      return {
+        content: [
+          { type: 'text', text: 'Plan: write a CSV report, verify with the gate, then finish.' },
+          { type: 'tool_use', id: 'w1', name: 'write_csv', input: { path: 'forge/examples/balance-scout/workspace/report.csv', headers: ['metric', 'value'], rows: [['runs', '1'], ['note', 'has a, comma']] } },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
+    if (priorSteps === 1) {
+      return {
+        content: [
+          { type: 'text', text: 'Verifying before finishing.' },
+          { type: 'tool_use', id: 'g1', name: 'run_gate', input: {} },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
+    return {
+      content: [
+        { type: 'text', text: 'Gate clean.' },
+        { type: 'tool_use', id: 'cf', name: 'finish', input: { summary: 'Dry-run complete — the write_csv path works end-to-end.' } },
+      ],
+      stop_reason: 'tool_use',
+    };
+  }
+
+  if (isCheckpointSentinel) {
+    // Each prior assistant turn is one completed step; take 6 (> the default 5-step
+    // checkpoint interval) before finishing, so a checkpoint is guaranteed to fire. Alternate
+    // the listed path each step so the loop's repeat-detector (3× identical call → "stuck")
+    // never trips — a real long run naturally varies its calls; this stub must too.
+    const priorSteps = messages.filter((m) => m.role === 'assistant').length;
+    const paths = ['.', 'forge', 'kernel', 'government', 'scripts', 'installer'];
+    if (priorSteps < 6) {
+      return {
+        content: [
+          { type: 'text', text: `Plan: step ${priorSteps + 1} of a longer run.` },
+          { type: 'tool_use', id: `c${priorSteps + 1}`, name: 'list_dir', input: { path: paths[priorSteps % paths.length] } },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
+    return {
+      content: [
+        { type: 'text', text: 'Observed enough steps.' },
+        { type: 'tool_use', id: 'cf', name: 'finish', input: { summary: 'Dry-run complete — ran long enough for a checkpoint to fire.' } },
+      ],
+      stop_reason: 'tool_use',
+    };
+  }
 
   if (!hasResult) {
     if (isParallelSentinel) {
@@ -230,8 +313,8 @@ function stub(messages) {
   };
 }
 
-// The opening user turn's text (the goal + any retrieved memory). Used only by the stub to
-// detect sentinels; on the real path the goal flows through normally.
+// The opening user turn's raw text (goal + any retrieved memory, exactly as sent to a real
+// model). Only used internally by firstUserGoalText below.
 function firstUserText(messages) {
   const first = messages.find((m) => m.role === 'user');
   if (!first) return '';
@@ -240,4 +323,20 @@ function firstUserText(messages) {
     return first.content.filter((c) => c.type === 'text').map((c) => c.text).join('\n');
   }
   return '';
+}
+
+// The GOAL portion only — used by the stub to detect sentinels. loop.mjs composes the
+// opening turn as `memoryBlock + "\n\n---\n\n# Goal\n" + goal` (memory.mjs), so slicing after
+// the LAST "# Goal\n" marker isolates the goal even when a memory block is present. This
+// matters for determinism: retrieved memory is literal past-run text — including quoted
+// goals from prior lessons (e.g. "Goal \"parallel-delegate-smoke...\"" appended by
+// appendLesson) — so matching sentinels against the FULL opening text lets an unrelated
+// prior run's lesson accidentally re-trigger a stub branch it was never asked for. Falls
+// back to the whole text when there is no marker (no memory block, or a caller that bypasses
+// loop.mjs's composition entirely, e.g. a unit test).
+function firstUserGoalText(messages) {
+  const full = firstUserText(messages);
+  const marker = '# Goal\n';
+  const idx = full.lastIndexOf(marker);
+  return idx === -1 ? full : full.slice(idx + marker.length);
 }

@@ -13,6 +13,7 @@ import { makePlan, applyPlanUpdate, renderPlan } from './plan.mjs';
 import { evaluate } from './eval.mjs';
 import { appendLesson } from './memory.mjs';
 import { delegate } from './subagent.mjs';
+import { checkpointInterval, maybeCheckpoint } from './checkpoint.mjs';
 
 export async function runLoop({
   system, goal, ctx, model, dryRun, agent = 'agent',
@@ -48,6 +49,11 @@ export async function runLoop({
   const tiers = tiersFromEnv();
   const escCap = maxEscalations();
   let escalated = 0, lastGateFailed = false, lastEvalFailed = false;
+
+  // Continuous self-verification: every `ckptInterval` steps, inject a free, deterministic
+  // progress note (see checkpoint.mjs) instead of only reflecting once at the very end.
+  const ckptInterval = checkpointInterval();
+  const checkpoints = [];
 
   for (let n = 1; n <= maxSteps; n++) {
     // Trim before each call so long runs stay within context (never drops the first user
@@ -218,6 +224,12 @@ export async function runLoop({
       onEvent({ kind: 'observe', n, name: tu.name, ok: r.ok });
     }
 
+    // Continuous self-verification (advisory, deterministic, model-free): due only every
+    // `ckptInterval` steps, and only while the run is still going (never on the step that
+    // just called `finish`) — a mid-run progress note, not a second post-hoc verdict.
+    const ckpt = stop ? null : maybeCheckpoint({ n, interval: ckptInterval, plan, dirtyWrites, gateClean, totals });
+    if (ckpt) { step.checkpoint = ckpt; checkpoints.push(ckpt); onEvent({ kind: 'checkpoint', n, text: ckpt.text }); }
+
     steps.push(step); appendStep(trace, step);
 
     if (stop) break;
@@ -229,6 +241,7 @@ export async function runLoop({
       if (planView && !results.some((r) => String(r.content).startsWith('Current plan:'))) {
         results.push({ type: 'text', text: '\n' + planView });
       }
+      if (ckpt) results.push({ type: 'text', text: '\n' + ckpt.text });
       messages.push({ role: 'user', content: results });
     }
 
@@ -256,9 +269,9 @@ export async function runLoop({
     : `${outcome}: ${(evaluation && evaluation.notes && evaluation.notes[0]) || 'no closing summary'}`);
   const lessonPath = appendLesson(ctx.repoRoot, { goal, agent, outcome, summary: digestSummary, gateClean });
 
-  const record = closeTrace(trace, { steps, outcome, summary, gateClean, plan, totals, evaluation });
+  const record = closeTrace(trace, { steps, outcome, summary, gateClean, plan, totals, evaluation, checkpoints });
   onEvent({ kind: 'done', outcome, summary, gateClean, tracePath: record.tracePath, evaluation, totals, lessonPath });
-  return { outcome, summary, gateClean, tracePath: record.tracePath, steps, evaluation, totals, plan, lessonPath };
+  return { outcome, summary, gateClean, tracePath: record.tracePath, steps, evaluation, totals, plan, lessonPath, checkpoints };
 }
 
 // ---- Trace: append-mostly JSON under forge/runs/ (Directive #8). Written incrementally
@@ -281,7 +294,7 @@ function appendStep(trace, step) {
   try { fs.writeFileSync(trace.tracePath, JSON.stringify(trace.data, null, 2)); } catch { /* best-effort */ }
 }
 
-function closeTrace(trace, { steps, outcome, summary, gateClean, plan, totals, evaluation }) {
+function closeTrace(trace, { steps, outcome, summary, gateClean, plan, totals, evaluation, checkpoints }) {
   trace.data.steps = steps;
   trace.data.outcome = outcome;
   trace.data.summary = summary;
@@ -289,6 +302,7 @@ function closeTrace(trace, { steps, outcome, summary, gateClean, plan, totals, e
   if (plan) trace.data.plan = plan;
   trace.data.totals = totals;
   trace.data.evaluation = evaluation;
+  if (checkpoints && checkpoints.length) trace.data.checkpoints = checkpoints;
   trace.data.endedAt = new Date().toISOString();
   fs.writeFileSync(trace.tracePath, JSON.stringify(trace.data, null, 2));
   return { tracePath: trace.tracePath };

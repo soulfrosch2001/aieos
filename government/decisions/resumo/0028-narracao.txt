@@ -1,0 +1,13 @@
+Resumo da decisão zero zero vinte e oito do AIEOS: checkpoints contínuos, leitura em lote e planilhas no Forge.
+
+Você pediu para ir com tudo nos três itens que tinham ficado em aberto da comparação com o Fable 5. Fizemos a parte segura dos três, e recusamos explicitamente a parte perigosa de um deles, em vez de decidir isso sozinho por baixo dos panos.
+
+Primeiro: verificação contínua. Antes, o Forge só se auto‑avaliava uma vez, no fim da execução. Agora, a cada cinco passos, ele gera uma nota de progresso gratuita e determinística, mostrando quantos itens do plano foram concluídos e se há escritas ainda não verificadas, e injeta isso de volta na conversa, para que o modelo confira o próprio progresso no meio do caminho, não só no final.
+
+Segundo: chamada programática de ferramentas. A parte segura eu consegui construir: uma ferramenta de leitura em lote, que lê até vinte arquivos numa única resposta em vez de uma resposta por arquivo, sem nenhuma superfície de risco nova. A parte perigosa, que exigiria uma ferramenta de execução de código, eu não construí. Isso contraria uma fronteira de segurança que o próprio Forge já tinha, deliberadamente: nenhuma ferramenta de execução, para não ter superfície de ação irreversível. Isso precisa de uma decisão sua, não de uma escolha silenciosa minha.
+
+Terceiro: geração de entregáveis complexos. Construí uma ferramenta de escrita de planilha em formato CSV, sem nenhuma dependência nova, que abre direto no Excel e no Sheets. O que não construí foi geração de verdade de arquivos do Office, como docx, pptx e xlsx binários, porque isso exigiria adicionar uma biblioteca externa nova, e isso é uma decisão de cadeia de suprimentos que também precisa ser seu, não minha.
+
+De brinde, encontrei e corrigi um bug real: os testes do modo simulado, sem modelo de verdade, podiam se confundir porque a memória recuperada de execuções anteriores continha o texto de um teste antigo, e isso enganava a detecção do que fazer no teste novo. Corrigi isso separando o objetivo real da memória injetada.
+
+Testamos tudo: seis cenários diferentes, todos concluídos com sucesso, os testes unitários passaram, treze de treze, e o portão de qualidade fechou limpo, quatorze regras, zero erros.
