@@ -193,6 +193,34 @@ function stub(messages) {
   const hasResult = messages.some(
     (m) => Array.isArray(m.content) && m.content.some((c) => c.type === 'tool_result')
   );
+
+  // Side-call prompts from deliberate.mjs / critic.mjs are single-turn message arrays
+  // whose text QUOTES the run's goal — including sentinel goals — so they are handled
+  // FIRST, on their own ^-anchored markers, before any sentinel matching can misfire.
+  const fullOpening = firstUserText(messages);
+  if (/^\[deliberation:propose\]/.test(fullOpening)) {
+    const cand = (fullOpening.match(/Candidate (\d+)/) || [])[1] || '1';
+    return {
+      content: [{ type: 'text', text: `Candidate ${cand}: stop surveying directories and read the one file the plan actually names, end to end.` }],
+      stop_reason: 'end_turn',
+    };
+  }
+  if (/^\[deliberation:judge\]/.test(fullOpening)) {
+    return {
+      content: [{ type: 'text', text: 'Best: candidate 1 — "stop surveying directories and read the one file the plan actually names, end to end." It changes the KIND of action, not just its target.' }],
+      stop_reason: 'end_turn',
+    };
+  }
+  if (/^\[critic:review\]/.test(fullOpening)) {
+    const isFinish = /Pending action: finish/.test(fullOpening);
+    return {
+      content: [{ type: 'text', text: isFinish
+        ? 'CONCERN: the plan may still have pending work — confirm before finishing.'
+        : 'OK — the action matches the current plan step.' }],
+      stop_reason: 'end_turn',
+    };
+  }
+
   const openingText = firstUserGoalText(messages);
   const isDelegateSentinel = /delegate-smoke/i.test(openingText);
   const isParallelSentinel = /parallel-delegate-smoke/i.test(openingText);
@@ -201,8 +229,98 @@ function stub(messages) {
   const isCsvSentinel = /csv-smoke/i.test(openingText);
   const isRunCodeSentinel = /runcode-smoke/i.test(openingText);
   const isPptxSentinel = /pptx-smoke/i.test(openingText);
-  const isStagnationSentinel = /stagnation-smoke/i.test(openingText);
+  // deliberation-smoke reuses the stagnation scenario: the point of deliberation is that
+  // it FIRES on a stagnant checkpoint, so the same stall is the right stage for both.
+  const isStagnationSentinel = /stagnation-smoke|deliberation-smoke/i.test(openingText);
   const isResumeSentinel = /resume-smoke/i.test(openingText);
+  const isCriticSentinel = /critic-smoke/i.test(openingText);
+  const isVirtualContextSentinel = /virtualcontext-smoke/i.test(openingText);
+
+  if (isCriticSentinel) {
+    // write_file → run_gate → finish → finish. With FORGE_CRITIC=on the first finish is
+    // refused by the one-time speed bump (the stub critic always CONCERNs a finish), and
+    // the second passes — exercising both the write-review ride-along and the bump.
+    const priorSteps = messages.filter((m) => m.role === 'assistant').length;
+    if (priorSteps === 0) {
+      return {
+        content: [
+          { type: 'text', text: 'Plan: write a note, verify with the gate, then finish.' },
+          { type: 'tool_use', id: 'cw1', name: 'write_file', input: { path: 'forge/examples/balance-scout/workspace/critic-note.md', content: '# Critic smoke\nA one-line note.\n' } },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
+    if (priorSteps === 1) {
+      return {
+        content: [
+          { type: 'text', text: 'Verifying before finishing.' },
+          { type: 'tool_use', id: 'cg1', name: 'run_gate', input: {} },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
+    return {
+      content: [
+        { type: 'text', text: priorSteps === 2 ? 'Attempting to finish.' : 'The critic already had its say — insisting.' },
+        { type: 'tool_use', id: `cf${priorSteps}`, name: 'finish', input: { summary: 'Dry-run complete — the critic path works end-to-end.' } },
+      ],
+      stop_reason: 'tool_use',
+    };
+  }
+
+  if (isVirtualContextSentinel) {
+    // Step 1 plants a distinctive fact (the "zephyr-quokka" marker), then pads several
+    // turns with bulk so a small FORGE_MAX_CHARS forces trimming — archiving that early
+    // turn. A late step's reflection mentions the marker again, so the recall retrieval
+    // must resurface the archived turn. Run with FORGE_MAX_CHARS≈2500 to force the trim.
+    //
+    // Turn index comes from the LAST tool_result's id (vc0, vc1, …) — NOT from counting
+    // assistant turns: this sentinel runs with trimming ACTIVE, and trimming drops old
+    // assistant turns, which would make a turn-count stall and repeat itself. The last
+    // message is the one thing trimMessages guarantees to keep.
+    const lastUser = [...messages].reverse().find(
+      (m) => m.role === 'user' && Array.isArray(m.content) && m.content.some((c) => c.type === 'tool_result')
+    );
+    const lastId = lastUser ? (lastUser.content.find((c) => c.type === 'tool_result') || {}).tool_use_id || '' : '';
+    const idx = /^vc\d+$/.test(lastId) ? Number(lastId.slice(2)) + 1 : 0;
+    const paths = ['.', 'forge', 'kernel', 'government', 'scripts', 'installer', 'brand', 'site'];
+    if (idx === 0) {
+      return {
+        content: [
+          { type: 'text', text: 'Early note: the priority target is the zephyr-quokka marker in the installer folder. Remember zephyr-quokka.' },
+          { type: 'tool_use', id: 'vc0', name: 'list_dir', input: { path: '.' } },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
+    if (idx < 6) {
+      const pad = `Step ${idx + 1}: continuing the survey. ` +
+        'Filler analysis prose to inflate the transcript so the context trim fires. '.repeat(6);
+      return {
+        content: [
+          { type: 'text', text: pad },
+          { type: 'tool_use', id: `vc${idx}`, name: 'list_dir', input: { path: paths[idx % paths.length] } },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
+    if (idx === 6) {
+      return {
+        content: [
+          { type: 'text', text: 'Checking back: what was the priority target? The early note said zephyr-quokka — resurfacing that context.' },
+          { type: 'tool_use', id: 'vc6', name: 'list_dir', input: { path: 'docs' } },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
+    return {
+      content: [
+        { type: 'text', text: 'Recall verified.' },
+        { type: 'tool_use', id: 'vcf', name: 'finish', input: { summary: 'Dry-run complete — trimming archived early turns and recall resurfaced them.' } },
+      ],
+      stop_reason: 'tool_use',
+    };
+  }
 
   if (isResumeSentinel) {
     const sawResume = /RESUMING a prior run/.test(firstUserText(messages));

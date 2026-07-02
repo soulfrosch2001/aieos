@@ -338,6 +338,63 @@ approach isn't working. Exercised offline end-to-end by the `stagnation-smoke` s
 [llm.mjs](llm.mjs)'s stub (plans two steps, never advances either, forcing two consecutive
 checkpoints to compare against each other).
 
+### Deliberation on stagnation (best-of-N)
+
+Escalating the tier asks one stronger mind to *create* a way out. On the same stagnant
+checkpoint, [deliberate.mjs](deliberate.mjs) also asks several cheap minds to create and
+one strong mind to *choose*: `FORGE_DELIBERATE_N` (default 3) candidate approaches are
+generated concurrently on the `cheap` tier — each prompted to take a *different* angle —
+then the `strong` tier judges the pool and quotes the most promising one. Judging is easier
+than generating, so a strong model picking between N independent proposals often beats a
+strong model improvising alone. The judged direction is injected as a
+`[deliberation — N candidate approaches were weighed…]` observation; advisory only, nothing
+gates on it, and the whole thing is recorded on the step (`step.deliberation`) and costed
+into the run totals.
+
+Default **on** — but it only ever fires on a stagnant checkpoint, a rare event by
+construction, so the marginal cost lands exactly when the run is already wasting steps.
+`FORGE_DELIBERATE=off` disables it. A dead candidate or a dead judge degrades gracefully
+(the pool shrinks; the first candidate stands in for a missing judgment) — deliberation
+must never crash the run it is trying to unstick. Exercised offline by the
+`deliberation-smoke` sentinel (same stall as `stagnation-smoke`; the stub answers the
+`[deliberation:propose]` / `[deliberation:judge]` side-prompts deterministically).
+
+## Virtual context (trimmed turns stay recallable)
+
+Message trimming ([llm.mjs](llm.mjs) `trimMessages`) keeps long runs inside the context
+budget by dropping the oldest middle turns — previously, information gone for good. Now
+what the trim drops is **archived, not lost**: [context.mjs](context.mjs) folds every
+dropped turn into an in-run archive (text, tool calls and results flattened to compact
+one-liners), and on each subsequent step the loop retrieves the archived slices most
+relevant to the step's own reflection — the freshest signal of what the run is focused on —
+re-injecting them as an `[archived context recall …]` observation. Same BM25 retriever the
+[memory block](#memory-and-retrieval) uses, pointed at the run's own history: the model
+effectively gets an unbounded transcript, paged by relevance.
+
+Bounded on purpose: top 2 hits, excerpts capped, and an injection identical to the previous
+one is skipped. Each fired recall lands in the trace (`step.recall` — size + preview) so
+what was resurfaced is auditable. Pure and dry-run-safe. Exercised offline by the
+`virtualcontext-smoke` sentinel under a tiny `FORGE_MAX_CHARS`: it plants a distinctive
+fact in turn one, pads until the trim archives that turn, then mentions the fact again —
+the recall block must resurface the archived turn, and the trace proves it did.
+
+## The critic (opt-in second opinion on risky actions)
+
+With `FORGE_CRITIC=on` (default **off** — it costs one extra call per risky action, so the
+maintainer opts in deliberately), [critic.mjs](critic.mjs) has a `mid`-tier model review
+each `write_*`, `delegate` and `finish` before it runs: one line, `OK — …` or
+`CONCERN: …` — the AIEOS council pattern miniaturized to a single decision inside the loop.
+
+Advisory by design: writes and delegations proceed regardless, with the critique riding
+along in the observation (and in the trace, `action.critic`). `finish` alone gets a
+**one-time speed bump**: a concerned critique refuses the *first* finish so the model must
+read it and either fix or insist — the *second* finish always passes. A bump, not a gate;
+agency stays with the model, and the check runs *after* the Directive #9 guardrail so the
+hard law is never diluted by advice. A dead critic yields a neutral pass — it must never be
+the thing that breaks a run. Exercised offline by the `critic-smoke` sentinel (write →
+gate → finish refused once → finish passes), plus a flag-off variant proving the default
+path is untouched.
+
 ## Resuming across process boundaries
 
 A single process budget (`maxSteps`) is not the same thing as a goal's actual size — a
@@ -497,6 +554,9 @@ no key.
 - [checkpoint.mjs](checkpoint.mjs) — the structural, model-free progress note (periodic,
   during a run), plus stagnation detection that feeds router escalation.
 - [resume.mjs](resume.mjs) — pure trace → resume-context text, for `forge/run.mjs --resume`.
+- [context.mjs](context.mjs) — virtual context: archive trimmed turns, recall by relevance.
+- [deliberate.mjs](deliberate.mjs) — best-of-N candidate approaches on stagnation, judged.
+- [critic.mjs](critic.mjs) — opt-in advisory review of risky actions (write/delegate/finish).
 - [router.mjs](router.mjs) — pure, model-agnostic per-step tier/model choice.
 - [`forge/cost.mjs`](../cost.mjs) — pure cost-of-trace, price table, by-tier split.
 - [`forge/bench.mjs`](../bench.mjs) — routed-vs-baseline parity-times-cost harness.

@@ -1,0 +1,15 @@
+Resumo da decisão zero zero trinta e um do AIEOS: três módulos novos que roubam de volta um pedaço real da distância até o Fable 5.
+
+Você perguntou a nota de semelhança, eu disse: uns seis e meio, e o que falta é capacidade bruta de modelo, não arquitetura. Aí você perguntou se dava pra modular algo parecido, eu propus três módulos, e você mandou fazer tudo. Feito.
+
+Primeiro, o contexto virtual. Antes, quando uma conversa longa estourava o orçamento, os turnos mais antigos eram simplesmente jogados fora, informação perdida pra sempre. Agora nada se perde: tudo que sai da janela vira um arquivo indexável, e a cada passo o sistema puxa de volta só os trechos do próprio histórico que têm a ver com o que ele está fazendo naquele momento. Na prática, é uma transcrição infinita, paginada por relevância. E eu provei que funciona de verdade: plantei um fato marcante no primeiro turno, enchi a conversa até ele ser descartado, e quando a execução mencionou o fato de novo lá na frente, o sistema ressuscitou exatamente o turno arquivado que continha a resposta.
+
+Segundo, a deliberação. Quando uma execução trava, escalar o modelo é pedir pra uma mente mais forte criar uma saída. Agora, além disso, três mentes baratas propõem caminhos diferentes em paralelo, e a mente forte só escolhe o melhor. Julgar é mais fácil que criar. E isso só dispara quando a execução já está travada, ou seja, o gasto extra chega exatamente na hora em que passos já estavam sendo desperdiçados.
+
+Terceiro, o crítico. Ligado por opção, um segundo modelo revisa cada ação cara ou irreversível antes dela rodar: escrever um arquivo, delegar, finalizar. A opinião pega carona na observação, sem bloquear nada. Só o finalizar ganha um quebra-molas de uma vez só: se o crítico discorda, a primeira tentativa de finalizar é recusada pra forçar a leitura da crítica, mas a segunda sempre passa. A agência continua com o modelo.
+
+E de brinde, os testes revelaram um problema real: o dublê de testes contava turnos pra saber em que passo estava, mas o corte de contexto apaga turnos antigos, então a contagem regredia e ele entrava em loop. Corrigi usando um identificador que o corte nunca descarta.
+
+Quinze execuções de teste, todas verdes. Treze testes unitários passando. Portão de qualidade limpo, quatorze regras, zero erros.
+
+Nota de semelhança depois disso: entre sete e meio e oito. É o teto sem trocar o modelo por um mais forte. Daqui pra cima, não é mais arquitetura, é cérebro.

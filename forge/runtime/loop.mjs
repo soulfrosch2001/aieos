@@ -14,6 +14,9 @@ import { evaluate } from './eval.mjs';
 import { appendLesson, buildMemoryBlock } from './memory.mjs';
 import { delegate } from './subagent.mjs';
 import { checkpointInterval, maybeCheckpoint } from './checkpoint.mjs';
+import { archiveTurns, recallFromArchive } from './context.mjs';
+import { deliberate } from './deliberate.mjs';
+import { criticEnabled, reviewAction } from './critic.mjs';
 
 export async function runLoop({
   system, goal, ctx, model, dryRun, agent = 'agent',
@@ -68,11 +71,31 @@ export async function runLoop({
   let prevCkptSnapshot = null;
   let writeActionCount = 0;
 
+  // Virtual context: turns dropped by trimMessages are archived here as retrievable docs
+  // (context.mjs) instead of being lost, and each step can pull back the archived slices
+  // relevant to what it is doing now. `lastRecall` suppresses re-injecting an identical
+  // block two turns running. `criticFinishWarned` makes the critic's finish speed bump
+  // one-time (critic.mjs). addUsage folds side-call token usage (critic/deliberation)
+  // into the run totals so the trace never under-reports cost.
+  const contextArchive = [];
+  let lastRecall = '';
+  let criticFinishWarned = false;
+  const addUsage = (u) => {
+    if (!u) return;
+    totals.usage.input_tokens += u.input_tokens || 0;
+    totals.usage.output_tokens += u.output_tokens || 0;
+  };
+
   for (let n = 1; n <= maxSteps; n++) {
     // Trim before each call so long runs stay within context (never drops the first user
     // turn or the last tool result). No-op when under budget and under --dry-run anyway.
+    // What the trim drops is ARCHIVED, not lost (virtual context): reference equality is
+    // enough to find the dropped turns because trimMessages reuses the kept objects.
     const trimmed = trimMessages(messages);
-    if (trimmed !== messages) { messages.length = 0; messages.push(...trimmed); }
+    if (trimmed !== messages) {
+      archiveTurns(contextArchive, messages.filter((m) => !trimmed.includes(m)));
+      messages.length = 0; messages.push(...trimmed);
+    }
 
     // Route this step to a tier BEFORE the call. The decision is computed and logged even
     // under --dry-run (where the stub ignores the model), which is how the routing logic is
@@ -137,6 +160,18 @@ export async function runLoop({
           : 'GUARDRAIL: delegation is disabled (set FORGE_SUBAGENTS=on to enable).';
         return { tu, ok: false, output: msg, subMs: 0, subWrote: false, subGateClean: true };
       }
+      // Critic (opt-in, advisory): review the delegation before dispatch. The critique
+      // rides along appended to the sub-run's output either way — no shared-state mutation
+      // here (usage is returned and folded in by applyDelegateResult, same as everything
+      // else this function produces).
+      let criticNote = '', criticUsage = null;
+      if (criticEnabled()) {
+        const review = await reviewAction({
+          goal, planView: plan ? renderPlan(plan) : '',
+          action: { name: 'delegate', input: tu.input }, tiers, model, dryRun,
+        });
+        criticNote = review.note; criticUsage = review.usage;
+      }
       onEvent({ kind: 'act', n, name: 'delegate', input: tu.input });
       const td = performance.now();
       let dr;
@@ -150,7 +185,8 @@ export async function runLoop({
       const subWrote = dr.result && dr.result.steps
         ? dr.result.steps.some((s) => (s.actions || []).some((a) => a.name === 'write_file' && a.ok))
         : false;
-      return { tu, ok: subDone, output: dr.output, subMs, subWrote, subGateClean: !!(dr.result && dr.result.gateClean) };
+      const output = dr.output + (criticNote ? '\n[critic] ' + criticNote : '');
+      return { tu, ok: subDone, output, subMs, subWrote, subGateClean: !!(dr.result && dr.result.gateClean), criticUsage };
     }
 
     // Apply one resolved delegate result to the shared step/trace state, in the SAME shape
@@ -161,6 +197,7 @@ export async function runLoop({
     function applyDelegateResult(r) {
       handledIds.add(r.tu.id);
       totals.ms += r.subMs;
+      addUsage(r.criticUsage);
       if (r.subWrote && !r.subGateClean) { dirtyWrites = true; gateClean = false; }
       results.push({ type: 'tool_result', tool_use_id: r.tu.id, content: r.output, is_error: !r.ok });
       step.actions.push({ name: 'delegate', input: r.tu.input, ok: r.ok, output: r.output, ms: r.subMs });
@@ -214,6 +251,26 @@ export async function runLoop({
           onEvent({ kind: 'observe', n, name: 'finish', ok: false });
           continue;
         }
+        // Critic speed bump (opt-in, ONE-TIME): a concerned critique refuses the first
+        // finish so the model must read it and either fix or insist — the second finish
+        // always passes regardless. Agency stays with the model; this is a bump, not a
+        // gate, and it runs AFTER Directive #9 so the hard law is never diluted by advice.
+        if (criticEnabled() && !criticFinishWarned) {
+          const review = await reviewAction({
+            goal, planView: plan ? renderPlan(plan) : '',
+            action: { name: 'finish', input: tu.input }, tiers, model, dryRun,
+          });
+          addUsage(review.usage);
+          if (review.concern) {
+            criticFinishWarned = true;
+            const msg = 'CRITIC (advisory, one-time): ' + review.note +
+              ' — address this, or call finish again to proceed anyway.';
+            results.push({ type: 'tool_result', tool_use_id: tu.id, content: msg, is_error: true });
+            step.actions.push({ name: 'finish', input: tu.input, ok: false, output: msg });
+            onEvent({ kind: 'observe', n, name: 'finish', ok: false });
+            continue;
+          }
+        }
         outcome = 'done';
         summary = (tu.input && tu.input.summary) || '';
         step.actions.push({ name: 'finish', input: tu.input, ok: true, output: summary });
@@ -223,6 +280,20 @@ export async function runLoop({
       }
 
       onEvent({ kind: 'act', n, name: tu.name, input: tu.input });
+
+      // Critic (opt-in, advisory): review write-type actions before they execute. The
+      // action proceeds regardless — the critique rides along in the observation so the
+      // model sees the second opinion next turn without losing agency this turn.
+      let criticNote = '';
+      if (criticEnabled() && tu.name.startsWith('write_')) {
+        const review = await reviewAction({
+          goal, planView: plan ? renderPlan(plan) : '',
+          action: { name: tu.name, input: tu.input }, tiers, model, dryRun,
+        });
+        addUsage(review.usage);
+        criticNote = review.note;
+      }
+
       const ta = performance.now();
       const r = await runTool(tu.name, tu.input || {}, ctx);
       const toolMs = Math.round(performance.now() - ta);
@@ -241,8 +312,12 @@ export async function runLoop({
         else { lastGateFailed = false; }
       }
 
-      results.push({ type: 'tool_result', tool_use_id: tu.id, content: r.output ?? '', is_error: !r.ok });
-      step.actions.push({ name: tu.name, input: tu.input, ok: r.ok, output: r.output ?? '', ms: toolMs });
+      const obsContent = (r.output ?? '') + (criticNote ? '\n[critic] ' + criticNote : '');
+      results.push({ type: 'tool_result', tool_use_id: tu.id, content: obsContent, is_error: !r.ok });
+      step.actions.push({
+        name: tu.name, input: tu.input, ok: r.ok, output: r.output ?? '', ms: toolMs,
+        ...(criticNote ? { critic: criticNote } : {}),
+      });
       onEvent({ kind: 'observe', n, name: tu.name, ok: r.ok });
     }
 
@@ -254,6 +329,7 @@ export async function runLoop({
       writeActionCount, prevSnapshot: prevCkptSnapshot,
     });
     let freshMemory = '';
+    let deliberation = null;
     if (ckpt) {
       step.checkpoint = ckpt; checkpoints.push(ckpt); onEvent({ kind: 'checkpoint', n, text: ckpt.text });
       prevCkptSnapshot = ckpt.snapshot;
@@ -269,8 +345,36 @@ export async function runLoop({
         const pendingStep = plan && Array.isArray(plan.steps) ? plan.steps.find((s) => s.status === 'pending') : null;
         const query = (pendingStep && pendingStep.text) || goal;
         try { freshMemory = buildMemoryBlock(ctx.repoRoot, query); } catch { freshMemory = ''; }
+        // Deliberation (best-of-N, deliberate.mjs): escalating asks one stronger mind to
+        // CREATE a way out; this also asks several cheap minds to create and a strong one
+        // to CHOOSE. Advisory — the judged direction is injected as an observation below.
+        try {
+          deliberation = await deliberate({
+            goal, planView: plan ? renderPlan(plan) : '', lastText: text, tiers, model, dryRun,
+          });
+        } catch { deliberation = null; }
+        if (deliberation) {
+          addUsage(deliberation.usage);
+          step.deliberation = { candidates: deliberation.candidates.length, chosen: deliberation.chosen };
+          onEvent({ kind: 'deliberation', n, text: deliberation.chosen });
+        }
       } else {
         lastEvalFailed = false;
+      }
+    }
+
+    // Virtual context recall: when earlier turns have been trimmed away, resurface the
+    // archived slices relevant to THIS step's own reflection (the freshest signal of what
+    // the run is focused on). Skipped when identical to the previous injection.
+    let recallBlock = '';
+    if (!stop && contextArchive.length) {
+      const recall = recallFromArchive(contextArchive, text || goal);
+      if (recall && recall !== lastRecall) {
+        lastRecall = recall;
+        recallBlock = recall;
+        // A preview lands in the trace so a recall's CONTENT is auditable after the fact,
+        // not just the fact that one fired.
+        step.recall = { chars: recall.length, preview: recall.slice(0, 240) };
       }
     }
 
@@ -287,6 +391,8 @@ export async function runLoop({
       }
       if (ckpt) results.push({ type: 'text', text: '\n' + ckpt.text });
       if (freshMemory) results.push({ type: 'text', text: '\n[fresh memory search — triggered by stalled progress]\n' + freshMemory });
+      if (deliberation) results.push({ type: 'text', text: '\n[deliberation — ' + deliberation.candidates.length + ' candidate approaches were weighed; the judged direction follows]\n' + deliberation.chosen });
+      if (recallBlock) results.push({ type: 'text', text: '\n' + recallBlock });
       messages.push({ role: 'user', content: results });
     }
 
