@@ -1,0 +1,15 @@
+Resumo da decisão zero zero trinta do AIEOS: o Forge fica mais esperto sozinho, e agora consegue continuar um trabalho grande em outra sessão.
+
+Você me perguntou como eu construiria o sistema do Fable 5 aqui dentro, e eu respondi com três pontos. Você autorizou os três, e eu entreguei os três.
+
+Primeiro: o sistema de custo já tinha um gatilho pronto para chamar um modelo mais forte quando uma verificação falhasse, mas esse gatilho nunca era acionado, era código morto. Agora, quando a checagem periódica percebe que uma execução parou de avançar de verdade, ela mesma aciona esse gatilho. O próximo passo automaticamente sobe para um modelo mais capaz, sem precisar esperar um erro explícito acontecer primeiro.
+
+Segundo: no mesmo momento em que a execução é flagrada como travada, o sistema vai buscar de novo na memória, mas agora com uma pergunta atualizada, focada exatamente no que está travado, não mais só a pergunta original do início. É memória sob demanda, não só uma foto tirada no começo.
+
+Terceiro, e esse é grande: agora dá para pausar um trabalho longo e continuar depois, em outra chamada do programa, como se nunca tivesse parado. Eu peguei o retrato de como a tentativa anterior terminou, o plano dela, os últimos pensamentos, e injetei tudo isso no começo da nova tentativa.
+
+E de brinde, encontrei um problema real enquanto construía isso: os dois formatos de arquivo mais novos, a planilha e a apresentação, nunca ativavam a trava de segurança que exige rodar a verificação antes de finalizar. Só o arquivo de texto simples ativava essa trava. Ou seja, dava pra escrever uma planilha ou uma apresentação e finalizar sem nunca confirmar que ficou correto. Corrigi isso também.
+
+Testei tudo de verdade, não só confiei no que o sistema disse que fez: confirmei a escalada de modelo acontecendo exatamente um passo depois da estagnação, confirmei que a busca de memória fresca realmente retorna conteúdo de verdade, e testei os dois caminhos de retomada, com e sem o parâmetro. Dez cenários diferentes, todos concluídos, treze testes unitários passando, e o portão de qualidade fechou limpo, quatorze regras, zero erros.
+
+O que ainda ficou de fora: os formatos word e excel de verdade continuam fora do escopo, e a retomada por enquanto exige que você informe de novo o mesmo agente e o mesmo objetivo da tentativa anterior, ainda não descobre isso sozinha.

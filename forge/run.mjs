@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { runLoop } from './runtime/loop.mjs';
 import { buildMemoryBlock } from './runtime/memory.mjs';
+import { buildResumeContext } from './runtime/resume.mjs';
 import { formatVerdict } from './runtime/eval.mjs';
 import { preflight, maxTokens } from './runtime/llm.mjs';
 import { checkHarmLaw } from './runtime/integrity.mjs';
@@ -41,6 +42,7 @@ try {
       'max-tokens': { type: 'string' },
       smoke: { type: 'boolean', default: false },
       json: { type: 'boolean', default: false },
+      resume: { type: 'string' },
     },
   });
 } catch (e) {
@@ -112,6 +114,24 @@ const workspace = path.join(agentAbs, 'workspace');
 fs.mkdirSync(workspace, { recursive: true });
 const ctx = { repoRoot, workspace };
 
+// ---- Resume (long-horizon runs across process boundaries): --resume <tracePath> reads a
+// PRIOR trace and folds its plan/progress/last-reflection into this fresh run's opening turn
+// (see runtime/resume.mjs), so a goal too big for one budget_exhausted run can be carried
+// forward by re-invoking the CLI with the same agent + goal. Read eagerly (not inside run())
+// so a bad path fails fast, before spending a preflight call.
+let resumeContext = '';
+let resumeTrace = null;
+if (flags.resume) {
+  const tracePath = path.isAbsolute(flags.resume) ? flags.resume : path.resolve(repoRoot, flags.resume);
+  try {
+    resumeTrace = JSON.parse(fs.readFileSync(tracePath, 'utf8'));
+  } catch (e) {
+    process.stderr.write('forge: cannot read --resume trace at ' + tracePath + ': ' + e.message + '\n');
+    process.exit(6);
+  }
+  resumeContext = buildResumeContext(resumeTrace);
+}
+
 run();
 
 async function run() {
@@ -130,6 +150,9 @@ async function run() {
       `subagents=${process.env.FORGE_SUBAGENTS === 'on' ? 'on' : 'off'}\n` +
       `forge: preflight ${pf.ok ? 'ok' : 'FAILED'} — ${pf.reason}\n`
     );
+    if (resumeTrace) {
+      process.stdout.write(`forge: resuming from ${flags.resume} (prior outcome: ${resumeTrace.outcome})\n`);
+    }
   }
   if (!pf.ok) { process.stderr.write('forge: aborting — ' + pf.reason + '\n'); process.exit(3); }
 
@@ -140,7 +163,7 @@ async function run() {
   try { memoryBlock = buildMemoryBlock(repoRoot, goal); } catch { memoryBlock = ''; }
 
   const res = await runLoop({
-    system, goal, ctx, model, dryRun, agent: agentName, maxSteps, memoryBlock,
+    system, goal, ctx, model, dryRun, agent: agentName, maxSteps, memoryBlock, resumeContext,
     onEvent: json ? () => {} : render,
   });
 
@@ -183,6 +206,7 @@ function loadAgent(dir) {
 
 function usage(msg) {
   if (msg) process.stderr.write('forge/run.mjs: ' + msg + '\n');
-  process.stderr.write('Usage: node forge/run.mjs <agent-dir> "<goal>" [--dry-run] [--max-steps N] [--max-tokens N] [--json]\n');
+  process.stderr.write('Usage: node forge/run.mjs <agent-dir> "<goal>" [--dry-run] [--max-steps N] [--max-tokens N] [--json] [--resume <tracePath>]\n');
   process.stderr.write('       node forge/run.mjs --smoke [--dry-run]   (trivial capped end-to-end run; defaults agent + goal)\n');
+  process.stderr.write('       --resume points at a prior forge/runs/*.json trace; use the SAME <agent-dir> and "<goal>" as the run being resumed.\n');
 }

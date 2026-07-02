@@ -182,6 +182,11 @@ function sizeOf(messages) {
 //                                default checkpoint interval (5 steps) before finishing, so
 //                                the periodic self-verification note (checkpoint.mjs) fires
 //                                at least once, exercised end-to-end offline.
+//   "resume-smoke"            — finishes immediately, reporting whether a `--resume`-built
+//                                resume context (see resume.mjs) was actually present in the
+//                                FULL opening text. Unlike the other sentinels this checks
+//                                firstUserText (pre-marker), not firstUserGoalText, since
+//                                resume context is deliberately prepended BEFORE "# Goal\n".
 // The SUB-run's goal won't contain any sentinel, so it falls through to the normal
 // list_dir → finish branch — recursion terminates without the depth cap ever being needed.
 function stub(messages) {
@@ -196,14 +201,65 @@ function stub(messages) {
   const isCsvSentinel = /csv-smoke/i.test(openingText);
   const isRunCodeSentinel = /runcode-smoke/i.test(openingText);
   const isPptxSentinel = /pptx-smoke/i.test(openingText);
+  const isStagnationSentinel = /stagnation-smoke/i.test(openingText);
+  const isResumeSentinel = /resume-smoke/i.test(openingText);
 
-  if (isPptxSentinel) {
-    // One write_pptx call (a real, genuinely executed library call — --dry-run only stubs
-    // the MODEL), then finish. Proves the real deck-generation path end-to-end.
-    if (!hasResult) {
+  if (isResumeSentinel) {
+    const sawResume = /RESUMING a prior run/.test(firstUserText(messages));
+    return {
+      content: [
+        { type: 'text', text: sawResume ? 'Resume context was present in the opening turn.' : 'No resume context in the opening turn.' },
+        { type: 'tool_use', id: 'sr1', name: 'finish', input: { summary: sawResume ? 'resume-context-seen' : 'resume-context-absent' } },
+      ],
+      stop_reason: 'tool_use',
+    };
+  }
+
+  if (isStagnationSentinel) {
+    // Step 1: record a 2-item plan and never advance it. Steps 2-10: nine harmless, varied
+    // reads (never 3x identical, so the repeat-detector never trips) — the loop keeps
+    // "doing something" but the PLAN never moves. Checkpoints fire at step 5 (first — never
+    // stagnant, nothing to compare against) and step 10 (second — planDone unchanged since
+    // step 5 → stagnant should fire here). Step 11: finish.
+    const priorSteps = messages.filter((m) => m.role === 'assistant').length;
+    if (priorSteps === 0) {
       return {
         content: [
-          { type: 'text', text: 'Plan: write a two-slide deck, then finish.' },
+          { type: 'text', text: 'Plan: two steps, then investigate without ever completing either.' },
+          { type: 'tool_use', id: 'sp1', name: 'plan', input: { steps: ['Investigate the layout', 'Write a report'] } },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
+    if (priorSteps < 10) {
+      const paths = ['.', 'forge', 'kernel', 'government', 'scripts', 'installer', 'brand', 'site', 'docs'];
+      return {
+        content: [
+          { type: 'text', text: `Step ${priorSteps + 1}: still just looking around.` },
+          { type: 'tool_use', id: `sd${priorSteps}`, name: 'list_dir', input: { path: paths[priorSteps % paths.length] } },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
+    return {
+      content: [
+        { type: 'text', text: 'Giving up on the plan, finishing without completing it.' },
+        { type: 'tool_use', id: 'sf', name: 'finish', input: { summary: 'Dry-run complete — ran long enough to exercise stagnation detection.' } },
+      ],
+      stop_reason: 'tool_use',
+    };
+  }
+
+  if (isPptxSentinel) {
+    // write_pptx → run_gate → finish (a real, genuinely executed library call — --dry-run
+    // only stubs the MODEL): proves the real deck-generation path AND, since write_pptx now
+    // arms Directive #9 like every other write_* tool (loop.mjs), that the gate-before-finish
+    // guardrail is actually satisfied here — same shape as csv-smoke above.
+    const priorSteps = messages.filter((m) => m.role === 'assistant').length;
+    if (priorSteps === 0) {
+      return {
+        content: [
+          { type: 'text', text: 'Plan: write a two-slide deck, verify with the gate, then finish.' },
           { type: 'tool_use', id: 'p1', name: 'write_pptx', input: {
             path: 'forge/examples/balance-scout/workspace/deck.pptx',
             title: 'Smoke Test Deck',
@@ -212,6 +268,15 @@ function stub(messages) {
               { title: 'Slide Two', bullets: ['Only point'] },
             ],
           } },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
+    if (priorSteps === 1) {
+      return {
+        content: [
+          { type: 'text', text: 'Verifying before finishing.' },
+          { type: 'tool_use', id: 'pg1', name: 'run_gate', input: {} },
         ],
         stop_reason: 'tool_use',
       };

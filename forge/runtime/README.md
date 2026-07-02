@@ -16,7 +16,7 @@ runs with **no model and no API key** in `--dry-run`.
 ## How to run
 
 ```
-node forge/run.mjs <agent-dir> "<goal>" [--dry-run] [--max-steps N] [--json]
+node forge/run.mjs <agent-dir> "<goal>" [--dry-run] [--max-steps N] [--json] [--resume <tracePath>]
 node forge/run.mjs --smoke [--dry-run]
 ```
 
@@ -41,13 +41,17 @@ Flags:
 - `--json` — print the run-trace object instead of the human step lines.
 - `--smoke` — run a built-in, tightly capped trivial goal end-to-end as a health
   check; pairs with `--dry-run` to prove the engine wires up with no model and no key.
+- `--resume <tracePath>` — fold a prior run's trace (plan, progress, last reflection) into
+  this run's opening turn; use the SAME `<agent-dir>` and `"<goal>"` as the run being
+  resumed. See [Resuming across process boundaries](#resuming-across-process-boundaries).
 
 On startup `run.mjs` prints a one-line **banner** echoing the resolved model (or
 `dry-run`), whether dry-run is active, and the active ceilings (max steps, max tokens,
 delegation depth) — so every run states its own bounds before it acts.
 
 Exit codes: `2` missing `<agent-dir>` or `<goal>` (usage); `3` live run with
-`FORGE_MODEL` unset and no `--dry-run`.
+`FORGE_MODEL` unset and no `--dry-run`; `4` agent contract files missing; `6` `--resume`
+trace path unreadable.
 
 ### Smoke check and preflight
 
@@ -311,6 +315,56 @@ when and what the run was told about itself. Pure and dry-run-safe (no model cal
 beyond what the loop already tracks) — exercised offline by the `checkpoint-smoke` sentinel
 in [llm.mjs](llm.mjs)'s stub, which runs long enough to guarantee at least one fires.
 
+### Stagnation escalates the model, and re-queries memory
+
+A checkpoint doesn't just report progress — it judges it, by comparing this checkpoint's
+snapshot to the *previous* one: plan-completion count (`done` steps) when a plan exists,
+else `writeActionCount` (writes made so far) as the fallback for goals with no explicit
+plan. If nothing moved between two checkpoints, the run is `stagnant`.
+
+A stagnant checkpoint feeds `lastEvalFailed` into the [cost router](#cost-router-model-per-step)
+— the same escalation seam a failed `run_gate` already uses — so the run's *next* step is
+routed to a stronger model, capped by `FORGE_MAX_ESCALATIONS`. This is what finally wires
+`router.mjs`'s `lastEvalFailed` input (present in the router's signature from the start) to
+a real signal instead of dead code: a run that stalls gets more capability on its own,
+without needing a gate to fail first.
+
+At the same moment, the loop re-queries [memory](#memory-and-retrieval) with the *current*
+sub-problem — the next pending plan step's text, or the goal if there is no plan — and
+injects the result as a `[fresh memory search — triggered by stalled progress]` block on
+the next turn. The opening-turn memory injection is a one-time snapshot; this is memory as
+context-on-demand, re-pulled exactly when the run's own progress signal says the current
+approach isn't working. Exercised offline end-to-end by the `stagnation-smoke` sentinel in
+[llm.mjs](llm.mjs)'s stub (plans two steps, never advances either, forcing two consecutive
+checkpoints to compare against each other).
+
+## Resuming across process boundaries
+
+A single process budget (`maxSteps`) is not the same thing as a goal's actual size — a
+genuinely long-horizon goal can outlast one run without being wrong or stuck. Rather than
+holding one process open indefinitely, `forge/run.mjs` accepts `--resume <tracePath>`
+pointing at a **prior** run's trace (typically one that ended `budget_exhausted` or
+`stuck`). [resume.mjs](resume.mjs)'s `buildResumeContext(trace)` turns that trace into a
+compact text block — prior outcome, prior plan with `[x]`/`[ ]` status, the last few
+reflections, and a stagnation note if the prior run's last checkpoint was flagged — and
+`loop.mjs` prepends it to the opening turn, in the same slot `memoryBlock` already occupies
+(`resumeContext` before `memoryBlock`'s `# Goal` marker; goal text always stays last, since
+[llm.mjs](llm.mjs)'s sentinel matcher relies on `"# Goal\n"` being the final marker).
+
+```bash
+# First attempt runs out of budget:
+node forge/run.mjs forge/examples/balance-scout "large multi-part goal" --max-steps 40
+# ... outcome: budget_exhausted, trace: forge/runs/2026-...-balance-scout.json
+
+# Resume with the SAME agent + goal, pointing at that trace:
+node forge/run.mjs forge/examples/balance-scout "large multi-part goal" \
+  --resume forge/runs/2026-...-balance-scout.json --max-steps 40
+```
+
+`resume.mjs` is pure (reads only the trace object already on disk — no model, no I/O of its
+own), so this is free and dry-run-safe. Exercised offline by the `resume-smoke` sentinel,
+which reports whether resume context reached the opening turn.
+
 ## Robustness on live runs
 
 Live model calls survive transient failure: [llm.mjs](llm.mjs) retries on `429`, `5xx`,
@@ -441,7 +495,8 @@ no key.
 - [plan.mjs](plan.mjs) — render and apply the explicit plan checklist.
 - [eval.mjs](eval.mjs) — the structural, model-free self-check verdict (end of run).
 - [checkpoint.mjs](checkpoint.mjs) — the structural, model-free progress note (periodic,
-  during a run).
+  during a run), plus stagnation detection that feeds router escalation.
+- [resume.mjs](resume.mjs) — pure trace → resume-context text, for `forge/run.mjs --resume`.
 - [router.mjs](router.mjs) — pure, model-agnostic per-step tier/model choice.
 - [`forge/cost.mjs`](../cost.mjs) — pure cost-of-trace, price table, by-tier split.
 - [`forge/bench.mjs`](../bench.mjs) — routed-vs-baseline parity-times-cost harness.

@@ -11,20 +11,27 @@ import { tiersFromEnv, choose, maxEscalations } from './router.mjs';
 import { toolSchemas, runTool, subagentsEnabled } from './tools.mjs';
 import { makePlan, applyPlanUpdate, renderPlan } from './plan.mjs';
 import { evaluate } from './eval.mjs';
-import { appendLesson } from './memory.mjs';
+import { appendLesson, buildMemoryBlock } from './memory.mjs';
 import { delegate } from './subagent.mjs';
 import { checkpointInterval, maybeCheckpoint } from './checkpoint.mjs';
 
 export async function runLoop({
   system, goal, ctx, model, dryRun, agent = 'agent',
   memoryBlock = '',
+  resumeContext = '',
   depth = 0,
   maxSteps = Number(process.env.FORGE_MAX_STEPS) || 20,
   onEvent = () => {},
 }) {
   // Memory & retrieval: the opening user turn carries the goal plus any retrieved memory,
-  // so the agent starts already aware of relevant prior decisions and lessons.
-  const opening = memoryBlock ? `${memoryBlock}\n\n---\n\n# Goal\n${goal}` : goal;
+  // so the agent starts already aware of relevant prior decisions and lessons. `resumeContext`
+  // (see resume.mjs) is the same idea applied across PROCESS boundaries: when set, it carries
+  // a prior attempt's plan/progress/last-reflection into this fresh run so a long-horizon goal
+  // survives being split across several `forge/run.mjs --resume` invocations instead of
+  // needing one unbroken process. Goal always stays LAST in the opening text — llm.mjs's
+  // sentinel matcher relies on "# Goal\n" being the final marker.
+  const prefixBlocks = [memoryBlock, resumeContext].filter(Boolean);
+  const opening = prefixBlocks.length ? `${prefixBlocks.join('\n\n---\n\n')}\n\n---\n\n# Goal\n${goal}` : goal;
   const messages = [{ role: 'user', content: opening }];
   // The tool set depends on depth: the `delegate` schema is only advertised when sub-agents
   // are enabled AND there is depth budget left (see tools.subagentsEnabled).
@@ -51,9 +58,15 @@ export async function runLoop({
   let escalated = 0, lastGateFailed = false, lastEvalFailed = false;
 
   // Continuous self-verification: every `ckptInterval` steps, inject a free, deterministic
-  // progress note (see checkpoint.mjs) instead of only reflecting once at the very end.
+  // progress note (see checkpoint.mjs) instead of only reflecting once at the very end. A
+  // stagnant checkpoint feeds `lastEvalFailed` — the same router input a failed gate already
+  // uses — so a run that stops making progress escalates to a stronger model on its own,
+  // not only when a gate explicitly fails. `writeActionCount` is the fallback progress
+  // signal for goals with no explicit plan.
   const ckptInterval = checkpointInterval();
   const checkpoints = [];
+  let prevCkptSnapshot = null;
+  let writeActionCount = 0;
 
   for (let n = 1; n <= maxSteps; n++) {
     // Trim before each call so long runs stay within context (never drops the first user
@@ -215,7 +228,11 @@ export async function runLoop({
       const toolMs = Math.round(performance.now() - ta);
       totals.ms += toolMs;
 
-      if (tu.name === 'write_file' && r.ok) { dirtyWrites = true; gateClean = false; }
+      // Any write-type tool (write_file, write_csv, write_pptx, and future ones following
+      // the same naming) re-arms the gate requirement — this was write_file-only before,
+      // which meant write_csv/write_pptx could finish WITHOUT ever satisfying Directive #9.
+      // Also feeds the checkpoint's stagnation signal for goals with no explicit plan.
+      if (tu.name.startsWith('write_') && r.ok) { dirtyWrites = true; gateClean = false; writeActionCount++; }
       if (tu.name === 'run_gate') {
         gateClean = r.ok; // a failing gate is an observation, not a stop
         // Escalation seam: a failed gate climbs the tier ladder, so the NEXT iteration
@@ -232,8 +249,30 @@ export async function runLoop({
     // Continuous self-verification (advisory, deterministic, model-free): due only every
     // `ckptInterval` steps, and only while the run is still going (never on the step that
     // just called `finish`) — a mid-run progress note, not a second post-hoc verdict.
-    const ckpt = stop ? null : maybeCheckpoint({ n, interval: ckptInterval, plan, dirtyWrites, gateClean, totals });
-    if (ckpt) { step.checkpoint = ckpt; checkpoints.push(ckpt); onEvent({ kind: 'checkpoint', n, text: ckpt.text }); }
+    const ckpt = stop ? null : maybeCheckpoint({
+      n, interval: ckptInterval, plan, dirtyWrites, gateClean, totals,
+      writeActionCount, prevSnapshot: prevCkptSnapshot,
+    });
+    let freshMemory = '';
+    if (ckpt) {
+      step.checkpoint = ckpt; checkpoints.push(ckpt); onEvent({ kind: 'checkpoint', n, text: ckpt.text });
+      prevCkptSnapshot = ckpt.snapshot;
+      if (ckpt.stagnant) {
+        // Escalation seam, same shape as the gate-failure one above: a stalled run gets a
+        // stronger model on its NEXT step. This is what finally wires router.mjs's
+        // `lastEvalFailed` input to something real.
+        lastEvalFailed = true;
+        if (escalated < escCap) escalated++;
+        // Context on demand, not a one-time opening injection: re-query memory with the
+        // CURRENT sub-problem (the next pending plan step, if there is one) instead of the
+        // original goal — the practical substitute for a much larger context window.
+        const pendingStep = plan && Array.isArray(plan.steps) ? plan.steps.find((s) => s.status === 'pending') : null;
+        const query = (pendingStep && pendingStep.text) || goal;
+        try { freshMemory = buildMemoryBlock(ctx.repoRoot, query); } catch { freshMemory = ''; }
+      } else {
+        lastEvalFailed = false;
+      }
+    }
 
     steps.push(step); appendStep(trace, step);
 
@@ -247,6 +286,7 @@ export async function runLoop({
         results.push({ type: 'text', text: '\n' + planView });
       }
       if (ckpt) results.push({ type: 'text', text: '\n' + ckpt.text });
+      if (freshMemory) results.push({ type: 'text', text: '\n[fresh memory search — triggered by stalled progress]\n' + freshMemory });
       messages.push({ role: 'user', content: results });
     }
 
