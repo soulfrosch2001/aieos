@@ -15,6 +15,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 
 const AIEOS_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATE = new Date().toISOString().slice(0, 10);
@@ -155,6 +156,25 @@ manageHook('SessionStart', 'auto-sync.mjs', 'AIEOS: sincronizando (update + memo
 fs.mkdirSync(CLAUDE_DIR, { recursive: true });
 fs.writeFileSync(SETTINGS, JSON.stringify(settings, null, 2), 'utf8');
 
+// 4. Forge subscription backend (decision 0035): every setup path converges here —
+//    the Inno installer (post-install.ps1), a manual `npm run setup`, and `aieos update`
+//    all call this script — so hooking forge/setup.mjs HERE is what makes every machine
+//    come out configured alike. setup.mjs is idempotent and PRESERVES an existing ladder
+//    (it only fills missing values), so re-running on updates never clobbers a
+//    maintainer's custom tiers. Best-effort by design: a machine without npm-global
+//    rights or without a Claude login still completes AIEOS registration — the Forge
+//    step reports and moves on.
+console.log('');
+console.log('Configuring the Forge subscription backend (forge/setup.mjs)...');
+const forgeSetup = spawnSync(process.execPath, [path.join(AIEOS_ROOT, 'forge', 'setup.mjs')], {
+  stdio: 'inherit',
+  timeout: 300000,
+});
+if (forgeSetup.status !== 0) {
+  console.log('NOTE: Forge backend setup did not complete — run `node forge/setup.mjs` from the AIEOS root when convenient. AIEOS itself is fully registered.');
+}
+
+console.log('');
 console.log('AIEOS installed machine-wide.');
 console.log(`  /aieos command   → ${TARGET}`);
 console.log(`  autopilot hooks  → ${SETTINGS} (capture + auto-sync)`);

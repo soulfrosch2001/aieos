@@ -1,0 +1,9 @@
+Resumo da decisão zero zero trinta e cinco do AIEOS: o instalador agora entrega o cérebro por assinatura de fábrica.
+
+Você pediu pra atualizar o instalador do sistema, e a solução foi um único gancho no lugar exato onde todos os caminhos já se encontram: o registro do comando global, que é chamado pelo instalador gráfico, pelo setup manual, e pela atualização automática. A partir de agora, qualquer máquina que instalar ou atualizar o AIEOS sai com o backend por assinatura configurado sozinha: o programa de linha de comando é instalado se faltar, o login é detectado, e a escada de modelos é gravada.
+
+E o detalhe que fazia diferença entre certo e errado: o setup agora preserva o que já existe. Ele lê o registro de verdade do usuário e só preenche o que falta. Ou seja, uma atualização nunca vai apagar a escolha de quem personalizou a escada — testei nesta máquina, e o Fable no topo sobreviveu intacto à repetição do setup. Quem quiser sobrescrever de propósito tem uma opção explícita pra isso.
+
+E se a máquina não tiver permissão pra instalar ou não tiver login, o registro do AIEOS completa do mesmo jeito, e o passo do Forge só avisa e segue. Instalação nunca quebra por causa de um extra.
+
+Testado de ponta a ponta: setup preservando valores, comando de instalação completo com saída zero, e o portão de qualidade limpo, quatorze regras, zero erros. Kernel um ponto dezenove.

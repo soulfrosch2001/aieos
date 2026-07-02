@@ -12,6 +12,9 @@
 //                             step (`claude` once, in a terminal) if absent.
 //   3. environment          → persists FORGE_BACKEND=claude-cli + the model ladder
 //                             (Windows: setx; elsewhere: prints the export lines).
+//                             PRESERVES values already set — a machine whose maintainer
+//                             chose a custom ladder (e.g. strong=claude-fable-5) keeps it
+//                             across installer/update re-runs; --force overwrites.
 //   4. proof                → prints the smoke command to verify end-to-end.
 //
 // Defaults: cheap=haiku, mid=sonnet, strong=opus. Pass --strong claude-fable-5 on plans
@@ -28,6 +31,7 @@ const { values: flags } = parseArgs({
     mid: { type: 'string', default: 'sonnet' },
     cheap: { type: 'string', default: 'haiku' },
     'no-env': { type: 'boolean', default: false },
+    force: { type: 'boolean', default: false },
   },
 });
 
@@ -68,7 +72,22 @@ if (loggedIn) {
   say('[2/4] NO login detected — run `claude` once in a terminal and sign in with the Claude account, then re-run this setup.');
 }
 
-// 3. Environment.
+// 3. Environment — fill only what is MISSING, never silently overwrite a maintainer's
+// choice (installer/update re-runs land here; a custom strong tier must survive them).
+// The authoritative source on Windows is the user registry hive, not this process's
+// possibly-stale env. --force overwrites everything with this invocation's values.
+function currentUserEnv(name) {
+  if (isWin) {
+    const r = run('reg', ['query', 'HKCU\\Environment', '/v', name]);
+    if (!r.error && r.status === 0) {
+      const m = String(r.stdout).match(new RegExp(name + '\\s+REG_(?:EXPAND_)?SZ\\s+(.+)'));
+      if (m) return m[1].trim();
+    }
+    return process.env[name] || '';
+  }
+  return process.env[name] || '';
+}
+
 const ladder = [
   ['FORGE_BACKEND', 'claude-cli'],
   ['FORGE_MODEL_CHEAP', flags.cheap],
@@ -79,15 +98,19 @@ if (flags['no-env']) {
   say('[3/4] --no-env: leaving the environment untouched.');
 } else if (isWin) {
   let ok = true;
+  const done = [], kept = [];
   for (const [k, val] of ladder) {
+    const existing = currentUserEnv(k);
+    if (existing && !flags.force) { kept.push(k + '=' + existing); continue; }
     const r = run('setx', [k, val]);
     if (r.error || r.status !== 0) { ok = false; say('  setx ' + k + ' FAILED'); }
+    else done.push(k + '=' + val);
   }
-  say(ok
-    ? '[3/4] environment persisted (setx): backend=claude-cli, ladder ' + flags.cheap + ' → ' + flags.mid + ' → ' + flags.strong + '. Open a NEW terminal to pick it up.'
-    : '[3/4] some setx calls failed — set the variables above manually.');
+  if (done.length) say('[3/4] environment persisted (setx): ' + done.join(', ') + '. Open a NEW terminal to pick it up.');
+  if (kept.length) say('[3/4] kept existing values (use --force to overwrite): ' + kept.join(', '));
+  if (!done.length && !kept.length && !ok) say('[3/4] setx failed — set the variables manually.');
 } else {
-  say('[3/4] add these lines to your shell profile (~/.bashrc or ~/.zshrc):');
+  say('[3/4] add these lines to your shell profile (~/.bashrc or ~/.zshrc) — skip any you already set:');
   for (const [k, val] of ladder) say('  export ' + k + '=' + val);
 }
 

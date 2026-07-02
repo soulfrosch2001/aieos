@@ -67,7 +67,7 @@ Write-Host 'Dependencies installed.'
 
 # --- Step 2: register AIEOS machine-wide (npm run setup) ---------------------
 Write-Host ''
-Write-Host '[2/2] Registering AIEOS machine-wide (node scripts/install-command.mjs)...'
+Write-Host '[2/2] Registering AIEOS machine-wide + Forge subscription backend (node scripts/install-command.mjs)...'
 & node scripts/install-command.mjs
 if ($LASTEXITCODE -ne 0) {
     Write-Host "ERROR: AIEOS setup failed (exit $LASTEXITCODE). Run 'npm run setup' manually from '$InstallDir'." -ForegroundColor Red
