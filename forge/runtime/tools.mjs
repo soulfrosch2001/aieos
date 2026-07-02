@@ -3,7 +3,8 @@
 // is a first-class tool so the agent can verify before it claims (Directive #9).
 import fs from 'node:fs';
 import path from 'node:path';
-import { execSync } from 'node:child_process';
+import { execSync, spawnSync } from 'node:child_process';
+import PptxGenJS from 'pptxgenjs';
 
 // The `delegate` tool is OFF by default. It is advertised only when FORGE_SUBAGENTS=on,
 // so default runs see an identical tool set and CI stays stable. `depth` is the CURRENT
@@ -15,6 +16,13 @@ export function subagentsEnabled(depth = 0) {
   return depth < cap;
 }
 
+// `run_code` is OFF by default — same opt-in pattern as `delegate`. See the long comment
+// on the tool implementation below for exactly what this does and does NOT protect against
+// before ever setting FORGE_ALLOW_EXEC=on.
+export function execEnabled() {
+  return process.env.FORGE_ALLOW_EXEC === 'on';
+}
+
 export function toolSchemas({ depth = 0 } = {}) {
   const schemas = [
     { name: 'list_dir', description: 'List entries at a path (relative to repo root).', input_schema: { type: 'object', properties: { path: { type: 'string' } }, required: ['path'] } },
@@ -22,6 +30,7 @@ export function toolSchemas({ depth = 0 } = {}) {
     { name: 'read_many', description: 'Read several UTF-8 files in ONE call instead of one read_file call per file — use when you already know which files you need next, to save round trips. Same containment as read_file, per path (max 20 paths; each result is more tightly clipped than a single read_file, since several share one response).', input_schema: { type: 'object', properties: { paths: { type: 'array', items: { type: 'string' }, description: 'Repo-relative paths to read.' } }, required: ['paths'] } },
     { name: 'write_file', description: 'Write a file. Restricted to the agent workspace.', input_schema: { type: 'object', properties: { path: { type: 'string' }, content: { type: 'string' } }, required: ['path', 'content'] } },
     { name: 'write_csv', description: 'Write a spreadsheet-compatible CSV file (opens natively in Excel/Sheets/Numbers) — the dependency-free equivalent of a spreadsheet deliverable. Restricted to the agent workspace, same as write_file: "path" is relative to the REPO ROOT (like read_file/write_file) and must resolve inside your workspace folder.', input_schema: { type: 'object', properties: { path: { type: 'string', description: 'Repo-root-relative path that must fall inside your workspace, e.g. "<your-agent-dir>/workspace/report.csv".' }, headers: { type: 'array', items: { type: 'string' }, description: 'Column headers (optional).' }, rows: { type: 'array', items: { type: 'array' }, description: 'Row data — an array of rows, each row an array of cell values.' } }, required: ['path', 'rows'] } },
+    { name: 'write_pptx', description: 'Write a real PowerPoint presentation (.pptx) — a genuine end-to-end deliverable, not a text stand-in. Restricted to the agent workspace, same as write_file/write_csv: "path" is relative to the REPO ROOT and must resolve inside your workspace folder. Each slide gets an optional title and an optional bulleted list.', input_schema: { type: 'object', properties: { path: { type: 'string', description: 'Repo-root-relative path that must fall inside your workspace, e.g. "<your-agent-dir>/workspace/deck.pptx".' }, title: { type: 'string', description: 'Presentation title (document metadata; optional).' }, slides: { type: 'array', items: { type: 'object', properties: { title: { type: 'string' }, bullets: { type: 'array', items: { type: 'string' } } } }, description: 'Ordered list of slides.' } }, required: ['path', 'slides'] } },
     { name: 'run_gate', description: 'Run the conformance gate (npm test). Verify before finishing.', input_schema: { type: 'object', properties: {} } },
     { name: 'plan', description: 'Record an ordered checklist of the steps you intend to take. Replaces any current plan.', input_schema: { type: 'object', properties: { steps: { type: 'array', items: { type: 'string' }, description: 'Ordered list of step descriptions.' } }, required: ['steps'] } },
     { name: 'update_plan', description: 'Revise the current plan: mark steps done/dropped by their 1-based number, add steps, or replace the whole list.', input_schema: { type: 'object', properties: { complete: { type: 'array', items: { type: 'integer' }, description: '1-based step numbers to mark done.' }, drop: { type: 'array', items: { type: 'integer' }, description: '1-based step numbers to drop.' }, add: { type: 'array', items: { type: 'string' }, description: 'New steps to append.' }, steps: { type: 'array', items: { type: 'string' }, description: 'Full replacement checklist (re-plan).' } } } },
@@ -29,6 +38,9 @@ export function toolSchemas({ depth = 0 } = {}) {
   ];
   if (subagentsEnabled(depth)) {
     schemas.push({ name: 'delegate', description: 'Decompose a self-contained sub-task into a bounded sub-run (same workspace, its own gate). Use sparingly for a distinct, decomposable piece of work; depth-capped. If you have MULTIPLE independent sub-tasks, call this tool more than once in the SAME turn — those calls run concurrently, not one-at-a-time.', input_schema: { type: 'object', properties: { task: { type: 'string', description: 'The self-contained sub-task for the sub-run to accomplish.' } }, required: ['task'] } });
+  }
+  if (execEnabled()) {
+    schemas.push({ name: 'run_code', description: 'Run a short Node.js script and capture its stdout/stderr. Use ONLY for computation you cannot do with the other tools (data transforms, chaining several operations in one round trip) — prefer write_file/write_csv for anything that must land in the workspace, since this tool\'s writes are NOT confined to it. Time-limited; no network credentials are passed to it. This is process isolation, not a security sandbox — treat it as running a local script you wrote yourself.', input_schema: { type: 'object', properties: { code: { type: 'string', description: 'JavaScript source, run with `node -e`.' } }, required: ['code'] } });
   }
   return schemas;
 }
@@ -110,6 +122,86 @@ export async function runTool(name, input, ctx) {
       fs.mkdirSync(path.dirname(p.path), { recursive: true });
       fs.writeFileSync(p.path, toCsv(input.headers, input.rows));
       return ok('wrote ' + rel(ctx.repoRoot, p.path) + ` (${input.rows.length} row(s))`);
+    }
+    // Real .pptx via a well-tested third-party library (pptxgenjs), not a hand-rolled OOXML
+    // writer — the file format's own correctness is exactly the kind of thing better left to
+    // a library thousands of people already depend on than re-derived from scratch in one
+    // pass with no way here to open the result in real PowerPoint and confirm it isn't
+    // subtly corrupt. Same workspace confinement as write_file/write_csv.
+    if (name === 'write_pptx') {
+      const p = within(ctx.workspace, input.path, ctx.repoRoot);
+      if (p.error) {
+        return deny('GUARDRAIL: Directive #5 — writes are restricted to the workspace ' +
+          rel(ctx.repoRoot, ctx.workspace) + ' (' + p.error + ').');
+      }
+      if (!Array.isArray(input.slides) || !input.slides.length) return deny('write_pptx requires a non-empty "slides" array.');
+      try {
+        const pptx = new PptxGenJS();
+        if (input.title) pptx.title = String(input.title);
+        for (const s of input.slides) {
+          const slide = pptx.addSlide();
+          const slideTitle = String((s && s.title) || '').trim();
+          if (slideTitle) slide.addText(slideTitle, { x: 0.5, y: 0.3, w: 9, h: 1, fontSize: 28, bold: true });
+          const bullets = Array.isArray(s && s.bullets) ? s.bullets : [];
+          if (bullets.length) {
+            slide.addText(
+              bullets.map((b) => ({ text: String(b), options: { bullet: true, breakLine: true } })),
+              { x: 0.5, y: 1.5, w: 9, h: 5, fontSize: 18 }
+            );
+          }
+        }
+        fs.mkdirSync(path.dirname(p.path), { recursive: true });
+        await pptx.writeFile({ fileName: p.path });
+        return ok('wrote ' + rel(ctx.repoRoot, p.path) + ` (${input.slides.length} slide(s))`);
+      } catch (e) {
+        return deny('GUARDRAIL/ERROR: pptx generation failed: ' + e.message);
+      }
+    }
+    // run_code — OFF by default (FORGE_ALLOW_EXEC=on required; withheld from the schema
+    // otherwise, so a default run's tool set is unchanged and this branch is unreachable).
+    //
+    // WHAT THIS ACTUALLY PROTECTS AGAINST, PRECISELY:
+    //   - A genuinely separate OS process (spawnSync, not vm/eval-in-process), so a crash
+    //     or hang in the script cannot take down the runtime itself.
+    //   - A hard wall-clock timeout (FORGE_EXEC_TIMEOUT_MS, default 10s) — SIGKILL on expiry.
+    //   - A capped environment: the child gets PATH (+ SystemRoot on Windows, needed to
+    //     resolve node.exe) and NOTHING else — ANTHROPIC_API_KEY and every other secret in
+    //     this process's environment is NOT inherited.
+    //   - A capped output size, same clip() every other tool uses.
+    //
+    // WHAT THIS DOES NOT PROTECT AGAINST — read this before setting FORGE_ALLOW_EXEC=on:
+    //   Node has NO built-in security sandbox (the Node docs say this explicitly about the
+    //   `vm` module, and a plain child process has none either). The script can read/write
+    //   ANY file the OS user running Forge can touch — it is NOT confined to ctx.workspace
+    //   the way write_file/write_csv are, because that confinement is enforced by the
+    //   `within()` check on OUR code path, and arbitrary JS run in a child process does not
+    //   go through it. It can also make network requests. Treat FORGE_ALLOW_EXEC=on as
+    //   equivalent to letting the agent run any script YOU could run locally — the guardrail
+    //   here is "time-boxed, no inherited secrets, separate process," not "sandboxed."
+    if (name === 'run_code') {
+      // Defense in depth: enforce the flag HERE too, not just by withholding the schema.
+      // A tool call reaching this function should never happen when the feature is off
+      // (the model was never offered the tool), but the guardrail must not rely solely on
+      // "the model played along with what it was advertised" — same principle as every
+      // other guardrail in this file.
+      if (!execEnabled()) return deny('GUARDRAIL: run_code is disabled (set FORGE_ALLOW_EXEC=on to enable).');
+      const code = typeof input.code === 'string' ? input.code : '';
+      if (!code.trim()) return deny('run_code requires non-empty "code".');
+      const timeoutMs = Number(process.env.FORGE_EXEC_TIMEOUT_MS) || 10000;
+      const childEnv = { PATH: process.env.PATH || '' };
+      if (process.env.SystemRoot) childEnv.SystemRoot = process.env.SystemRoot; // Windows needs this to resolve node.exe
+      const r = spawnSync(process.execPath, ['-e', code], {
+        cwd: ctx.workspace,
+        env: childEnv,
+        timeout: timeoutMs,
+        encoding: 'utf8',
+        maxBuffer: 1024 * 1024,
+      });
+      if (r.error && r.error.code === 'ETIMEDOUT') {
+        return deny(`GUARDRAIL: run_code exceeded its ${timeoutMs}ms time limit and was killed.`);
+      }
+      const out = clip((r.stdout || '') + (r.stderr ? '\n[stderr]\n' + r.stderr : ''), 8000);
+      return r.status === 0 ? ok(out || '(no output)') : deny(out || `exited with code ${r.status}`);
     }
     if (name === 'run_gate') {
       try {

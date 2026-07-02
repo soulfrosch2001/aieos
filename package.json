@@ -36,5 +36,8 @@
   "devDependencies": {
     "msedge-tts": "^2.0.6"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
+  }
 }

@@ -194,6 +194,58 @@ function stub(messages) {
   const isCheckpointSentinel = /checkpoint-smoke/i.test(openingText);
   const isReadManySentinel = /readmany-smoke/i.test(openingText);
   const isCsvSentinel = /csv-smoke/i.test(openingText);
+  const isRunCodeSentinel = /runcode-smoke/i.test(openingText);
+  const isPptxSentinel = /pptx-smoke/i.test(openingText);
+
+  if (isPptxSentinel) {
+    // One write_pptx call (a real, genuinely executed library call — --dry-run only stubs
+    // the MODEL), then finish. Proves the real deck-generation path end-to-end.
+    if (!hasResult) {
+      return {
+        content: [
+          { type: 'text', text: 'Plan: write a two-slide deck, then finish.' },
+          { type: 'tool_use', id: 'p1', name: 'write_pptx', input: {
+            path: 'forge/examples/balance-scout/workspace/deck.pptx',
+            title: 'Smoke Test Deck',
+            slides: [
+              { title: 'Slide One', bullets: ['First point', 'Second point'] },
+              { title: 'Slide Two', bullets: ['Only point'] },
+            ],
+          } },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
+    return {
+      content: [
+        { type: 'text', text: 'Deck written.' },
+        { type: 'tool_use', id: 'pf', name: 'finish', input: { summary: 'Dry-run complete — the write_pptx path works end-to-end.' } },
+      ],
+      stop_reason: 'tool_use',
+    };
+  }
+
+  if (isRunCodeSentinel) {
+    // One run_code call (genuinely executed — --dry-run only stubs the MODEL, not tool
+    // execution), then finish. Proves the real spawnSync path: separate process, capped
+    // env, timeout, output capture.
+    if (!hasResult) {
+      return {
+        content: [
+          { type: 'text', text: 'Plan: run a short script, then finish.' },
+          { type: 'tool_use', id: 'x1', name: 'run_code', input: { code: 'console.log(2 + 2)' } },
+        ],
+        stop_reason: 'tool_use',
+      };
+    }
+    return {
+      content: [
+        { type: 'text', text: 'Observed the script output.' },
+        { type: 'tool_use', id: 'xf', name: 'finish', input: { summary: 'Dry-run complete — the run_code path works end-to-end.' } },
+      ],
+      stop_reason: 'tool_use',
+    };
+  }
 
   if (isReadManySentinel) {
     // One read_many call (two real, always-present repo files), then finish.

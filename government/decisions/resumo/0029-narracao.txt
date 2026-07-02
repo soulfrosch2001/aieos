@@ -1,0 +1,15 @@
+Resumo da decisão zero zero vinte e nove do AIEOS: execução de código sob controle, e apresentações reais no Forge.
+
+Você autorizou os dois itens que eu tinha sinalizado como precisando de decisão sua. Construí os dois com o cuidado que o risco de cada um pede.
+
+Primeiro, a execução de código. Ela fica desligada por padrão e só liga com uma variável de ambiente explícita. Quando ligada, o script roda num processo separado de verdade, com um limite de tempo rígido, e com um ambiente limpo, sem nenhum segredo herdado, nem a chave da própria inteligência artificial. Mas preciso ser honesto: isso não é uma caixa de areia de segurança. O Node não tem esse mecanismo embutido, e a própria documentação dele diz isso claramente. O script pode ler e escrever qualquer arquivo que o usuário do sistema conseguir tocar, e pode fazer chamadas de rede. Ligar essa opção é equivalente a deixar o agente rodar qualquer script que você mesmo rodaria localmente.
+
+Encontrei de brinde um problema parecido no código de delegação que já existia: a trava só impedia a ferramenta de aparecer na lista oferecida ao modelo, mas não impedia a execução se a chamada chegasse de outro jeito. Corrigi os dois casos, reforçando a trava direto no código que executa, não só na lista oferecida.
+
+Segundo: apresentações de verdade. Adicionei a primeira dependência nova de produção do projeto, uma biblioteca chamada pptxgenjs, com zero vulnerabilidades encontradas na instalação. Não tentei construir o formato do zero, porque um arquivo de PowerPoint é um zip cheio de arquivos internos, e acertar isso byte a byte sem ter o PowerPoint aqui pra abrir e confirmar seria arriscado demais. Prefiro uma biblioteca que milhares de pessoas já usam.
+
+E não confiei só no "deu certo": gerei uma apresentação de verdade através do sistema, abri o arquivo como um zip, e conferi por dentro que os slides continham exatamente o título e os tópicos que eu tinha pedido.
+
+Testamos tudo: oito cenários diferentes, todos concluídos, os testes unitários passaram, treze de treze, e o portão de qualidade fechou limpo, quatorze regras, zero erros.
+
+O que ainda ficou de fora: os formatos word e excel binários de verdade. A planilha em csv já cobre bem o caso de planilha, então não valia a pena adicionar uma segunda dependência nova na mesma leva.

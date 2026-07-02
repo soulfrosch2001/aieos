@@ -145,20 +145,24 @@ Implemented in [memory.mjs](memory.mjs) and [episodic.mjs](episodic.mjs).
 
 ## The tools
 
-Defined in [tools.mjs](tools.mjs). The surface is deliberately small — there is no
-exec, delete, or network-write tool, so there is no irreversible-action surface.
+Defined in [tools.mjs](tools.mjs). Two trust tiers: everything below is **always
+available** except `delegate` and `run_code`, which are **off by default** and must be
+explicitly opted into (see their sections below) — a default run's tool set is unchanged
+by either existing.
 
 - `list_dir` — list entries at a path (read, repo-wide).
 - `read_file` — read a UTF-8 file (read, repo-wide; output is bounded with a
   truncation footer so nothing is silently withheld).
 - `read_many` — read up to 20 UTF-8 files in **one round trip** instead of one
   `read_file` call per file. Same per-path containment as `read_file`; a bad path in the
-  batch becomes an inline error line rather than failing the whole call. This is the safe
-  subset of "programmatic tool calling" — see [Batched reads](#batched-reads-safe-programmatic-tool-calling) below.
+  batch becomes an inline error line rather than failing the whole call. See
+  [Batched reads](#batched-reads-and-run_code-programmatic-tool-calling) below.
 - `write_file` — write a file, **restricted to the agent workspace**.
 - `write_csv` — write a spreadsheet-compatible CSV file, **restricted to the agent
-  workspace** (same confinement as `write_file`) — the dependency-free equivalent of a
-  spreadsheet deliverable. See [Deliverable generation](#deliverable-generation-csv-only-for-now) below.
+  workspace** (same confinement as `write_file`). See
+  [Deliverable generation](#deliverable-generation-csv-and-pptx) below.
+- `write_pptx` — write a real PowerPoint presentation, **restricted to the agent
+  workspace**. See [Deliverable generation](#deliverable-generation-csv-and-pptx) below.
 - `run_gate` — run the conformance gate (`node tests/conformance/run.mjs`) so the agent
   can verify before it claims ([Directive #9](../../kernel/laws/prime-directives.md)).
 - `finish` — end the run with a short summary, including a one-line self-check of
@@ -167,34 +171,52 @@ exec, delete, or network-write tool, so there is no irreversible-action surface.
 - `update_plan` — mark steps done or revise the checklist as the work proceeds.
 - `delegate` — spawn a bounded **in-lane** sub-run to decompose a task (off by default;
   see [Sub-delegation](#sub-delegation-in-lane) below).
+- `run_code` — run a short Node.js script (off by default; see
+  [Batched reads and run_code](#batched-reads-and-run_code-programmatic-tool-calling) below).
 
-### Batched reads (safe "programmatic tool calling")
+### Batched reads and `run_code` ("programmatic tool calling")
 
-Real programmatic tool calling (a model writing code that composes several tool calls
-without a full round trip per call) needs a code-execution environment — and the Forge
-deliberately has none: "no exec... tool, so there is no irreversible-action surface" is an
-existing, intentional boundary (see the guardrails list below), not an oversight. Adding a
-real exec tool would cross that boundary and deserves a discussion first
-([Directive #6](../../kernel/laws/prime-directives.md)), not a silent addition.
+Real programmatic tool calling (a model composing several tool calls in code without a full
+round trip per call) has two very different risk profiles depending on what it touches:
 
-`read_many` is the part of that idea that is safe to add unilaterally: it reduces round
-trips for the common "I already know which files I need next" pattern, and introduces
-**zero new safety surface** — every path still goes through the exact same containment
-check a single `read_file` call would, one at a time; it is just batched into one response.
+- **`read_many`** — batching several *reads* needs no new safety surface at all: every path
+  still goes through the exact same containment check a single `read_file` call would, one
+  at a time. Always available.
+- **`run_code`** — running arbitrary code is a different matter. **This is NOT a security
+  sandbox.** Node has no built-in mechanism for one (the `vm` module's own docs say so
+  explicitly, and a plain child process has none either). `run_code` runs the script in a
+  genuinely separate OS process (`spawnSync`, not `vm`/in-process `eval`) with a hard
+  timeout (`FORGE_EXEC_TIMEOUT_MS`, default 10s) and a capped environment (no inherited
+  secrets — the child gets only `PATH` and, on Windows, `SystemRoot`). What it does **not**
+  do: confine file or network access to the workspace — a script can read/write anything the
+  OS user can, and make outbound network calls. Treat `FORGE_ALLOW_EXEC=on` as equivalent to
+  letting the agent run any script you could run locally yourself. It is **off by default**,
+  gated the same way `delegate` is (`subagentsEnabled`/`execEnabled` in [tools.mjs](tools.mjs)),
+  and — same defense-in-depth principle as delegation's depth cap — the flag is re-checked
+  **inside** `runTool` itself, not just at schema-advertisement time, so a stray `run_code`
+  call can never execute just because the model somehow emitted one while the feature was off.
 
-### Deliverable generation (CSV only, for now)
+### Deliverable generation (CSV and PPTX)
 
-`write_csv` is a dependency-free (Node built-ins only, same as the rest of the runtime)
-spreadsheet writer — proper RFC-4180-ish quoting, CRLF line endings, opens natively in
-Excel/Sheets/Numbers. It is genuinely useful and adds no new risk (same workspace
-confinement as `write_file`).
+`write_csv` is a dependency-free (Node built-ins only) spreadsheet writer — proper
+RFC-4180-ish quoting, CRLF line endings, opens natively in Excel/Sheets/Numbers.
 
-**What this does NOT cover:** real Office binary formats (`.docx`, `.pptx`, `.xlsx`) need an
-external library — there is no dependency-free way to emit them correctly, and the project
-has a strong, consistent zero-new-dependency stance across the Forge (`consolidate.mjs`,
-`subagent.mjs`, this file). Adding such a library is a legitimate thing to want, but it is a
-deliberate supply-chain decision, not something to add mid-task — flagged here rather than
-silently decided either way.
+`write_pptx` writes a **real** PowerPoint presentation via [pptxgenjs](https://gitbrent.github.io/PptxGenJS/)
+— a well-tested third-party library, not a hand-rolled OOXML/ZIP writer. Getting a binary
+Office format byte-correct from scratch, with no way here to open the result in real
+PowerPoint and confirm it isn't subtly corrupt, is exactly the kind of thing better left to
+a library thousands of people already depend on. This is the one deliberate, tracked
+departure from the Forge's otherwise-consistent zero-new-dependency stance
+(`consolidate.mjs`, `subagent.mjs`) — a supply-chain trade-off made explicitly, not silently
+(decision `government/decisions/0029-forge-run-code-and-real-pptx.md`), in exchange for
+genuine correctness on a real deliverable format. Verified by generating a deck and
+inspecting its internal ZIP/XML structure directly (slide XML, content types, relationships)
+rather than only checking that the write call returned success.
+
+**Still not covered:** real `.docx`/`.xlsx` binary formats. `write_csv` already covers the
+spreadsheet case well enough that adding `.xlsx` support wasn't judged worth a second new
+dependency in the same pass; `.docx` remains open. Both are a natural next step following
+the same pattern (a well-tested library, workspace-confined, deeply verified) if wanted.
 
 Every tool returns a uniform `{ ok, output }` envelope. A failure is fed back to the
 model as an errored observation, not raised as a crash — failures are data the agent
@@ -306,7 +328,12 @@ Enforced in code, because the model cannot be trusted to self-enforce them:
 2. **The gate is never skipped** — `finish` is intercepted while there are unverified
    writes; the model must `run_gate` and pass since its last write before it can finish
    ([Directive #9](../../kernel/laws/prime-directives.md)).
-3. **No destructive surface** — only read / write-in-workspace / run_gate / finish exist.
+3. **No destructive surface by default** — read / write-in-workspace / run_gate / finish
+   are the only always-available tools. The one exception, `run_code`, is off by default,
+   gated behind an explicit `FORGE_ALLOW_EXEC=on`, re-checked inside the tool handler
+   itself (not just at schema-advertisement time), and does NOT confine what the executed
+   script can touch — see [Batched reads and run_code](#batched-reads-and-run_code-programmatic-tool-calling).
+   Opting into it is a deliberate trust decision, not a default posture.
 4. **Bounded autonomy** — a step ceiling plus repeat-detection; the loop never runs
    unbounded.
 5. **Stay in lane** — denied actions return a `GUARDRAIL:` message naming the rule, so

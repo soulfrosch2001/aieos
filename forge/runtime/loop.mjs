@@ -8,7 +8,7 @@ import path from 'node:path';
 import { performance } from 'node:perf_hooks';
 import { callModel, trimMessages } from './llm.mjs';
 import { tiersFromEnv, choose, maxEscalations } from './router.mjs';
-import { toolSchemas, runTool } from './tools.mjs';
+import { toolSchemas, runTool, subagentsEnabled } from './tools.mjs';
 import { makePlan, applyPlanUpdate, renderPlan } from './plan.mjs';
 import { evaluate } from './eval.mjs';
 import { appendLesson } from './memory.mjs';
@@ -111,12 +111,17 @@ export async function runLoop({
     let stop = false;
 
     // One delegate call resolved to a plain result object — no shared-state mutation inside,
-    // so it is safe to run several of these concurrently via Promise.all. The depth-cap
-    // guardrail is checked FIRST and synchronously, exactly as before: an over-cap call is
-    // refused immediately and never reaches the async `delegate()` call.
+    // so it is safe to run several of these concurrently via Promise.all. Guardrails checked
+    // FIRST and synchronously, exactly as before: a disabled-feature or over-cap call is
+    // refused immediately and never reaches the async `delegate()` call. Defense in depth:
+    // `subagentsEnabled` re-checks FORGE_SUBAGENTS here too, not just at schema-advertisement
+    // time (tools.mjs) — a delegate tool_use should never arrive when the flag is off, but
+    // the guardrail must not rely solely on the model having respected what it was offered.
     async function resolveDelegate(tu) {
-      if (depth >= maxDepth) {
-        const msg = `GUARDRAIL: delegation depth cap reached (depth ${depth} ≥ ${maxDepth}). Do the work directly.`;
+      if (!subagentsEnabled(depth)) {
+        const msg = depth >= maxDepth
+          ? `GUARDRAIL: delegation depth cap reached (depth ${depth} ≥ ${maxDepth}). Do the work directly.`
+          : 'GUARDRAIL: delegation is disabled (set FORGE_SUBAGENTS=on to enable).';
         return { tu, ok: false, output: msg, subMs: 0, subWrote: false, subGateClean: true };
       }
       onEvent({ kind: 'act', n, name: 'delegate', input: tu.input });
