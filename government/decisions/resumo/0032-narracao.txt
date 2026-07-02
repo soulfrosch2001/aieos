@@ -1,0 +1,15 @@
+Resumo da decisão zero zero trinta e dois do AIEOS: o Forge agora pensa pela sua assinatura, com custo extra zero.
+
+Você disse que não queria usar a API paga por token, porque sairia mais caro que o plano que você já assina. Solução: a sua assinatura já cobre o Claude Code, e o Claude Code tem um modo silencioso que programas locais podem chamar. Então eu construí um segundo cérebro pro Forge: em vez de falar com a API, ele agora pode pensar através do Claude Code instalado na sua própria máquina, autenticado pela sua assinatura. Sem chave de API, sem cobrança por token. O uso sai dos limites do plano que você já paga.
+
+A divisão de trabalho é o coração da segurança: o Claude Code é só o cérebro. Todas as ferramentas dele são bloqueadas em cada chamada; ele não consegue tocar em arquivo, rede ou processo nenhum. Ele só lê a conversa e responde com um objeto dizendo qual ferramenta do Forge chamar. Quem executa é sempre o Forge, com todas as leis de sempre: confinamento de pasta, portão antes de finalizar, limites de profundidade, o crítico, os checkpoints. Um cérebro que não pode agir não pode burlar a lei.
+
+E o roteador de custo continua mandando: dá pra usar o haiku barato na maioria dos passos, o sonnet no planejamento, e o opus só quando a verificação exige. Tudo dentro da assinatura.
+
+Descobri no caminho que a sua máquina só tinha o Claude Code pela extensão do VSCode, sem o comando de terminal. Instalei o oficial, e ele reconheceu sozinho as credenciais que já existiam. Nenhum login novo foi preciso.
+
+E o mais importante: testei ao vivo, de verdade. O Forge rodou uma execução completa pensando pela assinatura: o modelo raciocinou, o protocolo foi interpretado, a ferramenta foi executada pelo runtime, e o resultado saiu registrado com os tokens reais consumidos. De ponta a ponta, sem nenhuma chave de API no ambiente.
+
+Limites honestos: cada passo leva alguns segundos, porque o modo silencioso é mais lento que a API crua. Perfeito pra agentes de fundo, não pra conversa em tempo real. E o uso divide a mesma janela de limites das suas sessões normais, por isso a escada barata continua sendo a política.
+
+Treze cenários de regressão verdes, treze testes unitários, portão limpo com quatorze regras e zero erros. Kernel na versão um ponto dezesseis.

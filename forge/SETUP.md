@@ -29,7 +29,28 @@ node tests/conformance/run.mjs && node forge/run.mjs --smoke --dry-run
 
 ## Going live
 
-A live run needs two things in the environment:
+There are two live backends. Pick ONE:
+
+### Option A — subscription (no API key, no per-token billing)
+
+If Claude Code is installed and logged in on this machine (a Claude Pro/Max subscription),
+the runtime can think through the local CLI headlessly
+([runtime/backend-claude-cli.mjs](runtime/backend-claude-cli.mjs)) — usage draws on the
+subscription's limits, not API credit:
+
+```
+export FORGE_BACKEND=claude-cli
+node forge/run.mjs forge/examples/balance-scout "List the repo and finish."
+```
+
+No `FORGE_MODEL` needed (the CLI's default model is used); setting the tier ladder still
+works and accepts CLI aliases — e.g. `FORGE_MODEL_CHEAP=haiku`, `FORGE_MODEL_MID=sonnet`,
+`FORGE_MODEL=opus`. The CLI must be on PATH (`npm install -g @anthropic-ai/claude-code`,
+then `claude --version` to confirm).
+
+### Option B — Anthropic API (per-token billing)
+
+A live API run needs two things in the environment:
 
 - `FORGE_MODEL` — the model id to call. This is the **only** model coupling in the whole
   runtime; change providers by changing this value.

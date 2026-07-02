@@ -1,17 +1,30 @@
-// Forge runtime — the model call. Talks to the Anthropic Messages API (tools enabled).
-// Falls back to a deterministic stub when --dry-run or no ANTHROPIC_API_KEY, so the
-// loop is testable without a key.
+// Forge runtime — the model call. Talks to the Anthropic Messages API (tools enabled),
+// or — with FORGE_BACKEND=claude-cli — thinks through the local Claude Code CLI on the
+// maintainer's subscription instead (backend-claude-cli.mjs), no API key or per-token
+// billing involved. Falls back to a deterministic stub when --dry-run or when neither
+// backend is configured, so the loop is testable without a key.
 //
-// Robustness (live runs only): transient failures (429 / 5xx / network) are retried with
-// exponential backoff that honors any Retry-After header; every call surfaces token
+// Robustness (live API runs only): transient failures (429 / 5xx / network) are retried
+// with exponential backoff that honors any Retry-After header; every call surfaces token
 // `usage`; and `trimMessages` keeps a long transcript inside a character budget without
 // ever dropping the first user turn or the last tool result. None of this touches the
 // dry-run path, which makes no network calls and reports zero usage.
+import { cliBackendEnabled, callClaudeCli, cliPreflight } from './backend-claude-cli.mjs';
 
 const ZERO_USAGE = { input_tokens: 0, output_tokens: 0 };
 
 export async function callModel({ system, messages, tools, model, dryRun }) {
-  if (dryRun || !process.env.ANTHROPIC_API_KEY) {
+  if (dryRun) {
+    const s = stub(messages);
+    return { ...s, usage: ZERO_USAGE };
+  }
+  // Subscription-powered thinking: the CLI backend takes precedence over the API when
+  // explicitly selected — same {content, stop_reason, usage} shape, so the loop never
+  // knows which backend thought.
+  if (cliBackendEnabled()) {
+    return callClaudeCli({ system, messages, tools, model });
+  }
+  if (!process.env.ANTHROPIC_API_KEY) {
     const s = stub(messages);
     return { ...s, usage: ZERO_USAGE };
   }
@@ -44,13 +57,28 @@ export function maxTokens() {
 // it does NOT make a network call here (keeping it free and offline-safe); it validates
 // that the run is configured to reach a model. Returns { ok, mode, model, maxTokens, reason }.
 export async function preflight({ model, dryRun } = {}) {
-  if (dryRun || !process.env.ANTHROPIC_API_KEY) {
+  if (dryRun) {
     return {
       ok: true,
       mode: 'dry-run',
       model: model || null,
       maxTokens: maxTokens(),
-      reason: 'dry-run / no ANTHROPIC_API_KEY — model calls are stubbed',
+      reason: 'dry-run — model calls are stubbed',
+    };
+  }
+  // The CLI backend needs no model id and no API key — only a reachable `claude` binary.
+  // Probed with --version (free: no prompt is spent).
+  if (cliBackendEnabled()) {
+    const p = cliPreflight();
+    return { ok: p.ok, mode: 'claude-cli', model: model || '(cli default)', maxTokens: maxTokens(), reason: p.reason };
+  }
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return {
+      ok: true,
+      mode: 'dry-run',
+      model: model || null,
+      maxTokens: maxTokens(),
+      reason: 'no ANTHROPIC_API_KEY — model calls are stubbed',
     };
   }
   if (!model) {

@@ -459,10 +459,38 @@ tied to any particular model.
 
 - `--dry-run` — runs the full loop with **no model and no key** via the stub in
   [llm.mjs](llm.mjs). Use this to exercise the engine and the trace with zero config.
-- Live run — set `FORGE_MODEL` to whatever model id you want and provide
+- Live run (API) — set `FORGE_MODEL` to whatever model id you want and provide
   `ANTHROPIC_API_KEY`. If `FORGE_MODEL` is unset on a live run, the runtime errors
   clearly and exits — it does **not** pick a default. The per-call response budget is
   `FORGE_MAX_TOKENS` (default 2048).
+- Live run (subscription) — see the next section.
+
+## The claude-cli backend (subscription-powered thinking)
+
+`FORGE_BACKEND=claude-cli` swaps the brain: instead of the Messages API,
+[backend-claude-cli.mjs](backend-claude-cli.mjs) runs the LOCAL Claude Code CLI headlessly
+(`claude -p`) for each reasoning step. The CLI authenticates with the machine's Claude
+subscription (Pro/Max), so runs draw on the plan's usage limits — **no API key, no
+per-token billing**.
+
+The division of labour is the point: the CLI is **only the brain**. Forge's runtime still
+executes every tool, enforces every guardrail (workspace confinement, Directive #9, depth
+caps, critic, checkpoints) and writes the trace. On every call the CLI's own toolbox is
+explicitly disallowed — it reasons over a rendered transcript and replies with one JSON
+object naming which FORGE tool to run next; a brain that cannot touch anything cannot
+bypass the runtime's law. A reply that arrives fenced or wrapped in stray prose is parsed
+tolerantly, and a reply with no usable tool call degrades to a text-only turn (the loop's
+existing "use a tool" nudge handles it).
+
+The [cost router](#cost-router-model-per-step) still routes: per-step model ids are passed
+via `--model`, and the CLI accepts aliases — so `FORGE_MODEL_CHEAP=haiku`,
+`FORGE_MODEL_MID=sonnet`, `FORGE_MODEL=opus` gives the cheap-first ladder on subscription
+auth. With no model vars at all, the CLI's default model is used (`FORGE_MODEL` is NOT
+required for this backend). Preflight probes `claude --version` (free — no prompt spent)
+and fails fast with a clear reason when the CLI is missing. `FORGE_CLI_TIMEOUT_MS`
+(default 240000) caps each call; headless calls are slower than raw API calls — expect
+seconds per step, not milliseconds. `--dry-run` continues to bypass everything (stub, no
+CLI, no key).
 
 ## Cost router (model per step)
 
@@ -544,6 +572,8 @@ no key.
 ## Files
 - [llm.mjs](llm.mjs) — the model call (Messages API + retry/backoff, `usage`, message
   trimming) and the dry-run stub.
+- [backend-claude-cli.mjs](backend-claude-cli.mjs) — subscription-powered thinking via the
+  local Claude Code CLI (headless), JSON tool-call protocol.
 - [tools.mjs](tools.mjs) — the tools and their guardrails.
 - [memory.mjs](memory.mjs) — gather, BM25 retrieve, format the memory block, build it
   (markdown registers + episodes), and append lessons/digests.
