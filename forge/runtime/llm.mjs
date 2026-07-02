@@ -9,19 +9,32 @@
 // `usage`; and `trimMessages` keeps a long transcript inside a character budget without
 // ever dropping the first user turn or the last tool result. None of this touches the
 // dry-run path, which makes no network calls and reports zero usage.
-import { cliBackendEnabled, callClaudeCli, cliPreflight } from './backend-claude-cli.mjs';
+import { cliBackendEnabled, cliAvailable, callClaudeCli, cliPreflight } from './backend-claude-cli.mjs';
 
 const ZERO_USAGE = { input_tokens: 0, output_tokens: 0 };
+
+// Backend resolution, in priority order:
+//   1. FORGE_BACKEND=claude-cli — forced subscription thinking.
+//   2. Any other explicit FORGE_BACKEND value — never auto-switch away from it.
+//   3. ANTHROPIC_API_KEY present — the API path (existing behaviour, unchanged).
+//   4. No backend forced, no key, but the claude CLI is on PATH — auto-select the
+//      subscription backend, so a machine with Claude Code logged in runs live with
+//      ZERO configuration. (Explicitly want offline? Use --dry-run or FORGE_BACKEND=api.)
+function useCliBackend() {
+  if (cliBackendEnabled()) return true;
+  if (process.env.FORGE_BACKEND) return false;
+  if (process.env.ANTHROPIC_API_KEY) return false;
+  return cliAvailable();
+}
 
 export async function callModel({ system, messages, tools, model, dryRun }) {
   if (dryRun) {
     const s = stub(messages);
     return { ...s, usage: ZERO_USAGE };
   }
-  // Subscription-powered thinking: the CLI backend takes precedence over the API when
-  // explicitly selected — same {content, stop_reason, usage} shape, so the loop never
-  // knows which backend thought.
-  if (cliBackendEnabled()) {
+  // Subscription-powered thinking (forced or auto-selected) — same {content, stop_reason,
+  // usage} shape, so the loop never knows which backend thought.
+  if (useCliBackend()) {
     return callClaudeCli({ system, messages, tools, model });
   }
   if (!process.env.ANTHROPIC_API_KEY) {
@@ -67,10 +80,11 @@ export async function preflight({ model, dryRun } = {}) {
     };
   }
   // The CLI backend needs no model id and no API key — only a reachable `claude` binary.
-  // Probed with --version (free: no prompt is spent).
-  if (cliBackendEnabled()) {
+  // Probed with --version (free: no prompt is spent). Mirrors callModel's resolution.
+  if (useCliBackend()) {
     const p = cliPreflight();
-    return { ok: p.ok, mode: 'claude-cli', model: model || '(cli default)', maxTokens: maxTokens(), reason: p.reason };
+    const auto = !cliBackendEnabled();
+    return { ok: p.ok, mode: auto ? 'claude-cli (auto)' : 'claude-cli', model: model || '(cli default)', maxTokens: maxTokens(), reason: p.reason };
   }
   if (!process.env.ANTHROPIC_API_KEY) {
     return {
@@ -78,7 +92,7 @@ export async function preflight({ model, dryRun } = {}) {
       mode: 'dry-run',
       model: model || null,
       maxTokens: maxTokens(),
-      reason: 'no ANTHROPIC_API_KEY — model calls are stubbed',
+      reason: 'no ANTHROPIC_API_KEY and no claude CLI — model calls are stubbed',
     };
   }
   if (!model) {

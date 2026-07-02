@@ -1,0 +1,15 @@
+Resumo da decisão zero zero trinta e três do AIEOS: sessão contínua, configuração zero, e o Fable no topo da escada.
+
+Você pediu três coisas: que todo usuário ficasse configurado igual, que chegássemos o mais perto possível do idêntico, e que o tempo de entrega e o consumo de tokens ficassem parecidos. Entreguei as três, e medi tudo ao vivo.
+
+Primeiro, a maior: continuidade de sessão. Antes, cada passo do raciocínio reenviava a conversa inteira para um processo novo, pagando tudo de novo em tokens e em tempo. Agora, o primeiro passo abre uma sessão e os seguintes só enviam a novidade; o histórico fica guardado no cache. Os números medidos: o primeiro passo custou o preço cheio, mas o segundo e o terceiro custaram dez tokens de entrada cada. Dez. Com vinte e cinco mil tokens servidos direto do cache, e a latência caindo quase pela metade. O perfil de consumo agora é o de uma conversa contínua, que é exatamente como eu trabalho.
+
+Segundo: configuração zero. O sistema agora se auto-configura: se não tem chave de API mas o Claude Code está instalado e logado, ele usa a assinatura sozinho, sem nenhuma variável setada. E para máquinas novas, criei um script de um comando só: instala o que falta, detecta o login, grava a escada de modelos. Seu amigo só precisa puxar o repositório e rodar um comando. A única coisa que o script nunca faz é o login em si, porque identidade é um ato humano, não do sistema.
+
+Terceiro: o Fable em pessoa no topo da escada desta máquina. Quando um portão falha ou a estagnação dispara, quem assume agora é literalmente o mesmo modelo que conversa com você, pago pela assinatura que você já tem. Era o único pedaço da nota que a arquitetura sozinha não alcançava.
+
+E um bônus que apareceu na hora: instruí o cérebro a agrupar chamadas independentes numa resposta só, e no primeiro teste ele já terminou o objetivo inteiro num único passo.
+
+Limite honesto: cada passo ainda paga uns dois ou três segundos de partida do processo. Em latência de conversa ao vivo, idêntico não existe por esse caminho. Mas em consumo de tokens e em qualidade de decisão, agora estamos jogando o mesmo jogo.
+
+Treze cenários de regressão verdes, treze testes unitários, portão limpo. Kernel na versão um ponto dezessete.

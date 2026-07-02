@@ -71,9 +71,12 @@ if (!agentDir || !goal) { usage('missing <agent-dir> or "<goal>"'); process.exit
 
 const dryRun = flags['dry-run'];
 const model = process.env.FORGE_MODEL;
-// The claude-cli backend (FORGE_BACKEND=claude-cli) needs no model id — the CLI's own
-// default (or the router's per-step --model) covers it, on subscription auth.
-if (!dryRun && !model && process.env.FORGE_BACKEND !== 'claude-cli') {
+// FORGE_MODEL is only mandatory when the API path is certain (a key is present and no
+// other backend was forced). The claude-cli backend — forced or auto-selected on keyless
+// machines — needs no model id: the CLI's own default (or the router's per-step --model)
+// covers it, on subscription auth. Keyless with no CLI still stubs, which needs no model
+// either; preflight reports which mode actually resolved.
+if (!dryRun && !model && process.env.ANTHROPIC_API_KEY && process.env.FORGE_BACKEND !== 'claude-cli') {
   process.stderr.write('FORGE_MODEL is not set — export FORGE_MODEL=<model-id>, set FORGE_BACKEND=claude-cli, or pass --dry-run\n');
   process.exit(3);
 }

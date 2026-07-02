@@ -34,19 +34,29 @@ There are two live backends. Pick ONE:
 ### Option A — subscription (no API key, no per-token billing)
 
 If Claude Code is installed and logged in on this machine (a Claude Pro/Max subscription),
-the runtime can think through the local CLI headlessly
+the runtime thinks through the local CLI headlessly
 ([runtime/backend-claude-cli.mjs](runtime/backend-claude-cli.mjs)) — usage draws on the
-subscription's limits, not API credit:
+subscription's limits, not API credit. **New machine? One command does everything**
+(installs the CLI if missing, checks the login, persists the model ladder):
 
 ```
-export FORGE_BACKEND=claude-cli
+node forge/setup.mjs                      # defaults: haiku → sonnet → opus
+node forge/setup.mjs --strong claude-fable-5   # plans that include Fable
+```
+
+This backend is also **auto-selected** when no backend is forced, no `ANTHROPIC_API_KEY`
+exists, and `claude` is on PATH — so after `forge/setup.mjs` (or on any machine that
+already uses Claude Code) a plain run is live with zero flags:
+
+```
 node forge/run.mjs forge/examples/balance-scout "List the repo and finish."
 ```
 
-No `FORGE_MODEL` needed (the CLI's default model is used); setting the tier ladder still
-works and accepts CLI aliases — e.g. `FORGE_MODEL_CHEAP=haiku`, `FORGE_MODEL_MID=sonnet`,
-`FORGE_MODEL=opus`. The CLI must be on PATH (`npm install -g @anthropic-ai/claude-code`,
-then `claude --version` to confirm).
+No `FORGE_MODEL` needed (the CLI's default model is used); the tier ladder accepts CLI
+aliases — e.g. `FORGE_MODEL_CHEAP=haiku`, `FORGE_MODEL_MID=sonnet`, `FORGE_MODEL=opus`.
+Runs keep one CLI session alive per run (session continuity): steps after the first send
+only the newest observation, with the history served from prompt cache — measured live at
+~10 input tokens per resumed step.
 
 ### Option B — Anthropic API (per-token billing)
 

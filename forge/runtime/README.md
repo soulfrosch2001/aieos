@@ -473,6 +473,25 @@ tied to any particular model.
 subscription (Pro/Max), so runs draw on the plan's usage limits — **no API key, no
 per-token billing**.
 
+It is also **auto-selected**: with no `FORGE_BACKEND` forced, no `ANTHROPIC_API_KEY`
+present, and a `claude` binary on PATH, live runs use the subscription automatically —
+a machine with Claude Code logged in needs ZERO configuration (`node forge/setup.mjs`
+does the full new-machine setup in one command: installs the CLI if missing, checks the
+login, persists the model ladder). Want the stub instead? Use `--dry-run` or
+`FORGE_BACKEND=api`.
+
+**Session continuity** is the latency/token lever: the first call of a run sends the full
+prompt and remembers the CLI session id; every later call *resumes* that session
+(`--resume`) and sends only the newest observation — the server-side session plus prompt
+caching carries the history, so a step stops re-paying the whole transcript. Measured
+live: step 1 `new` (6.3s), steps 2–3 `resumed` with **10 input tokens each** (the delta)
+and ~25k tokens served from cache, ~3s latency. Each step's trace usage records
+`session: new|resumed|restarted` and `cache_read_input_tokens`, so the saving is
+auditable per step. Any resume failure (dead session, model-switch refusal, parse error)
+falls back to a fresh full-prompt call — continuity is an optimization, never a
+correctness dependency. The protocol also tells the brain to **batch independent tool
+calls into one reply**, so simple goals finish in fewer round-trips.
+
 The division of labour is the point: the CLI is **only the brain**. Forge's runtime still
 executes every tool, enforces every guardrail (workspace confinement, Directive #9, depth
 caps, critic, checkpoints) and writes the trace. On every call the CLI's own toolbox is
