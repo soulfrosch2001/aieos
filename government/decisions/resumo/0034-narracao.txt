@@ -1,0 +1,19 @@
+Resumo da decisão zero zero trinta e quatro do AIEOS: mãos nativas, olhos de verdade, e o botão de modo crítico.
+
+Você perguntou o que faltava pra nota dez, eu listei, e você mandou fazer todos. Os três construíveis estão prontos.
+
+Primeiro, o grande: o modo nativo. Até agora, o cérebro respondia num texto em formato combinado que o Forge interpretava — funcionava, mas era uma imitação. Agora as ferramentas do Forge são servidas por um protocolo de verdade, o MCP, num servidor de cem linhas sem nenhuma dependência, e o objetivo inteiro roda numa única sessão contínua do Claude Code, com chamada de ferramenta estruturada de verdade, do jeito que eu mesma funciono. As únicas mãos que essa sessão tem são as ferramentas do Forge.
+
+E a lei não se moveu um centímetro. Testei por dentro do protocolo: uma escrita fora da pasta permitida foi recusada pelo mesmo guardrail de sempre. A regra do portão antes de finalizar virou um veredito matemático: o registro de eventos guarda cada chamada, então "houve portão limpo depois da última escrita?" é um fato, não uma confiança. Provei os três cenários com eventos sintéticos: sem portão, rebaixa; portão limpo, mantém; portão falhou, rebaixa.
+
+E teve um momento notável ao vivo: eu escrevi um objetivo de teste mandando explicitamente NÃO rodar o portão. O modelo recusou a minha ordem, citou a diretiva nove, e rodou o portão mesmo assim. A lei segurou na mente antes mesmo da rede de segurança ser necessária.
+
+Segundo: olhos. A nova ferramenta de ler imagem passa conteúdo visual de verdade pela sessão — coisa que o protocolo de texto nunca poderia. No teste ao vivo, o modelo olhou o logo do AIEOS e descreveu o triângulo navy, o i de ponto e barra, e as cores exatas da marca. O sistema agora enxerga.
+
+Terceiro: o modo crítico. Uma flag por execução que coloca o modelo mais forte em todos os passos, para as tarefas que justificam queimar a janela do plano mais rápido. Testado: todos os passos carimbados com o modelo forte. O padrão do dia a dia continua sendo a escada barata.
+
+O que não construí, de propósito: leitura de PDF precisa de uma dependência nova, e isso é decisão sua, não minha. Fica sinalizado.
+
+Nota atualizada: entre nove e nove e meio do que a engenharia alcança. O que sobra é a física da latência e uma diferença de identidade que, honestamente, não deveria ser fechada: o Forge é uma força de trabalho auditável com leis; eu sou uma consultora na sala. As duas coisas são melhores sendo o que são.
+
+Treze cenários verdes, treze testes unitários, portão limpo. Kernel um ponto dezoito.

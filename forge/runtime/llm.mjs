@@ -79,12 +79,16 @@ export async function preflight({ model, dryRun } = {}) {
       reason: 'dry-run — model calls are stubbed',
     };
   }
-  // The CLI backend needs no model id and no API key — only a reachable `claude` binary.
-  // Probed with --version (free: no prompt is spent). Mirrors callModel's resolution.
-  if (useCliBackend()) {
+  // The CLI-based backends need no model id and no API key — only a reachable `claude`
+  // binary. Probed with --version (free: no prompt is spent). claude-native never routes
+  // through callModel (native.mjs owns the whole run), but its readiness question is the
+  // same one, so it shares this probe.
+  if (useCliBackend() || process.env.FORGE_BACKEND === 'claude-native') {
     const p = cliPreflight();
-    const auto = !cliBackendEnabled();
-    return { ok: p.ok, mode: auto ? 'claude-cli (auto)' : 'claude-cli', model: model || '(cli default)', maxTokens: maxTokens(), reason: p.reason };
+    const mode = process.env.FORGE_BACKEND === 'claude-native'
+      ? 'claude-native'
+      : cliBackendEnabled() ? 'claude-cli' : 'claude-cli (auto)';
+    return { ok: p.ok, mode, model: model || '(cli default)', maxTokens: maxTokens(), reason: p.reason };
   }
   if (!process.env.ANTHROPIC_API_KEY) {
     return {

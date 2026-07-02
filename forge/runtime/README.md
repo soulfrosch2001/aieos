@@ -492,6 +492,47 @@ falls back to a fresh full-prompt call — continuity is an optimization, never 
 correctness dependency. The protocol also tells the brain to **batch independent tool
 calls into one reply**, so simple goals finish in fewer round-trips.
 
+## Native mode (MCP — real structured tool calling)
+
+`FORGE_BACKEND=claude-native` goes one step further than claude-cli: instead of Forge
+orchestrating step-by-step over a JSON-in-text protocol, the WHOLE goal runs as ONE
+continuous `claude -p` session whose only hands are Forge's own tools, served over the
+Model Context Protocol by [mcp-server.mjs](mcp-server.mjs) (a dependency-free, ~100-line
+stdio JSON-RPC server). The CLI runs its native agentic loop — real structured tool
+calling, live context, no protocol parsing — which is the closest the runtime gets to a
+Fable-5-style single mind. Orchestrated by [native.mjs](native.mjs), which parses the
+run's `stream-json` event log into the same trace shape the classic loop writes.
+
+The trade, stated honestly: the classic loop's mid-run instrumentation (per-step cost
+routing, checkpoints, deliberation, critic) does not run in native mode — the CLI's own
+loop replaces it. Pick native for cognition-heavy goals, classic for instrumented ones.
+
+The LAW does not move:
+- Writes stay confined — every `tools/call` lands in the same `runTool()` with the same
+  workspace guardrails (verified: a write outside the workspace is refused by the same
+  `GUARDRAIL: Directive #5` message, through MCP).
+- Directive #9 is enforced POST-HOC and deterministically: the event log records every
+  tool call, so "was there a clean `run_gate` after the last successful write?" is a fact.
+  A run that wrote and never gated is demoted from `done` to `incomplete` — proven with
+  synthetic-event tests (`interpret()` is exported for exactly that), and observed live:
+  a goal explicitly ordering "do NOT run the gate" was refused by the model, which cited
+  Directive #9 and gated anyway.
+- `plan`/`update_plan`/`finish`/`delegate` are classic-loop concepts and are not served;
+  the session ends with a `SUMMARY:` line instead.
+
+**`read_image` (native-only) makes the runtime multimodal**: MCP tool results can carry
+real image content, which the text protocol never could. Verified live: the model read
+[brand/aieos-logo.png](../../brand/aieos-logo.png) through the tool and described the
+actual mark and brand colors. Repo-root containment, png/jpg/gif/webp, 5MB cap.
+
+## --critical (frontier on every step, per run)
+
+`node forge/run.mjs <agent> "<goal>" --critical` collapses the whole tier ladder to
+`FORGE_MODEL` for that run only — maximum per-decision quality in exchange for burning
+the plan's usage window faster. A per-run flag, deliberately not an environment default:
+the cheap-first ladder remains the daily policy; `--critical` is for the runs that
+justify it.
+
 The division of labour is the point: the CLI is **only the brain**. Forge's runtime still
 executes every tool, enforces every guardrail (workspace confinement, Directive #9, depth
 caps, critic, checkpoints) and writes the trace. On every call the CLI's own toolbox is
@@ -592,7 +633,11 @@ no key.
 - [llm.mjs](llm.mjs) — the model call (Messages API + retry/backoff, `usage`, message
   trimming) and the dry-run stub.
 - [backend-claude-cli.mjs](backend-claude-cli.mjs) — subscription-powered thinking via the
-  local Claude Code CLI (headless), JSON tool-call protocol.
+  local Claude Code CLI (headless), JSON tool-call protocol, session continuity.
+- [mcp-server.mjs](mcp-server.mjs) — Forge tools served over MCP (stdio JSON-RPC, no deps)
+  for native mode; adds the native-only `read_image`.
+- [native.mjs](native.mjs) — the claude-native run mode: one continuous session, stream
+  parsing, post-hoc Directive #9 enforcement, same trace shape.
 - [tools.mjs](tools.mjs) — the tools and their guardrails.
 - [memory.mjs](memory.mjs) — gather, BM25 retrieve, format the memory block, build it
   (markdown registers + episodes), and append lessons/digests.

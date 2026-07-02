@@ -11,6 +11,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { runLoop } from './runtime/loop.mjs';
+import { runNative, nativeEnabled } from './runtime/native.mjs';
 import { buildMemoryBlock } from './runtime/memory.mjs';
 import { buildResumeContext } from './runtime/resume.mjs';
 import { formatVerdict } from './runtime/eval.mjs';
@@ -43,6 +44,7 @@ try {
       smoke: { type: 'boolean', default: false },
       json: { type: 'boolean', default: false },
       resume: { type: 'string' },
+      critical: { type: 'boolean', default: false },
     },
   });
 } catch (e) {
@@ -70,6 +72,16 @@ if (flags.smoke) {
 if (!agentDir || !goal) { usage('missing <agent-dir> or "<goal>"'); process.exit(2); }
 
 const dryRun = flags['dry-run'];
+
+// --critical: frontier on EVERY step, for this run only — collapses the whole tier ladder
+// to the strong model. The deliberate cost trade-off ("burn the plan's window faster in
+// exchange for maximum per-decision quality"), as a per-run flag instead of a permanent
+// environment edit.
+if (flags.critical && process.env.FORGE_MODEL) {
+  process.env.FORGE_MODEL_CHEAP = process.env.FORGE_MODEL;
+  process.env.FORGE_MODEL_MID = process.env.FORGE_MODEL;
+}
+
 const model = process.env.FORGE_MODEL;
 // FORGE_MODEL is only mandatory when the API path is certain (a key is present and no
 // other backend was forced). The claude-cli backend — forced or auto-selected on keyless
@@ -167,10 +179,21 @@ async function run() {
   let memoryBlock = '';
   try { memoryBlock = buildMemoryBlock(repoRoot, goal); } catch { memoryBlock = ''; }
 
-  const res = await runLoop({
-    system, goal, ctx, model, dryRun, agent: agentName, maxSteps, memoryBlock, resumeContext,
-    onEvent: json ? () => {} : render,
-  });
+  // Native mode (FORGE_BACKEND=claude-native): the whole goal runs as ONE continuous
+  // claude session with Forge tools served over MCP (runtime/native.mjs) — no per-step
+  // routing/checkpoints, native cognition instead. Everything else (memory, resume,
+  // trace shape, lesson) stays identical. --dry-run always uses the classic stubbed loop.
+  const res = (nativeEnabled() && !dryRun)
+    ? await runNative({
+        system, goal, ctx, model, agent: agentName,
+        maxSteps: maxSteps ?? (Number(process.env.FORGE_MAX_STEPS) || 20),
+        memoryBlock, resumeContext,
+        onEvent: json ? () => {} : render,
+      })
+    : await runLoop({
+        system, goal, ctx, model, dryRun, agent: agentName, maxSteps, memoryBlock, resumeContext,
+        onEvent: json ? () => {} : render,
+      });
 
   if (json) {
     const trace = JSON.parse(fs.readFileSync(res.tracePath, 'utf8'));
@@ -211,7 +234,8 @@ function loadAgent(dir) {
 
 function usage(msg) {
   if (msg) process.stderr.write('forge/run.mjs: ' + msg + '\n');
-  process.stderr.write('Usage: node forge/run.mjs <agent-dir> "<goal>" [--dry-run] [--max-steps N] [--max-tokens N] [--json] [--resume <tracePath>]\n');
+  process.stderr.write('Usage: node forge/run.mjs <agent-dir> "<goal>" [--dry-run] [--max-steps N] [--max-tokens N] [--json] [--resume <tracePath>] [--critical]\n');
   process.stderr.write('       node forge/run.mjs --smoke [--dry-run]   (trivial capped end-to-end run; defaults agent + goal)\n');
   process.stderr.write('       --resume points at a prior forge/runs/*.json trace; use the SAME <agent-dir> and "<goal>" as the run being resumed.\n');
+  process.stderr.write('       --critical collapses the tier ladder to FORGE_MODEL for this run (frontier on every step).\n');
 }
