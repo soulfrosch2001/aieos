@@ -1,0 +1,15 @@
+Resumo da decisão zero zero trinta e sete do AIEOS: a falha de atualização do usuário, reproduzida, entendida e corrigida em dobro.
+
+Depois que destravamos a checagem de versão, o botão de atualizar apareceu pra ele, ele clicou, e falhou. Em vez de adivinhar, eu remontei a máquina dele aqui: extraí a árvore exata da versão antiga, sem repositório git, do jeito que o instalador deixa, e rodei o atualizador antigo dela contra o GitHub de agora. Encontrei não um, mas dois defeitos reais.
+
+Primeiro: o extrator de arquivos. O atualizador passava o caminho completo do Windows, com letra de unidade, e uma das versões do utilitário tar, a do Git, interpreta o cê dois pontos como o nome de um servidor remoto. Ela tenta se conectar ao servidor cê, falha, e a extração morre. Reproduzi esse erro na tela, palavra por palavra. A correção: o extrator agora roda de dentro da pasta temporária com nome relativo, uma forma que todas as versões do tar entendem igual.
+
+Segundo, e mais traiçoeiro: o atalho do usuário abre o launcher de dentro da própria instalação. Quando ele clica em atualizar, a sobreposição de arquivos tenta reescrever o próprio executável que está rodando, e o Windows tranca arquivo em execução. A cópia estoura e derruba a atualização inteira. A correção: a sobreposição agora nunca toca em executáveis do instalador; o binário do launcher passa a viajar só pelo instalador oficial, que o CI constrói a cada versão marcada.
+
+E aproveitei pra fechar o cerco da lição anterior: a versão declarada no script do instalador também entrou na regra de sincronia do portão. Agora são três cópias da mesma verdade, kernel, pacote e instalador, obrigadas a andar juntas.
+
+Provei tudo de ponta a ponta: a simulação da máquina dele com o atualizador corrigido baixou, extraiu, sobrepôs, instalou dependências e terminou com sucesso na versão nova, e um arquivo marcador no lugar do executável atravessou o processo intocado.
+
+Pro usuário destravar, é um passo único: fechar o launcher e rodar o atualizador pelo terminal uma vez. Essa única atualização manual entrega o atualizador corrigido, e daí em diante o botão volta a funcionar pra sempre.
+
+Portão limpo, quinze regras, zero erros. Versão um ponto dezenove ponto um.

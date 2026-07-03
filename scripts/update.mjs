@@ -153,7 +153,11 @@ if (isGit) {
     fs.rmSync(tmp, { recursive: true, force: true });
     fail('download falhou (o repositório é público?)', e.message);
   }
-  const ex = spawnSync('tar', ['-xzf', tgz, '-C', tmp], { encoding: 'utf8' });
+  // RELATIVE filename + cwd, never an absolute Windows path: GNU tar (Git Bash) parses
+  // "C:\..." as a REMOTE HOST ("Cannot connect to C: resolve failed") and dies — exactly
+  // the failure a user's launcher hit in the field (decision 0037). bsdtar and GNU tar
+  // both handle a plain relative name identically.
+  const ex = spawnSync('tar', ['-xzf', path.basename(tgz)], { cwd: tmp, encoding: 'utf8' });
   if (ex.status !== 0) {
     fs.rmSync(tmp, { recursive: true, force: true });
     fail('extração do arquivo falhou (tar indisponível ou arquivo corrompido).', ex.stderr || (ex.error && ex.error.message));
@@ -166,7 +170,11 @@ if (isGit) {
   // Prefer the version from the freshly fetched package.json for the final success line.
   const fetchedVer = readPkg(top).version;
   if (fetchedVer) remoteVer = fetchedVer;
-  // Overlay extracted files onto the install, preserving node_modules/.git and local memory.
+  // Overlay extracted files onto the install, preserving node_modules/.git and local
+  // memory. Executables under installer/ are NEVER overlaid: the user's desktop shortcut
+  // runs {app}\installer\AIEOS.exe, so during a launcher-initiated update that exact file
+  // is LOCKED by Windows and overwriting it crashes the whole update (decision 0037).
+  // The launcher binary ships via the installer/CI release, not via file overlay.
   try {
     fs.cpSync(top, AIEOS_ROOT, {
       recursive: true, force: true,
@@ -176,6 +184,7 @@ if (isGit) {
         const first = rel.split(path.sep)[0];
         if (PRESERVE.has(first)) return false;
         if (rel.split(path.sep).slice(0, 2).join('/') === 'memory/ledger') return false; // keep local memory
+        if (first === 'installer' && /\.exe$/i.test(rel)) return false; // running launcher is locked
         return true;
       },
     });

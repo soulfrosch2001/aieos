@@ -32,5 +32,18 @@ export default function check(ctx) {
       msg: `version drift: package.json is ${pkgVer} but kernel/VERSION is ${kernelVer} — updates compare package.json, so bump BOTH together`,
     });
   }
+  // The Inno installer's AppVersion is a third copy of the same truth (CI builds
+  // installer\aieos.iss verbatim — nothing injects the version at build time), so it
+  // must move in lockstep too or fresh installers ship announcing an ancient version.
+  try {
+    const iss = fs.readFileSync(path.join(ctx.root, 'installer', 'aieos.iss'), 'utf8');
+    const m = iss.match(/#define\s+AppVersion\s+"([^"]+)"/);
+    if (m && kernelVer && m[1] !== kernelVer) {
+      findings.push({
+        file: 'installer/aieos.iss',
+        msg: `version drift: aieos.iss AppVersion is ${m[1]} but kernel/VERSION is ${kernelVer} — bump all three together`,
+      });
+    }
+  } catch { /* no installer on this platform's checkout — nothing to check */ }
   return findings;
 }

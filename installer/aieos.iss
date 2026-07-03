@@ -8,7 +8,7 @@
 ; locally once ISCC is available:  ISCC installer\aieos.iss
 ;
 ; Keep AppVersion in sync with package.json ("version").
-#define AppVersion "0.1.0"
+#define AppVersion "1.19.1"
 #define AppName "AIEOS"
 #define AppPublisher "AIEOS"
 
