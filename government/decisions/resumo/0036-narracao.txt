@@ -1,0 +1,9 @@
+Resumo da decisão zero zero trinta e seis do AIEOS: o mistério da máquina presa na versão um ponto zero, resolvido pela raiz.
+
+O sintoma: um usuário clicava em atualizar no launcher e nada acontecia, pra sempre, preso na um ponto zero. A causa, reproduzida e não chutada: o atualizador compara a versão do arquivo de pacote, local contra o do GitHub. Só que a nossa disciplina de versão vinha subindo apenas a versão do kernel, do um nove até o um dezenove, enquanto o arquivo de pacote ficou parado no zero ponto um esse tempo todo. A máquina do usuário tinha um ponto zero instalado. Zero ponto um é menor que um ponto zero, então toda checagem concluía: já está na versão mais recente. Beco sem saída permanente. E pior: a atualização estava silenciosamente quebrada pra todo mundo, não só pra ele.
+
+A correção veio em duas partes. Primeiro, o imediato: a versão do pacote agora é um ponto dezenove, igual à do kernel. No momento em que isso chegou ao repositório, a conta da máquina travada virou: remoto maior que local, atualização flui de novo. O usuário não precisa fazer nada além de abrir o launcher e clicar, ou nem isso, porque a sincronização automática de início de sessão resolve sozinha.
+
+Segundo, o sistêmico, que é o que importa: uma regra nova no portão de qualidade, a décima quinta. A versão do pacote e a do kernel agora são obrigadas a ser idênticas, senão o portão falha. Esquecer de subir as duas juntas deixou de ser um bug de campo silencioso e virou um erro de portão na hora do commit. Uma versão, uma verdade.
+
+Tudo provado: o bug reproduzido com a conta exata do atualizador, a correção destravando a conta, a regra pegando o drift num teste sintético, e o portão limpo com quinze regras e zero erros.

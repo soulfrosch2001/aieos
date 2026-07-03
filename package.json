@@ -1,6 +1,6 @@
 {
   "name": "aieos",
-  "version": "0.1.0",
+  "version": "1.19.0",
   "private": true,
   "type": "module",
   "description": "AIEOS — AI Enterprise Operating System. Conformance checker (the OS's compiler).",
