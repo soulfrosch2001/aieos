@@ -1,18 +1,1 @@
-[
-    {
-        "role": "user",
-        "content": "poderia me dar uma atualização?"
-    },
-    {
-        "role": "assistant",
-        "content": " Aqui está um exemplo de como você pode atualizar o código:\n```\n[PLAN]\ntarefa1 = CLONE_IA\\CL4R1T4S\\LICENSE\ntarefa2 = CLONE_IA\\CL4R1T4S\\README.md\n\n[PLAN]tarefa1 = CLONE_IA\\CL4R1T4S\\ANTHROPIC\\Claude-4.1.txt\n[PLAN]tarefa2 = CLONE_IA\\CL4R1T4S\\ANTHROPIC\\Claude-4.5-Opus.txt\n\n[PLAN]tarefa1 = CLONE_IA\\CL4R1T4S\\ANTHROPIC\\Claude-Design-Sys-Prompt.txt\n[PLAN]tarefa2 = CLONE_IA\\CL4R1T4S\\ANTHROPIC\\Claude-Design-Sys-Prompt.txt\n\n[PLAN]tarefa1 = CLONE_IA\\CL4R1T4S\\ANTHROPIC\\CLAUDE-FABLE-5.md\n[PLAN]tarefa2 = CLONE_IA\\CL4R1T4S\\ANTHROPIC\\CLAUDE-FABLE-5.md\n\n[PLAN]tarefa1 = CLONE_IA"
-    },
-    {
-        "role": "user",
-        "content": "poderia deixar uma aba na lateral do pixel_hub.py onde ele mostra o que o sistema está fazendo no momento? assim consigo acompanhar corretamente o executar da tarefa"
-    },
-    {
-        "role": "user",
-        "content": ""
-    }
-]
+[]
