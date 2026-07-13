@@ -15,6 +15,7 @@ import { buildMemoryBlock } from './runtime/memory.mjs';
 import { formatVerdict } from './runtime/eval.mjs';
 import { preflight, maxTokens } from './runtime/llm.mjs';
 import { checkHarmLaw } from './runtime/integrity.mjs';
+import { profileFrom } from './runtime/autonomy.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, '..'); // forge/ → repo root
@@ -41,6 +42,7 @@ try {
       'max-tokens': { type: 'string' },
       smoke: { type: 'boolean', default: false },
       json: { type: 'boolean', default: false },
+      profile: { type: 'string' },
     },
   });
 } catch (e) {
@@ -48,6 +50,8 @@ try {
 }
 
 const flags = parsed.values;
+process.env.FORGE_PROVIDER ||= 'local';
+const profile = profileFrom(flags.profile || process.env.FORGE_PROFILE);
 
 // --max-tokens is sugar for FORGE_MAX_TOKENS so the ceiling can be set inline; the runtime
 // reads it back via the env (single source of truth, model-agnostic).
@@ -108,9 +112,8 @@ try {
 }
 
 // ---- Lane (Directive #5): workspace derives from the agent's OWN folder, never input.
-const workspace = path.join(agentAbs, 'workspace');
-fs.mkdirSync(workspace, { recursive: true });
-const ctx = { repoRoot, workspace };
+const workspace = createWorkspace(agentAbs, agentName, profile);
+const ctx = { repoRoot, workspace, profile };
 
 run();
 
@@ -125,6 +128,7 @@ async function run() {
   if (!json) {
     process.stdout.write(
       `forge: agent=${agentName} model=${model || '(none)'} mode=${pf.mode} ` +
+      `profile=${profile} ` +
       `max-steps=${maxSteps ?? (Number(process.env.FORGE_MAX_STEPS) || 20)} ` +
       `max-tokens=${maxTokens()} memory=${process.env.FORGE_MEMORY === 'off' ? 'off' : 'on'} ` +
       `subagents=${process.env.FORGE_SUBAGENTS === 'on' ? 'on' : 'off'}\n` +
@@ -140,7 +144,7 @@ async function run() {
   try { memoryBlock = buildMemoryBlock(repoRoot, goal); } catch { memoryBlock = ''; }
 
   const res = await runLoop({
-    system, goal, ctx, model, dryRun, agent: agentName, maxSteps, memoryBlock,
+    system, goal, ctx, model, dryRun, agent: agentName, profile, maxSteps, memoryBlock,
     onEvent: json ? () => {} : render,
   });
 
@@ -156,6 +160,7 @@ async function run() {
     if (res.summary) process.stdout.write('  summary: ' + res.summary + '\n');
     process.stdout.write('  trace: ' + path.relative(repoRoot, res.tracePath).split(path.sep).join('/') + '\n');
   }
+  disposeSandbox(workspace, profile);
   process.exit(res.outcome === 'done' ? 0 : 1);
 }
 
@@ -172,7 +177,7 @@ function compact(input) {
 
 function loadAgent(dir) {
   if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) throw new Error('not a directory: ' + dir);
-  const parts = [PREAMBLE];
+  const parts = [PREAMBLE, loadBehaviorContract()];
   for (const f of CONTRACT_FILES) {
     const p = path.join(dir, f);
     if (!fs.existsSync(p)) throw new Error('missing contract file: ' + f);
@@ -181,8 +186,29 @@ function loadAgent(dir) {
   return parts.join('\n\n---\n\n');
 }
 
+function loadBehaviorContract() {
+  const contract = path.join(here, 'behavior', 'contract.pt-br.md');
+  try { return fs.readFileSync(contract, 'utf8').trim(); } catch { return ''; }
+}
+
+function createWorkspace(agentDir, agentName, activeProfile) {
+  if (activeProfile !== 'sandbox') {
+    const workspace = path.join(agentDir, 'workspace');
+    fs.mkdirSync(workspace, { recursive: true });
+    return workspace;
+  }
+  const root = path.join(repoRoot, 'forge', 'sandboxes');
+  fs.mkdirSync(root, { recursive: true });
+  return fs.mkdtempSync(path.join(root, `${agentName}-`));
+}
+
+function disposeSandbox(workspace, activeProfile) {
+  if (activeProfile !== 'sandbox' || process.env.FORGE_PRESERVE_SANDBOX === 'on') return;
+  try { fs.rmSync(workspace, { recursive: true, force: true }); } catch { /* cleanup is best-effort */ }
+}
+
 function usage(msg) {
   if (msg) process.stderr.write('forge/run.mjs: ' + msg + '\n');
-  process.stderr.write('Usage: node forge/run.mjs <agent-dir> "<goal>" [--dry-run] [--max-steps N] [--max-tokens N] [--json]\n');
+  process.stderr.write('Usage: node forge/run.mjs <agent-dir> "<goal>" [--profile assistant|supervised|sandbox] [--dry-run] [--max-steps N] [--max-tokens N] [--json]\n');
   process.stderr.write('       node forge/run.mjs --smoke [--dry-run]   (trivial capped end-to-end run; defaults agent + goal)\n');
 }

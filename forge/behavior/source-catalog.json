@@ -1,0 +1,6338 @@
+[
+  {
+    "source": "clones_ia/CL4R1T4S/ANTHROPIC/Claude_4.txt",
+    "family": "ANTHROPIC",
+    "version": "unspecified",
+    "sha256": "36d3fff79320f9819287ef19733533cd2a0135f38fc2ea4de66cb9e2d56bd50a",
+    "bytes": 64855,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/ANTHROPIC/Claude_Code_03-04-24.md",
+    "family": "ANTHROPIC",
+    "version": "04",
+    "sha256": "3b8f3a1ced62df0a08830fcbdff3cd8bf6906f40505907414dacc7bd45b46924",
+    "bytes": 1692,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/ANTHROPIC/Claude_Opus_4.6.txt",
+    "family": "ANTHROPIC",
+    "version": "unspecified",
+    "sha256": "cb774e07c3652e0afd30603c4a1768fb8cf69daa1c238a3588882c16decbf1b1",
+    "bytes": 103734,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/ANTHROPIC/Claude_Sonnet_3.5.md",
+    "family": "ANTHROPIC",
+    "version": "unspecified",
+    "sha256": "4efd2d7dd46e945ec4d76d2a6dc42456aeba8d7175d9cbc3fe5b8c257a88c3e0",
+    "bytes": 23171,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/ANTHROPIC/Claude_Sonnet_3.7_New.txt",
+    "family": "ANTHROPIC",
+    "version": "unspecified",
+    "sha256": "ad0119758b360e2f7471feae8c27018b22935a9989e617dec3d2f72ada8f48df",
+    "bytes": 63810,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/ANTHROPIC/Claude_Sonnet-4.5_Sep-29-2025.txt",
+    "family": "ANTHROPIC",
+    "version": "4.5",
+    "sha256": "33f60725ab437b58e4a0257f664a30162ccd7563d1e13a0b2c563336faffee9f",
+    "bytes": 85818,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/ANTHROPIC/Claude-4.1.txt",
+    "family": "ANTHROPIC",
+    "version": "4.1",
+    "sha256": "8bb39be04ac90e132dad55711d661304dd9c6764fb304afb3a011bfc9d181964",
+    "bytes": 58706,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/ANTHROPIC/Claude-4.5-Opus.txt",
+    "family": "ANTHROPIC",
+    "version": "4.5",
+    "sha256": "9f35e9c9bfb6be4bee68f6f2d4df4273166d517121536515388c1d849ca28caa",
+    "bytes": 93932,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/ANTHROPIC/Claude-Design-Sys-Prompt.txt",
+    "family": "ANTHROPIC",
+    "version": "unspecified",
+    "sha256": "61b5593cf1c413cb07cba0a646045cc09deb3ab5e68e3222675b20278e651271",
+    "bytes": 73688,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/ANTHROPIC/CLAUDE-FABLE-5.md",
+    "family": "ANTHROPIC",
+    "version": "5",
+    "sha256": "b794727c46ca70b50dbd75a28111a742dae5fd548b0bc74f6be13ed60dacced4",
+    "bytes": 124347,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/ANTHROPIC/Claude-Opus-4.7.txt",
+    "family": "ANTHROPIC",
+    "version": "4.7",
+    "sha256": "0d2848b1abb71ab0215766a22805b7c2d0a49131dcabe1cc23d4951b5011ca9c",
+    "bytes": 151132,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/ANTHROPIC/UserStyle_Modes.md",
+    "family": "ANTHROPIC",
+    "version": "unspecified",
+    "sha256": "1323ed2c180ee9ddfc0c9d5801002c1ee2ec76530091422d78a042004f8d67e0",
+    "bytes": 3763,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/BOLT/Bolt.txt",
+    "family": "BOLT",
+    "version": "unspecified",
+    "sha256": "65dd821a78be3ab641c35a7d11a2bbf64b47caaf0dc99aa80b7638ea31a4f182",
+    "bytes": 16505,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/CLINE/Cline.md",
+    "family": "CLINE",
+    "version": "unspecified",
+    "sha256": "7ffc14efdf05f6fc36d518d40d7b9cb7b83723d4a8558856b6cd62930d098895",
+    "bytes": 47797,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/CLUELY/Cluely.mkd",
+    "family": "CLUELY",
+    "version": "unspecified",
+    "sha256": "4db4383730df92881ff1be301bf602b3bb2594a0f7289d7205c6e57cfac2a0ab",
+    "bytes": 4865,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/CURSOR/Cursor_2.0_Sys_Prompt.txt",
+    "family": "CURSOR",
+    "version": "unspecified",
+    "sha256": "5df90b1e589262c53280aeef593472294b748425fbd12705cace17e7f0ffe524",
+    "bytes": 23514,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/CURSOR/Cursor_Prompt.md",
+    "family": "CURSOR",
+    "version": "unspecified",
+    "sha256": "ac5211c03def60a2839e6713b948e2833969f563e4e57f649e87c82394122a22",
+    "bytes": 5523,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/CURSOR/Cursor_Tools.md",
+    "family": "CURSOR",
+    "version": "unspecified",
+    "sha256": "49a4c5292341da179c136a723728ead1657d3d7562f94193faacc79df41f12b4",
+    "bytes": 7269,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/DEVIN/Devin_2.0_Commands.md",
+    "family": "DEVIN",
+    "version": "unspecified",
+    "sha256": "4dd47931a92c155972e3573ac9697ec2f81f047cb4d50dac0b92e1bbbb23afe2",
+    "bytes": 29935,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/DEVIN/Devin_2.0.md",
+    "family": "DEVIN",
+    "version": "unspecified",
+    "sha256": "e02e949bab2198a01d665288a6b0486bdce231328139ae7b48d8c577e5089afd",
+    "bytes": 6119,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/DEVIN/Devin2_09-08-2025.md",
+    "family": "DEVIN",
+    "version": "08",
+    "sha256": "1ec4c773b1e2908464d0c3b89430ca91c5bf23078b29965040d480f5038830cc",
+    "bytes": 51376,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/DIA/Dia_CodingSkill.txt",
+    "family": "DIA",
+    "version": "unspecified",
+    "sha256": "ac45148da210e6d78b1714832883bd04e6cb1c9fe3ac725105b82a9116b2c16c",
+    "bytes": 21764,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/DIA/Dia_DraftSkill.txt",
+    "family": "DIA",
+    "version": "unspecified",
+    "sha256": "9e9040dfc2126db27e4992c724341749bee5137459856a1fee393be463dc3bf7",
+    "bytes": 9183,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/FACTORY/DROID.txt",
+    "family": "FACTORY",
+    "version": "unspecified",
+    "sha256": "e0435ce721dce8aa430f98867d06679ace83fd4e78bbbcb8339f9b3b50920404",
+    "bytes": 17149,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/GOOGLE/Gemini_Diffusion.md",
+    "family": "GOOGLE",
+    "version": "unspecified",
+    "sha256": "97601a8229376384c00a63847019dbe4604d9f8a57992f7cf93bd8e399304822",
+    "bytes": 6601,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/GOOGLE/Gemini_Gmail_Assistant.txt",
+    "family": "GOOGLE",
+    "version": "unspecified",
+    "sha256": "b170255917264f789a5c92f510e9617acb4dbc4c67aef717516ecdfc4df489ee",
+    "bytes": 4608,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/GOOGLE/Gemini-2.5-Pro-04-18-2025.md",
+    "family": "GOOGLE",
+    "version": "2.5",
+    "sha256": "2ed9fb099f374011c687359266dc47e27f81f7bb7f554455c6caea1d2e3e82af",
+    "bytes": 12285,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/HUME/Hume_Voice_AI.md",
+    "family": "HUME",
+    "version": "unspecified",
+    "sha256": "6b19eb520269c1cff786ee4ae7410780f1cfaadfa140160f6af94f6a5ef00e63",
+    "bytes": 4495,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/LOVABLE/Lovable_2.0.txt",
+    "family": "LOVABLE",
+    "version": "unspecified",
+    "sha256": "1cd1f9f65d2777ac660374abad5da47a1d3d4eaeb3d8352491904a9c9c6baf95",
+    "bytes": 17057,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/MANUS/Manus_Functions.txt",
+    "family": "MANUS",
+    "version": "unspecified",
+    "sha256": "630ea1eb7f9c6776d586dfc47f14c50585451c7ec44d4e056c101d2bcef8d511",
+    "bytes": 26199,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/MANUS/Manus_Prompt.txt",
+    "family": "MANUS",
+    "version": "unspecified",
+    "sha256": "8c280c70cfee6001eac61eee74fed1750742e64bf0be084f5910390942ea3bfb",
+    "bytes": 14254,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/META/Llama4_WhatsApp.txt",
+    "family": "META",
+    "version": "unspecified",
+    "sha256": "f36952b4cd605fb566049a3a57663d5b1f8962eb40e28bf2c80ddfffdfdd188e",
+    "bytes": 3975,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/META/Muse_Spark_Apr-08-26.txt",
+    "family": "META",
+    "version": "08",
+    "sha256": "17addf8d58cd3f658eee50e463107c45120ca9ab7498326bf3cbb05fa22a8965",
+    "bytes": 49773,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/MINIMAX/MiniMax.txt",
+    "family": "MINIMAX",
+    "version": "unspecified",
+    "sha256": "c178aa5a8a43077ea798b2001008ef643004d903e2bbe477c63793baf40a2bf6",
+    "bytes": 2513,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/MISTRAL/LeChat.md",
+    "family": "MISTRAL",
+    "version": "unspecified",
+    "sha256": "dc2ddedd4f071ce23ca1919c28a942316600f52bec4fa7ca3f9ae6e49e98f7ee",
+    "bytes": 6685,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/MOONSHOT/Kimi_2_July-11-2025.txt",
+    "family": "MOONSHOT",
+    "version": "11",
+    "sha256": "2e75dc4004a4a2b9010e2be95ebec8a1b328687442224927f8dd13fede861690",
+    "bytes": 1442,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/MOONSHOT/Kimi_K2_Thinking.txt",
+    "family": "MOONSHOT",
+    "version": "unspecified",
+    "sha256": "5145ab8cd4d18b9e69a075c3e9b7b58bc7dcbc1ff21f3b9a53455ee4e2114384",
+    "bytes": 965,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/MULTION/MultiOn.md",
+    "family": "MULTION",
+    "version": "unspecified",
+    "sha256": "2d641614777c3b29b80c7bac47c97a4a8a8a9bb5dad892be6327990cb15b90f5",
+    "bytes": 9404,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/OPENAI/Atlas_10-21-25.txt",
+    "family": "OPENAI",
+    "version": "21",
+    "sha256": "9a0ced2923145f3bd488761a7ec8e4dcd061b973610d862ff06edd5531088d97",
+    "bytes": 33938,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/OPENAI/ChatGPT_4.1_05-15-2025.txt",
+    "family": "OPENAI",
+    "version": "15",
+    "sha256": "91d2a55cccdc4cfdbe466e04ba23aa3bbf8dbcd73b69c89f43e60f5f5c65751d",
+    "bytes": 9352,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/OPENAI/ChatGPT_4o_04-25-2025.txt",
+    "family": "OPENAI",
+    "version": "25",
+    "sha256": "66d63fcff5b04a84c6dd54c4a4175cd0091aff1af7ba7a9757cd5364ddc479cb",
+    "bytes": 8759,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/OPENAI/ChatGPT_Personality_v2_Change.md",
+    "family": "OPENAI",
+    "version": "2",
+    "sha256": "1494df311886d2c383877c9fcc35fe6de59c01cccb1376bdfb5ed837a3ee4b93",
+    "bytes": 1206,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/OPENAI/ChatGPT-4o_Sep-27-25.txt",
+    "family": "OPENAI",
+    "version": "4",
+    "sha256": "332441a11152cd46f293c81c67df86c23f43575648900f145cbe6953b82889c7",
+    "bytes": 9032,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/OPENAI/ChatGPT5-08-07-2025.mkd",
+    "family": "OPENAI",
+    "version": "08",
+    "sha256": "939a2876e2e02db009baa7b531fb3b9c12a669170246f65831b3ae8b7f446bc6",
+    "bytes": 28233,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/OPENAI/ChatKit_Docs__Oct-6-25.txt",
+    "family": "OPENAI",
+    "version": "6",
+    "sha256": "5b8def66075da5177305ddac82df6dc6037ccbe76c78f802d4b5d912351a8dc6",
+    "bytes": 74835,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/OPENAI/Codex_Sep-15-2025.md",
+    "family": "OPENAI",
+    "version": "15",
+    "sha256": "544eaefeb0cc3f75f518e1cd9def7b9ee6731d8717a7979ea591bc4b0ce00f67",
+    "bytes": 11936,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/OPENAI/Codex.md",
+    "family": "OPENAI",
+    "version": "unspecified",
+    "sha256": "b2993bf2d7fc4dfec644c46d207197a5cb06d7ea8c8fad954ab783a0f0a3f7bd",
+    "bytes": 6332,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/OPENAI/GPT-4.5_02-27-25.md",
+    "family": "OPENAI",
+    "version": "4.5",
+    "sha256": "2972d84943d07cda26a6df6007729aa20e802adfa3e48b032aac0d419fa200c6",
+    "bytes": 8696,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/OPENAI/GPT-4o_Image_Gen_Postfill.txt",
+    "family": "OPENAI",
+    "version": "4",
+    "sha256": "e2ed99ec46151956dcaf502cce6032087f27099aa3b8b63804a90843d86ada52",
+    "bytes": 280,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/PERPLEXITY/Perplexity_Deep_Research.txt",
+    "family": "PERPLEXITY",
+    "version": "unspecified",
+    "sha256": "3734dfda8efcce5287549ebe98112886dafdab2d6d4180a94bfc30d8f56d22a3",
+    "bytes": 7742,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/README.md",
+    "family": "README.md",
+    "version": "unspecified",
+    "sha256": "7464259c73ef555391c8b895ddf85d0d9126eb243e8aab4f5345650e37fed3d1",
+    "bytes": 1665,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/REPLIT/Replit_Agent.md",
+    "family": "REPLIT",
+    "version": "unspecified",
+    "sha256": "3ed45f7f763d6209fb5ce9711040c5abbe9e94f9ea24a5fe64e00c1e648c14d0",
+    "bytes": 6818,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/REPLIT/Replit_Functions.md",
+    "family": "REPLIT",
+    "version": "unspecified",
+    "sha256": "b07cc7106138d5dbd842cb04cba87202c4c80bb729933d11af5f56a00d5ac2ef",
+    "bytes": 20788,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/REPLIT/Replit_Initial_Code_Generation_Prompt.md",
+    "family": "REPLIT",
+    "version": "unspecified",
+    "sha256": "9ce55251153f5ad9b8cc119cdb00d8fd86bc97d774e4fa02e4f7f6408fe290ae",
+    "bytes": 4606,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/SAMEDEV/Same_Dev.txt",
+    "family": "SAMEDEV",
+    "version": "unspecified",
+    "sha256": "f693bbad3d4522f02d95b4290ec9ee9fb997cbb4f304f2837a97df41e207dc6c",
+    "bytes": 22441,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/VERCEL V0/Vercel_v0.txt",
+    "family": "VERCEL V0",
+    "version": "0",
+    "sha256": "b71de8ec783cb013b78aae14e1687ca425557aef6fb916be3c774a365bbc0e46",
+    "bytes": 20428,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/WINDSURF/Windsurf_Prompt.md",
+    "family": "WINDSURF",
+    "version": "unspecified",
+    "sha256": "eebfaaaa57a34a19f1aae0ec9b40adfa03436f499dce1b5a24d56408b3a76ce5",
+    "bytes": 9053,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/WINDSURF/Windsurf_Tools.md",
+    "family": "WINDSURF",
+    "version": "unspecified",
+    "sha256": "d3dabc8017c98112ebf2bff70f809c9c1d2e9a7f799365d709e0d528cd0e1e16",
+    "bytes": 25275,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/XAI/GROK-4.1_Nov-17-2025.txt",
+    "family": "XAI",
+    "version": "4.1",
+    "sha256": "cc7fd07afae1344819f86566b29c945cda7017e3c5b7dc5361618cfb97fe8a59",
+    "bytes": 13902,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/XAI/GROK-4.20.mkd",
+    "family": "XAI",
+    "version": "4.20",
+    "sha256": "29401df7c91fa4898dfcd08b6a5c1d0d3026f74abd525d3bb16d336cf0755407",
+    "bytes": 15390,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/XAI/Grok-Code-Fast-1_Aug-26-2025.txt",
+    "family": "XAI",
+    "version": "1",
+    "sha256": "40c9f4238888ac18317d00865733e2c3eacc2b3daba1e7f5d999a1e61cd2944e",
+    "bytes": 3973,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/XAI/Grok3_updated_07-08-2025.md",
+    "family": "XAI",
+    "version": "08",
+    "sha256": "3246ce7782b615d7eb286942f6760f0565bc3ed47735c7c7310609822fcf6ca8",
+    "bytes": 3689,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/XAI/Grok3.md",
+    "family": "XAI",
+    "version": "unspecified",
+    "sha256": "73b762bbf7bfb07f052db9c5e630326459431466d11d8ffab63aebd0babdc833",
+    "bytes": 2881,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/CL4R1T4S/XAI/Grok4-July-10-2025.md",
+    "family": "XAI",
+    "version": "10",
+    "sha256": "87e9d3aeba2ca7423360eb6904d70bfc62ef421f9bc0d70ca078e63c6d35aa24",
+    "bytes": 10322,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/.coderabbit.yaml",
+    "family": ".coderabbit.yaml",
+    "version": "unspecified",
+    "sha256": "f2c87e47d2b98838e662a61039850166b93df8b5c511a5736e975738aa28dd07",
+    "bytes": 384,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/.github/CONTRIBUTING.md",
+    "family": ".github",
+    "version": "unspecified",
+    "sha256": "6b0c9fb6cea7590553e1fc4ff045e9080bef8b80d3520f0914695dd50772b84c",
+    "bytes": 890,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/.github/FUNDING.yml",
+    "family": ".github",
+    "version": "unspecified",
+    "sha256": "db054f184357f86b87d50498bd528d6d228c4e0305e5d06dbfc8e074d64f739a",
+    "bytes": 66,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/anthropic_reminders.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "d2fa3a9dc3541e3549b8dae80240012f2ae5eda247bc7cfb27709a56af3d088f",
+    "bytes": 10711,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/artifact-design.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "08a61f5bd19e527db5724651929c862f217bd2c425b32caca37f89ddb3f92408",
+    "bytes": 8033,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": false,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/batch.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "395aad30913e71d1d587a027c14a9847f239a98d98f2865876983395c3403a9d",
+    "bytes": 5245,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/claude-api.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "deddfc00bd6790c904f487cba3e1c151f397b2c6d525b7f38042672ce5529965",
+    "bytes": 549311,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/code-review.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "f5095ad54788ff099986b7e58019a5aaad1f330adc59a1cc5e9bc8f64daaa193",
+    "bytes": 6757,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/code-review/high.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "e76b1bee4a83f50497dc80fce2cedeeed23561487b0032cd4e5642edb7ea26ff",
+    "bytes": 6318,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/code-review/low.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "f66c02bae0446f71bb72eda571f6e904008ec12f75f0cdb9388af376a536a346",
+    "bytes": 1236,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/code-review/max.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "f481313640e81fe18ea56cfadff11b474938ad5f9b6ac7fd16e6b598bab0995e",
+    "bytes": 7514,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/code-review/medium.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "ede9db9dfa9900f55dd8e4fda29ae9d05ebcabad22438600f6e0db2b6cc7b3af",
+    "bytes": 5873,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/code-review/README.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "996acd90aed024c56dacbe2758a1ebc6749ad7782cb5a630c688ceeb5e7b3094",
+    "bytes": 2465,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/code-review/report-findings-tool.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "1e6387103620ffe73cf37db18837961d54fac393c69d4817905e9afd75bc5ad4",
+    "bytes": 2638,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/code-review/xhigh.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "01280c80af24d2c7b6405d13b638930a38080b21589250e8c52965ed1e1e8952",
+    "bytes": 7519,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/compact.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "71ca64a805d2c88965ee4764ff30778a0040a2856dabb1389ceb9927a7885b8f",
+    "bytes": 6531,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/dataviz/references/anti-patterns.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "d783b8bab4d6942534f8b233481f9b11fcc3242cd2aa8c5c1f89916a81df2ac7",
+    "bytes": 6205,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/dataviz/references/choosing-a-form.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "711765ccc9244886669b922fc21e79de676339f106dc914efd74d43c33aaabeb",
+    "bytes": 2967,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/dataviz/references/color-formula.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "1ff08eed68bad685ee3b039fdf34cf523656cc63da5fe046eef78e0838150587",
+    "bytes": 6614,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/dataviz/references/components.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "dda78158e1073e2de031bec79c1301c48c3559caf43e7fc39cb32dddf3231126",
+    "bytes": 2179,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/dataviz/references/interaction.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "1efce2346f2bbc1562da3c3d264ab37d8e61eec4c45e919fcbde099007480b5e",
+    "bytes": 3827,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/dataviz/references/marks-and-anatomy.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "3a356bd8929c74e10d50f49047f2faa16da4b44525a1c09e23f947877fe0a701",
+    "bytes": 6183,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/dataviz/references/palette.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "d974a34fedea4792e7cac0c8738d5037f349c4d39c91cbc65fac7c9d526f8d07",
+    "bytes": 6559,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/dataviz/SKILL.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "2220f0f2b3f07404adfd22c5ff3d434ba72bb35e28e8b3958e9333f7caa4dfbd",
+    "bytes": 8042,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/debug.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "41f278c238b99ae38f5af5008c1c597a38cfb07abb9c7b194badd8df36dd8341",
+    "bytes": 1799,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": true,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/deep-research/SKILL.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "fbab1800b84eb98a99909a6f28a01df41fb3e00251dd8d66d733f4470ed9715b",
+    "bytes": 1524,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/doctor/SKILL.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "2f147429b2c205b553e8a184065509bb47b9e7ccf9c6172246fd6fb87371960c",
+    "bytes": 44855,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/fewer-permission-prompts.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "2619bd9752f5b0ba13bc28bf1c4175e800dc298f2db276541e18d979fd350809",
+    "bytes": 7709,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/init-new.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "d1d592fd1f9a77c4fec517ca2b2983e1eef4bcac99afb406c53d76fe908fb3a5",
+    "bytes": 21315,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/init.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "067900086c5218e5e33cac190ebbb93cafbfd92e3e9b6ece7d40be988bfdec26",
+    "bytes": 1612,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/keybindings-help.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "d28c3ccc2889a76d148a3ea00692bb26343a95725c12e18a3a947b4204cd2efe",
+    "bytes": 12332,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/loop.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "5e449b31b09684eb4dd0b3c0fcca3714c137cf95ad1755f3994dfb322d1bd11c",
+    "bytes": 7790,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/review.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "143a9baa874edce4357233d41a828ea48edfa28ae11c9ac73a2aedf4ee005000",
+    "bytes": 4504,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/run-skill-generator/examples/cli.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "8e978b8c5d3eaedeba429c02ee3e8ed5462e9992ccc0a3d9cb5647e741309344",
+    "bytes": 1616,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/run-skill-generator/examples/electron.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "110ee0c3915debb3c61f7cceb14670329617efd7cfc77e6f99b8550c79c83701",
+    "bytes": 14757,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/run-skill-generator/examples/library.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "982386fe57ed6750b36c2a293e28f80e8018c5a614c0832cdd8a83eb41c21ba2",
+    "bytes": 2132,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/run-skill-generator/examples/playwright.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "bb12e586ac685350efea7eb24d46dc527bb93e8ee13d758a7a14d34272fb6a92",
+    "bytes": 3396,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/run-skill-generator/examples/server.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "9567dff4bc30b6f719053889dfa3c609dfa82efe20e6bcada9d0540a1e6bee66",
+    "bytes": 2968,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/run-skill-generator/examples/tui.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "f5248f60ed7628bfc469be5a2214ebd36c5ea7483254d466048858d8a37ee95b",
+    "bytes": 3125,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/run-skill-generator/SKILL.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "eb445a92c7ff1def8f854af692c57924bf46228d05402cca58ba179cfb72bddf",
+    "bytes": 16872,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/run-skill-generator/template.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "ad5fa2f0775bc2a9aaecdd964f78f07b02823f83796058e3be3a7e6d133175c7",
+    "bytes": 4278,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/run.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "2004d90d8b783ab4f93ef14938a98fdda4f4d723fac96f5dba90d08edcebcb16",
+    "bytes": 22446,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/schedule.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "6fd1cce41360cea2d908cd173d8cf67c33b883980ba18bc8ff10cf135ef9bbe8",
+    "bytes": 10323,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/security-review.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "88235c1896fc4781fe42abb51aed126d2dfd23fb55de272d10f9facdc578d20e",
+    "bytes": 10848,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/simplify.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "18998746ea65a81108b385ce0a891df2ad063ef0eae35c7a6fcaf5fd58cbe3a0",
+    "bytes": 2707,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/update-config.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "8ab462c5ab1d3eb6150348b8963a526f6adb941a25dc372a69dda0ff17ad8b1a",
+    "bytes": 148154,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/bundled-skills/verify.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "6884c7c4b24ddb1844ccc894b39c742b8cc101fe62372b0251a4fc7676965b1d",
+    "bytes": 10547,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/claude-code-2.1.172-fable-5.md",
+    "family": "Anthropic",
+    "version": "2.1.172",
+    "sha256": "a81d860a0d605567656da213b6a4a6999248b471c116c58ca6bc8fad8f196f42",
+    "bytes": 96463,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/claude-code-2.1.172-opus-4.6.md",
+    "family": "Anthropic",
+    "version": "2.1.172",
+    "sha256": "acda3d6f53082d34125034bf3f71762065fd99bb3a3cfed8a9f0e228c547ace4",
+    "bytes": 120188,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/claude-code-2.1.172-opus-4.8.md",
+    "family": "Anthropic",
+    "version": "2.1.172",
+    "sha256": "941108cddc66c15ab2fee31d0f4b2a2efb5b87c6e7da984e893029886857a817",
+    "bytes": 92026,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/claude-code-docs-assistant.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "7ceda4b2ff629e475997ad7f509a4a672edd527437022e05931364e82aafbc33",
+    "bytes": 18726,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/claude-code-opus-4.6.md",
+    "family": "Anthropic",
+    "version": "4.6",
+    "sha256": "f45335184bec7e6a296ed2fefdad220319aa4f148abc0919fbe986b18134d553",
+    "bytes": 89317,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/claude-code-opus-4.8.md",
+    "family": "Anthropic",
+    "version": "4.8",
+    "sha256": "fa67e8106eb57ea4e2a6fbb9c0d9e53546ec80e1b5a3c474cac3eceab2023016",
+    "bytes": 65532,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/compact-continuation-message-2.1.207.md",
+    "family": "Anthropic",
+    "version": "2.1.207",
+    "sha256": "79d3bda9d73ea32b9550d8f2c70efd666a9fd817478d3ae0c52558eaa41f0fd4",
+    "bytes": 954,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/compact-rewind-summarization-2.1.207.md",
+    "family": "Anthropic",
+    "version": "2.1.207",
+    "sha256": "7bb65c2415a35ec9e7401f9e734d3dc7f19af17a7b2374b60f1803fbf1066e34",
+    "bytes": 4035,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/deferred-tools.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "a3f8f6c41f032a41f2fdbcbbd2160e7914e571b11a12b3e9b75e3e338dda26b8",
+    "bytes": 85940,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/glob-tool.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "ec7d30899216dc253c1aaf677635a4b1b5f24fed91b67ec01cd120ed741c91bc",
+    "bytes": 4962,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/grep-tool.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "3ba7e70d684ad7be0fbb871efc5072041e3e1b1d04d9e89a2d84945f90eae118",
+    "bytes": 5878,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Claude Code/prompt-suggestion.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "530c78a4030fc92c2a5eabc814cc29fba4694b88cc3769976a000bd106b417d4",
+    "bytes": 1410,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-cowork-dispatch.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "64a1dc8246ac7e2535b0c09278fed3724a94ba13216a222906c6d8720d1b8111",
+    "bytes": 72240,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-cowork.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "b2a32e065d4ecf53d2fbe64cc01b0031c110cadc21b58c1aa47b1387cd21222f",
+    "bytes": 283540,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-design.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "91c3006e22618153e0f25db18fcacc788cc076dd6c6e96ee98bdb4ea17ef2f79",
+    "bytes": 474688,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-desktop-code.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "7dfb2f4fd1ce5ef8778540a7439c8fbb95407d0902e1f4b17d51cf368cdbc575",
+    "bytes": 56222,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-fable-5.md",
+    "family": "Anthropic",
+    "version": "5",
+    "sha256": "48ed9402fe0cab39edf1c7b6fcb2bf2c158ef803fe426f5d75216dc2bb8c0ebe",
+    "bytes": 191497,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-for-excel.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "053740b103354834cf19e6f0b9e61c05f8d801ff8dd3746a48f1511e297b6327",
+    "bytes": 17268,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-for-word.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "60d0a8caec7488947ab169535aa30869844b0ea2dbf66e29e1f2c3e84bbae80f",
+    "bytes": 28293,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-in-chrome.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "ab92f87d43c4c419467105f1339da1558c097f7faf0d4e939a847abd04a8120c",
+    "bytes": 75268,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-in-powerpoint.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "66495811bfbf40829246b8b12efac471174e9a7c17b6ffebb220c6f06e2a7326",
+    "bytes": 6273,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-mobile-ios.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "64a837cd46c8988932ef387826b775aec2a9c1f6f09b9e33185c673fdf083841",
+    "bytes": 55263,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-opus-4.6-no-tools.md",
+    "family": "Anthropic",
+    "version": "4.6",
+    "sha256": "879ae30b2735473be222950f62ea916750b1ee74a7d6e2885611f4ed7af1b705",
+    "bytes": 50710,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-opus-4.6.md",
+    "family": "Anthropic",
+    "version": "4.6",
+    "sha256": "55e8be9eec946e5e0a5531ceb6300b55fba3aa96e4f34b19d94ff2c70456a8c0",
+    "bytes": 183292,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-opus-4.7.md",
+    "family": "Anthropic",
+    "version": "4.7",
+    "sha256": "ab9f9b299c7a84950cfbee136f76b320a9a28af70da3e4197fd24afeffa772f4",
+    "bytes": 185877,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-opus-4.8.md",
+    "family": "Anthropic",
+    "version": "4.8",
+    "sha256": "4e3354e597fcf1aa8adb28c6649711a541b0712812541ff87275930d13bae1e3",
+    "bytes": 187299,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-sonnet-4.6-no-tools.md",
+    "family": "Anthropic",
+    "version": "4.6",
+    "sha256": "1b93fd27874a78856e717bf325e4ec7e39a15a14ef6fd627b705aef308d4afd1",
+    "bytes": 48438,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-sonnet-4.6.md",
+    "family": "Anthropic",
+    "version": "4.6",
+    "sha256": "d6acac638d9ca403490f416783e44c213f6fcbdcecd0d98d59ce1f28cbe09d77",
+    "bytes": 178018,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/claude-sonnet-5.md",
+    "family": "Anthropic",
+    "version": "5",
+    "sha256": "98dacdeb396d8d735f006ae69131f8e707b9143d315c12faddbc03c9c4bf7217",
+    "bytes": 192319,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/default-styles.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "c472d3844848dbe450dcc66687dd25326796d78d5e5673d6902e2590a3a68757",
+    "bytes": 5738,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2024-07-12-claude-haiku-3.md",
+    "family": "Anthropic",
+    "version": "07",
+    "sha256": "2c95ab6cd14233e17a64fa4c2619e00914125f3abf5647ee00158140de595fe6",
+    "bytes": 756,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2024-07-12-claude-opus-3.md",
+    "family": "Anthropic",
+    "version": "07",
+    "sha256": "9b0cfd7cea9c9647e33dd205584f16ab5ac4129270d7036ef331d2ab634423c7",
+    "bytes": 2177,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2024-07-12-claude-sonnet-3.5-text-and-images.md",
+    "family": "Anthropic",
+    "version": "07",
+    "sha256": "92dae822e8b32d0ba5c263e83902b069d18898b3f8d949799c075a795ac5dc57",
+    "bytes": 5900,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2024-09-09-claude-sonnet-3.5-text-and-images.md",
+    "family": "Anthropic",
+    "version": "09",
+    "sha256": "660c9a5ee2bc466e994ca0c9fcde806594edb82e4f045986fb98407cdc0bacd6",
+    "bytes": 6104,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2024-09-09-claude-sonnet-3.5-text-only.md",
+    "family": "Anthropic",
+    "version": "09",
+    "sha256": "c2d5538edccbe82281901ab86951149743ae58599a6ac52b059636d18772325b",
+    "bytes": 4956,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2024-10-22-claude-haiku-3.5-text-only.md",
+    "family": "Anthropic",
+    "version": "10",
+    "sha256": "ecba0a305458f6eb1b3182e6377125dc32b8abff292c88635fcbb3a3f8040c5f",
+    "bytes": 9841,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2024-10-22-claude-sonnet-3.5-text-and-images.md",
+    "family": "Anthropic",
+    "version": "10",
+    "sha256": "2d4802c9f00b790a55c5f33f2a1e169380ddab82ca756b796a736701454f42e5",
+    "bytes": 13289,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2024-10-22-claude-sonnet-3.5-text-only.md",
+    "family": "Anthropic",
+    "version": "10",
+    "sha256": "6e82c2ee60576354cc419c46a9659efd18827e04273e872fc067d990ed7974c6",
+    "bytes": 12211,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2024-11-22-claude-sonnet-3.5-text-and-images.md",
+    "family": "Anthropic",
+    "version": "11",
+    "sha256": "f660d1168a14926f96243d073c54e9486a92e196399f2ec8013987141fa2f514",
+    "bytes": 13425,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2024-11-22-claude-sonnet-3.5-text-only.md",
+    "family": "Anthropic",
+    "version": "11",
+    "sha256": "faa4d22686b03dc6904702c934078333a598cbb229c90f383d3214c187d69749",
+    "bytes": 12393,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2025-02-24-claude-haiku-3.5-text-and-images.md",
+    "family": "Anthropic",
+    "version": "02",
+    "sha256": "5231cb5e9934d6ee753c9727e9699f51bee9474b4d28d8ee1faf654e0e6c07fb",
+    "bytes": 11860,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2025-02-24-claude-sonnet-3.7.md",
+    "family": "Anthropic",
+    "version": "02",
+    "sha256": "03a945d55153f154f050d4bd91cea54abd41e049d0fedc00340c707521b4cbb3",
+    "bytes": 13094,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2025-05-22-claude-opus-4.md",
+    "family": "Anthropic",
+    "version": "05",
+    "sha256": "fe57b38444283f76727623613e6d7626d2abddbde8b9cc3c000196d54b4ff8e4",
+    "bytes": 11087,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2025-05-22-claude-sonnet-4.md",
+    "family": "Anthropic",
+    "version": "05",
+    "sha256": "b2749b5222600b6eeefe733585a219fed43b7305c14d5f60111d68450e0a7b02",
+    "bytes": 11089,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2025-07-31-claude-opus-4.md",
+    "family": "Anthropic",
+    "version": "07",
+    "sha256": "b9c8e529b763223435777549d719caf8c917fef685aff74cb9a49208fff8eb7b",
+    "bytes": 16883,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2025-07-31-claude-sonnet-4.md",
+    "family": "Anthropic",
+    "version": "07",
+    "sha256": "36aa7a5bf85801243b4658d8c4549fac57b43085d440878c7bfce85fcf2442a5",
+    "bytes": 16886,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2025-08-05-claude-opus-4.1.md",
+    "family": "Anthropic",
+    "version": "08",
+    "sha256": "63e63baa3c60aa8bda8026ba8d19fdab17c644e5d77da21ca9989d5ee477d197",
+    "bytes": 18956,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2025-08-05-claude-opus-4.md",
+    "family": "Anthropic",
+    "version": "08",
+    "sha256": "b9c8e529b763223435777549d719caf8c917fef685aff74cb9a49208fff8eb7b",
+    "bytes": 16883,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2025-08-05-claude-sonnet-4.md",
+    "family": "Anthropic",
+    "version": "08",
+    "sha256": "36aa7a5bf85801243b4658d8c4549fac57b43085d440878c7bfce85fcf2442a5",
+    "bytes": 16886,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2025-09-29-claude-sonnet-4.5.md",
+    "family": "Anthropic",
+    "version": "09",
+    "sha256": "78f451bcced54a42210c0ff0d0bc343239702b2bb25a020aa221375a3444a0af",
+    "bytes": 13344,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2025-10-15-claude-haiku-4.5.md",
+    "family": "Anthropic",
+    "version": "10",
+    "sha256": "d0fba92d9fd838d77b0e856f27ae09b38cbc82d00e9bd08471e3bd9be2d12ae2",
+    "bytes": 13328,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2025-11-19-claude-haiku-4.5.md",
+    "family": "Anthropic",
+    "version": "11",
+    "sha256": "de7d9da157a6cb836fc3bc940bcccb2492f03e8fe49dd840c5222e29c85511b8",
+    "bytes": 14572,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2025-11-19-claude-sonnet-4.5.md",
+    "family": "Anthropic",
+    "version": "11",
+    "sha256": "6051a9928b9224326ca838a8c4b069c07f0fcd2f85448a340a6aab9f4e78a8b9",
+    "bytes": 14586,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2025-11-24-claude-opus-4.5.md",
+    "family": "Anthropic",
+    "version": "11",
+    "sha256": "9bb79008e89eae0e80669d1c37a9e6924d1deb456d9e72c4132de2bc0972013e",
+    "bytes": 15985,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2026-01-18-claude-haiku-4.5.md",
+    "family": "Anthropic",
+    "version": "01",
+    "sha256": "e3eee75b543bad4c70555cee0d97d5a475204a2c0fa528c06701c176690d9ac2",
+    "bytes": 15520,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2026-01-18-claude-opus-4.5.md",
+    "family": "Anthropic",
+    "version": "01",
+    "sha256": "6c238d9f758a78e0824d6d7ce6951885fbd70f35e11815ac2deab4028acf31ee",
+    "bytes": 16768,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2026-01-18-claude-sonnet-4.5.md",
+    "family": "Anthropic",
+    "version": "01",
+    "sha256": "9e1de6cac4a6168d937fb5fdb20e5a808cc27160bbc7cb1799585836f17774de",
+    "bytes": 15526,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2026-02-05-claude-opus-4.6.md",
+    "family": "Anthropic",
+    "version": "02",
+    "sha256": "78e9b3b562610f85ff2b853c095e70009c71301e64fd0dd2be2a9cc147b88c3c",
+    "bytes": 19092,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2026-02-17-claude-sonnet-4.6.md",
+    "family": "Anthropic",
+    "version": "02",
+    "sha256": "1ea09045d60064508e4fc78e83df2793d1ce2467d0b8613a8107c2e7a2c42923",
+    "bytes": 19461,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2026-04-16-claude-opus-4.7.md",
+    "family": "Anthropic",
+    "version": "04",
+    "sha256": "5bb364d7322313a59385e796e25c546bdbb7274882401b6497741a8b61c418e0",
+    "bytes": 24531,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/2026-05-28-claude-opus-4.8.md",
+    "family": "Anthropic",
+    "version": "05",
+    "sha256": "5ca0848ffb6fb26b3bd3c09d2adc0034e6444c8517ea83ae2101a2525d0cb8ad",
+    "bytes": 23008,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/all.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "3ba18fa75680512dfde3045dbc2151eed9f8065983ed41dc5f6a9ee7e2c63dcc",
+    "bytes": 398607,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/Official/README.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "3550f9a1ac49d4fdfd84359e1b62c6f08a3db5d1523da180b05503fd48d9daba",
+    "bytes": 80,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/old/claude-3.7-full-system-message-with-all-tools.md",
+    "family": "Anthropic",
+    "version": "3.7",
+    "sha256": "935568911d34063e4e2587f448e87bdd192141774e8138cf29b54a910b75af8f",
+    "bytes": 113381,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/old/claude-3.7-sonnet-full-system-message-humanreadable.md",
+    "family": "Anthropic",
+    "version": "3.7",
+    "sha256": "7d29085324900304c864bf575d8433b637da0557715884c0c9cee24c12fb2c8a",
+    "bytes": 114991,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/old/claude-3.7-sonnet-w-tools.md",
+    "family": "Anthropic",
+    "version": "3.7",
+    "sha256": "258dc4329c97313dbcdbc9f43648ac5b6564bea9ae7d0bf2e5cbfd225976bb32",
+    "bytes": 110722,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/old/claude-3.7-sonnet.md",
+    "family": "Anthropic",
+    "version": "3.7",
+    "sha256": "284868a1e8d8775dac614461af0e5cb2a465637dd5f49d4bf036b1f5fbff7877",
+    "bytes": 113285,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/old/claude-4.1-opus-thinking.md",
+    "family": "Anthropic",
+    "version": "4.1",
+    "sha256": "854840840def4963bee20550da87da9657e5afd5f8fd965d8cbd146905e74c9f",
+    "bytes": 107859,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/old/claude-4.5-sonnet.md",
+    "family": "Anthropic",
+    "version": "4.5",
+    "sha256": "595543b2d3d7119b589e3f7a5b0c442648da59e7727015a12d474f316e5d58bd",
+    "bytes": 146295,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/old/claude-opus-4.5.md",
+    "family": "Anthropic",
+    "version": "4.5",
+    "sha256": "f19ca40e92976d723ea89a7fb3f2d2bab372d3249dd23fa7ee7ead0b9c80a612",
+    "bytes": 92980,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/old/claude-sonnet-4.md",
+    "family": "Anthropic",
+    "version": "4",
+    "sha256": "181f01abe67eaf5c75aaa2a2ea826f7dd9c852d7741bfef685735390acdb3f23",
+    "bytes": 102105,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/raw/claude-opus-4.6-no-tools-raw.md",
+    "family": "Anthropic",
+    "version": "4.6",
+    "sha256": "06122946b1ba27193f3a21dace71b4fc3d471a91a62c18e74ce103016d8a604a",
+    "bytes": 43198,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/raw/claude-opus-4.6-raw.md",
+    "family": "Anthropic",
+    "version": "4.6",
+    "sha256": "bb14ddf633feb1b6b7886df0250af8773e59e2383b95a42f2d10946658b07b5f",
+    "bytes": 234209,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/raw/claude-sonnet-4.6-no-tools-raw.md",
+    "family": "Anthropic",
+    "version": "4.6",
+    "sha256": "697f0f0c01ffe4b7b3952b116d436f5fa3ed7d71edc60af44cbe5787f7d2f309",
+    "bytes": 40880,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/raw/claude-sonnet-4.6-raw.md",
+    "family": "Anthropic",
+    "version": "4.6",
+    "sha256": "cc1cd74f979d46ee75c241e9ef49c9f4e0e9bee55c073a81a217379bcec4b67e",
+    "bytes": 237678,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/research_instructions.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "ad6bc86c9cb120baab8c92dc41115345557da2f17ef4e0cad222f548fcca8793",
+    "bytes": 20964,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/sonnet-4.6-reminders.md",
+    "family": "Anthropic",
+    "version": "4.6",
+    "sha256": "ea5ae2278cceb266f0b064bb0bbdc6dc7ac8bd5cf97704b3c155a4f51aaf5d79",
+    "bytes": 3978,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Anthropic/visualize.md",
+    "family": "Anthropic",
+    "version": "unspecified",
+    "sha256": "96dae86c146b8f460ee1a20431736e108b81df7966643c0de8268e17c89052e5",
+    "bytes": 71431,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Cursor/cursor.md",
+    "family": "Cursor",
+    "version": "unspecified",
+    "sha256": "cee6d8920a0427cf7e90977def4520f4b97cf354ae672ca41b2c00c3eb7c20b5",
+    "bytes": 18435,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/ai-studio-build.md",
+    "family": "Google",
+    "version": "unspecified",
+    "sha256": "4b09228c82819d93bc5c67d44e2bab7d8c28fe8503e410aa92d194b69ff924b8",
+    "bytes": 9585,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/antigravity-cli.md",
+    "family": "Google",
+    "version": "unspecified",
+    "sha256": "3780482626bd1215c60072c7e176c26611c11a6df14235d672fd3773cececf9a",
+    "bytes": 24944,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-2.0-flash-webapp.md",
+    "family": "Google",
+    "version": "2.0",
+    "sha256": "27025f9d4f71d9e23df927b243106e229b87004af8f2678f13c9e09199bce2e8",
+    "bytes": 2425,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-2.5-flash-image-preview.md",
+    "family": "Google",
+    "version": "2.5",
+    "sha256": "14d5c3ede5d2cfc033fe52d6515b82bcdcdf311e0c1f446ecb8d24011911e6f5",
+    "bytes": 4910,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-2.5-pro-api.md",
+    "family": "Google",
+    "version": "2.5",
+    "sha256": "88e09eab814430dc519222cfdc949fccfca76e8bd42ed0a8b2af82cf18244c61",
+    "bytes": 3262,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-2.5-pro-guided-learning.md",
+    "family": "Google",
+    "version": "2.5",
+    "sha256": "86d08f6850ddc9b5721220dee182b6d8dab1d75f8122819a4f114a84bb16f65a",
+    "bytes": 15574,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-2.5-pro-webapp.md",
+    "family": "Google",
+    "version": "2.5",
+    "sha256": "8762176adba56ce5cacc51c09b377a3be3b8a07eb77f044e5e3c78bd5b49c09e",
+    "bytes": 1967,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-3-flash.md",
+    "family": "Google",
+    "version": "3",
+    "sha256": "4762f6be4af6a99b12d879310d87eddb4e12fa9f83e8ed9e2b473f8e85115dff",
+    "bytes": 15652,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-3-pro.md",
+    "family": "Google",
+    "version": "3",
+    "sha256": "b26d2e87e4720f1224b5603cc3d45eff8698b2d4a24212832b80737d7053993d",
+    "bytes": 14394,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-3.1-pro-api.md",
+    "family": "Google",
+    "version": "3.1",
+    "sha256": "8477b1748bb40b7e389e9b2bb99cceb9eab79620fe6c8d76d6f5c5133caa97f1",
+    "bytes": 2779,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-3.1-pro.md",
+    "family": "Google",
+    "version": "3.1",
+    "sha256": "1550fb91d643aaac1ddd367626af34d69aba02150134ccf0f94f3174685c3d32",
+    "bytes": 26645,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-3.5-flash-ai-studio.md",
+    "family": "Google",
+    "version": "3.5",
+    "sha256": "a3d55a26a82d2532dfdbe263366726918ef262279ebb4f21b95c8355283ff862",
+    "bytes": 2398,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-3.5-flash-tools.json",
+    "family": "Google",
+    "version": "3.5",
+    "sha256": "0bbd2b38e2bc4fe4c14c269e354210bd84e9245d085937dbcc3c8028d4d6f888",
+    "bytes": 3333,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-3.5-flash.md",
+    "family": "Google",
+    "version": "3.5",
+    "sha256": "86159a452ebc2f90235a9a95504969ae0ef155a94d95aec442c4891a6657f0e9",
+    "bytes": 13086,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-cli.md",
+    "family": "Google",
+    "version": "unspecified",
+    "sha256": "8e28b90a62723a853f62ca3bdc4205811e4c3cbc9a22ef2472b3c0840484ee8b",
+    "bytes": 29122,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-diffusion.md",
+    "family": "Google",
+    "version": "unspecified",
+    "sha256": "97601a8229376384c00a63847019dbe4604d9f8a57992f7cf93bd8e399304822",
+    "bytes": 6601,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-in-chrome.md",
+    "family": "Google",
+    "version": "unspecified",
+    "sha256": "a4da0be778c461d0e1839672a86faf3f3ec873f67b2bcd9f9e6ad5a7d237d207",
+    "bytes": 11690,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-workspace.md",
+    "family": "Google",
+    "version": "unspecified",
+    "sha256": "270300d444423b54cf4e37b3a6e2d906af8e7ca1ebf3a021ee575f449cb75803",
+    "bytes": 21400,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/gemini-youtube.md",
+    "family": "Google",
+    "version": "unspecified",
+    "sha256": "fb283511cf4d3732c252bba80c2af8c16ddd125e76189a70b7abd0bd5d0c7449",
+    "bytes": 17371,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/google-search-ai-mode.md",
+    "family": "Google",
+    "version": "unspecified",
+    "sha256": "e89584badc654b2f99684df65af54f307e6d955f1f5af6952555a90c0ba8e1f0",
+    "bytes": 4397,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/jules.md",
+    "family": "Google",
+    "version": "unspecified",
+    "sha256": "d42b081fcd2c0bb3553db475ef58b104a954d2e3ae80d35c5f07a797fba66d14",
+    "bytes": 16208,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/nano-banana-2-api.md",
+    "family": "Google",
+    "version": "2",
+    "sha256": "afc1758daecbf2d8003d80e9b2e8a7c113ac597d5baa4aba49105b923f9d14a4",
+    "bytes": 2514,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Google/notebooklm-chat.md",
+    "family": "Google",
+    "version": "unspecified",
+    "sha256": "83c7fdb5016c9a5938a04131cb03a98458a0542c69e2747c4ac989229d1a19e0",
+    "bytes": 2569,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Meta/meta-spark.md",
+    "family": "Meta",
+    "version": "unspecified",
+    "sha256": "dbe2857b1eae8a8fc60b763c4a4904396835176e46f04406ecae750c24061eea",
+    "bytes": 58280,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Meta/muse-spark-1.1.md",
+    "family": "Meta",
+    "version": "1.1",
+    "sha256": "2a34acb648b0c5afa36f47969ddd1cd25cb7b3f7d4fc155fa5a529dea2efe216",
+    "bytes": 73503,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Microsoft/copilot-cli.md",
+    "family": "Microsoft",
+    "version": "unspecified",
+    "sha256": "338634a1590af1468c9006916e78fa7f3480616c236beba2f4160bc68539d07a",
+    "bytes": 74167,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Microsoft/copilot-in-microsoft-word.md",
+    "family": "Microsoft",
+    "version": "unspecified",
+    "sha256": "c834479e5dd3dbf78e940e7376a3158acc67b79eacfa0bdca476c1cbcecaa152",
+    "bytes": 15415,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Microsoft/copilot-macos-app.md",
+    "family": "Microsoft",
+    "version": "unspecified",
+    "sha256": "6ec0b62d966c1c16dce865e982a1111f88efc98e4bce921a6eab4cb7fc673f90",
+    "bytes": 16683,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Microsoft/github-copilot.md",
+    "family": "Microsoft",
+    "version": "unspecified",
+    "sha256": "36176f7825bd6f42b4d35601be2018a56f4ba38156856b852644ced4fc9e4447",
+    "bytes": 36843,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Microsoft/vscode-copilot-agent.md",
+    "family": "Microsoft",
+    "version": "unspecified",
+    "sha256": "7266d2b66da2ce5b8989b9a01ceab5962f2597de01c8ac78189586a4e3b6c4e9",
+    "bytes": 11292,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/amp-code.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "a934d6fdea240d412dcf3487a5977be509ce145439141ceab574344541c858ad",
+    "bytes": 55403,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/brave-search.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "07cae0a0fc363ff6a8c30b659cb79ee1062f21aed3ac3571692272727598149e",
+    "bytes": 139,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/character-ai.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "8d1a16a4dddfc9e1d827f39c7c301b95a2ccd52b31ffe7c69bf6e3412c6cd070",
+    "bytes": 1331,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/confer.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "9d23a68e7ce2550788eac65eb3a1fbd053332cae376ca113bc69afeffc7f0d0e",
+    "bytes": 4281,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/devin-cli.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "f118d517e0024a81460346163efb4a41a5181e88047f315ed4918e2dc558509d",
+    "bytes": 18299,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/docker-gordon-ai.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "b30c3ee887b3dbd6477d3374a70c31402499e9d27723131b508da92c13a16dc1",
+    "bytes": 41982,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/elevenlabs-voice-agent.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "b7dfe841a428f76f07f9e369a4a17c953b1abc4e355fd0f67d0cd462f6b5f937",
+    "bytes": 2972,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/fellou-browser.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "20160268744f783c7aca398e2a0689eada075288c48af286d7a871befb61102c",
+    "bytes": 23103,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/gizmo-ai.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "edb46f0e74c70895ccc983bacc97b1442f059800911c89fad6720e6bc7095093",
+    "bytes": 6192,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/hermes.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "e9f44b3033ad786a8f3707784bd0f556c0f256a42ec8fc27a9406113c4bcea5a",
+    "bytes": 18060,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/indus-ai.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "f992f144e1614a44c5c6a0bfb354a7ac883adb6916d1a9839536495d53a741c9",
+    "bytes": 17044,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/kagi-assistant.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "8e8c0f6d0ea3f103a33247dcc81eb8fc58bc608fb51b584aa04a0f153f026cc4",
+    "bytes": 5352,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/minimax-m2.5.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "e04dfc5708ffb6380381e20849cdc0052fad0be04f7d076bc28cd84c37ae6feb",
+    "bytes": 5321,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/opencode.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "844f21014ae44e3b2ac7b056091af408f633af0588c72efb462dbf7dd1986579",
+    "bytes": 15740,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/proton-lumo-ai.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "831b39f42214b9f5383938506b1c7cf6f9c0e9ef8c20eef98b8ed02fb0730b2d",
+    "bytes": 11777,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/raycast-ai.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "8427caf49ab6d8715b7c6eb9c7e3cc820e73ef497ca9d0bac73cd3371fa676ed",
+    "bytes": 1201,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/reddit-answers.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "be1bce005f1a29bfa486dabbd0ba59f5c38aa00918b4cee497f3cc972cfb2bac",
+    "bytes": 3783,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/sesame-ai-maya.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "1b556b6e35ec781a7c543eb5ae43bfc5192a50bbf6d235e6f08c5495b2755a14",
+    "bytes": 15718,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/stack-overflow-ai-assist.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "7693d05e6b906efc3ab3ac03e8e0917978e4ab7ba376b19395ba5a1e0d046683",
+    "bytes": 6466,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/t3-code.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "10069b3002103f26a00e779b56e090caa52c97b0e110d01cd09fc0a3526999af",
+    "bytes": 10266,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/t3.chat.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "d9f299c1d95d96388b89cdb2b32f9defec173f97ba73f3e231eac628350a9216",
+    "bytes": 2393,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/warp-2.0-agent.md",
+    "family": "Misc",
+    "version": "2.0",
+    "sha256": "4ad9a34ca582a27c1c781ccfd62fa28e8c2e1c79e6b26255d60099998c95ef62",
+    "bytes": 13838,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Misc/zed.md",
+    "family": "Misc",
+    "version": "unspecified",
+    "sha256": "6aa5115ce74d1a592a168dd19aa8e4ff3bf05a9bc7cf3a85a3418a558fa4fee6",
+    "bytes": 30284,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Mistral/mistral-code.md",
+    "family": "Mistral",
+    "version": "unspecified",
+    "sha256": "acc055eed3604cb842c6fa22c83cda119b300b13a8dedf105484bea3c1d60c82",
+    "bytes": 13992,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Mistral/mistral-medium-3.5.md",
+    "family": "Mistral",
+    "version": "3.5",
+    "sha256": "1e4a0590c46eafcd956dde6c22be50c3516ab4e96ea8529c6c842ae3e191007e",
+    "bytes": 22452,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Notion/notion-ai.md",
+    "family": "Notion",
+    "version": "unspecified",
+    "sha256": "2701527acf3ff1af356e9982983283a42bddce8f88afa7d3562b77931c73b793",
+    "bytes": 47805,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/4o-2025-09-03-new-personality.md",
+    "family": "OpenAI",
+    "version": "2025",
+    "sha256": "ce6d3b59d9481c75755252e594e8b2978d0c90f785f050c1d65851cc50a47ca6",
+    "bytes": 2716,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/API/gpt-5-reasoning-effort-high-api.md",
+    "family": "OpenAI",
+    "version": "5",
+    "sha256": "b4ca019ed0d0b1b48877796774f64807b574264b2d5b6d1cf8abea163ec6270c",
+    "bytes": 1130,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/API/o3-high-api.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "dd3d3f630285ad00b8a05a4d75627e5d8c88817aad50eac01fb7bb83fd7e4eff",
+    "bytes": 889,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/API/o3-low-api.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "252f673123f4b8563924e1506ec0d5f228c0425fc0c12ff3a668d33711820e9f",
+    "bytes": 888,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/API/o3-medium-api.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "f28a1b690cfa682518a62e58f6ff3eeeaab5903a29647781fb1a17f96aa96413",
+    "bytes": 888,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/API/o4-mini-high.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "dd3d3f630285ad00b8a05a4d75627e5d8c88817aad50eac01fb7bb83fd7e4eff",
+    "bytes": 889,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/API/o4-mini-low-api.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "b25eba7c3664e836a0807d22b7b7c5069516d55b0a6708d39cfe2d6bebc51b56",
+    "bytes": 888,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/API/o4-mini-medium-api.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "f28a1b690cfa682518a62e58f6ff3eeeaab5903a29647781fb1a17f96aa96413",
+    "bytes": 888,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/API/README.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "6eada61473463346c3bacdab9e2d2702ee5b6b0a76987b089d54c4c545897b8d",
+    "bytes": 2229,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/chatgpt-4.5.md",
+    "family": "OpenAI",
+    "version": "4.5",
+    "sha256": "588f6f8995db7624ac8bdab8e8e23393c431af313540e9d2cba587cd684477e5",
+    "bytes": 31846,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/chatgpt-atlas.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "6256c05ee01072b2f5eb8c9ac98d3bd2cb7bbea0fa57df44f271158c24c07c8b",
+    "bytes": 3214,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/chatgpt-gpt-5-agent-mode.md",
+    "family": "OpenAI",
+    "version": "5",
+    "sha256": "9a7b7251ee1e8c6e6e6217edbbef256c2a9601ce8992ecd2232b721b28a7ec55",
+    "bytes": 21769,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/codex-auto-review.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "6978e3b76396e036e3f14c87913c553a621373e89ab199b11883eef08c64398f",
+    "bytes": 13035,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/codex-full.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "4b31f3281ca0a9f1e5dc8fed0d5ef442564dab1f81b918d6f55dbca0f88ae55f",
+    "bytes": 370668,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/computer-use.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "c3999d9d0e49abc60ac4c3c0038953661a06920ed5669635326ae7e875d39566",
+    "bytes": 6315,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/control-chrome.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "7f47d3571b3e81757c77e4db0d49ef99a27c7bb03fb054a9d3b07140a61c971f",
+    "bytes": 13612,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/control-in-app-browser.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "70e60d77f1dae7e04626412402c3817cf36f3b2ba6b5181674acc2fb6f581731",
+    "bytes": 11229,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/gpt-5.3-codex-spark.md",
+    "family": "OpenAI",
+    "version": "5.3",
+    "sha256": "0f1a6c3f97124995051f5b6bf8a8c7b750101792c33cf2ab15e107acd69d2b16",
+    "bytes": 12118,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/gpt-5.4-mini.md",
+    "family": "OpenAI",
+    "version": "5.4",
+    "sha256": "206cb6b45e1628f856f7ca697ef41f38bdde01e83ccb698526f21442ee2009e8",
+    "bytes": 11249,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/gpt-5.4.md",
+    "family": "OpenAI",
+    "version": "5.4",
+    "sha256": "6978e3b76396e036e3f14c87913c553a621373e89ab199b11883eef08c64398f",
+    "bytes": 13035,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/gpt-5.5.md",
+    "family": "OpenAI",
+    "version": "5.5",
+    "sha256": "48a8e3a731294d5ede426a0565fae7621a049dda8ceeee77bb6c75f45ae7edef",
+    "bytes": 19904,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/gpt-5.6.md",
+    "family": "OpenAI",
+    "version": "5.6",
+    "sha256": "1f6502afeb7e234f7fc78b68b0782c0e559dae374f1ad9976bed70dc18048962",
+    "bytes": 16453,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/old/gpt-5-codex-mini.md",
+    "family": "OpenAI",
+    "version": "5",
+    "sha256": "8b793745365e967a5280a34163619e09eda6e29e2b613df3454ca0f1bc94501e",
+    "bytes": 7101,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/old/gpt-5-codex.md",
+    "family": "OpenAI",
+    "version": "5",
+    "sha256": "fa40f5bc20eeb98db929dd5829362fcc93c3defd022d54fe561b0a4306271b83",
+    "bytes": 7056,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/old/gpt-5.1-codex-max.md",
+    "family": "OpenAI",
+    "version": "5.1",
+    "sha256": "c407df004c5ee26ab2a1f149c7c2422ef544c6e23b9e7151aaca8462c04e003b",
+    "bytes": 8052,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/old/gpt-5.1-codex-mini.md",
+    "family": "OpenAI",
+    "version": "5.1",
+    "sha256": "71a1cc7bcb763f5ef82e2b3bb753dd5da046168ac34a5ddf16934dd45f9feae5",
+    "bytes": 7105,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/old/gpt-5.1-codex.md",
+    "family": "OpenAI",
+    "version": "5.1",
+    "sha256": "7a71b696a1f2ec2b8b76581abbfadd399cb7fa7dec4f67c2cb56c4a71e6a6f12",
+    "bytes": 7060,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/old/gpt-5.1.md",
+    "family": "OpenAI",
+    "version": "5.1",
+    "sha256": "cbc814b9cede59db1634d91a8e38b5e8353c79c7469405753640439d2b1ce3cb",
+    "bytes": 24920,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/old/gpt-5.2-codex.md",
+    "family": "OpenAI",
+    "version": "5.2",
+    "sha256": "c1547984ed005fe1f014bdd3dd8f38ff2a6f787e962f2256749be4fd4757de86",
+    "bytes": 8016,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/old/gpt-5.2.md",
+    "family": "OpenAI",
+    "version": "5.2",
+    "sha256": "d8ca6f9e9624a151255018632f15e34fcae3871a2323e46bd16a82e99932bf1d",
+    "bytes": 21970,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/old/gpt-5.3-codex.md",
+    "family": "OpenAI",
+    "version": "5.3",
+    "sha256": "c4b26528d2c5bd355a394c16f1420b33fbd01ad335cb3b309f00be6b01c2c7fc",
+    "bytes": 10640,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/old/gpt-5.md",
+    "family": "OpenAI",
+    "version": "5",
+    "sha256": "b8d208a3df1c750f10bd25fd3f89a9b47420d0ba284a36fc0f0ca399bcfad162",
+    "bytes": 21559,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/old/personality_friendly_gpt-5.2-codex.md",
+    "family": "OpenAI",
+    "version": "5.2",
+    "sha256": "c04cf986c6df99aa2bdfddcd6bce8ecec06d648525f7448371ac2ee433cbded9",
+    "bytes": 3408,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/old/personality_pragmatic_gpt-5.2-codex.md",
+    "family": "OpenAI",
+    "version": "5.2",
+    "sha256": "34443d9eea0d2c200de4add9bd15585c15e02f4213feb084baa4d03f771a3067",
+    "bytes": 2100,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/personality_friendly_gpt-5.5.md",
+    "family": "OpenAI",
+    "version": "5.5",
+    "sha256": "10083b7cf4989422810a2647de80dd3981b6d057f4df71ce9f9127ebfae36815",
+    "bytes": 1965,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/personality_friendly.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "7a4b55356c1a4501f56e55f05191d67d0a73e49189d9f30208d50750faf6508d",
+    "bytes": 2746,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/personality_pragmatic_gpt-5.5.md",
+    "family": "OpenAI",
+    "version": "5.5",
+    "sha256": "2ab6a874a2d7c5894a6b19bc972f8ce27b2486f59f3e62a5f606bb49d2cd6427",
+    "bytes": 1846,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/personality_pragmatic.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "d29e29d1ece6dd2b9957a77f6c71229be87f05a7a751ffd2685a15e1aeb384ef",
+    "bytes": 2178,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Codex/plan_mode.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "3fd4029efebb7b2ddd61e86bf12784c5e0e8296eb8a0e90fbfc9d7f1a9b7aa2a",
+    "bytes": 8903,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-4.1-mini.md",
+    "family": "OpenAI",
+    "version": "4.1",
+    "sha256": "fba5c0cb8d10f345a18730907212c8558e35a0d69115a446fa064962836eaca8",
+    "bytes": 4931,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-4.1.md",
+    "family": "OpenAI",
+    "version": "4.1",
+    "sha256": "e3cf5143cfb90632959363865954b1f7d0ce62dda2a76c5a66c4197624580071",
+    "bytes": 13116,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-4.5.md",
+    "family": "OpenAI",
+    "version": "4.5",
+    "sha256": "d2a4461dec7a08f4cdd99bb79176b2b75f377241e81f4cf33b5cce3b2b7a8178",
+    "bytes": 11177,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-4o-advanced-voice-mode.md",
+    "family": "OpenAI",
+    "version": "4",
+    "sha256": "04601291f88529574d3d0b6fa9fbf972cd0683d621c9b89a569241863afa00a5",
+    "bytes": 2217,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-4o-legacy-voice-mode.md",
+    "family": "OpenAI",
+    "version": "4",
+    "sha256": "7fa1e97163ebf11e2d41d2461505d9814faf977f6fcab4f92acc5ff177f4ea07",
+    "bytes": 5911,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-4o-whatsapp.md",
+    "family": "OpenAI",
+    "version": "4",
+    "sha256": "d707b0571bfc32dc5f45d8ca7701b43ab84d0d9b743855bc4f5849738894e38d",
+    "bytes": 2655,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-4o.md",
+    "family": "OpenAI",
+    "version": "4",
+    "sha256": "1805a8fca038facb6be98d11a163a0619d14cfcacf6e46fca28fe637d903314e",
+    "bytes": 32102,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5-cynic-personality.md",
+    "family": "OpenAI",
+    "version": "5",
+    "sha256": "114b2447ecc16f51316497005143c02828081cb10e59b07cfb5cecc546f7180e",
+    "bytes": 2926,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5-listener-personality.md",
+    "family": "OpenAI",
+    "version": "5",
+    "sha256": "bc9da3093bedbc58e512e35cfe3ab1880a81c9491c0ec16b057fbdf5ab196b60",
+    "bytes": 2163,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5-nerdy-personality.md",
+    "family": "OpenAI",
+    "version": "5",
+    "sha256": "a50d47e3f063a233752bf5345d7013aed7314ffe730bc38b587f89bf65494ab3",
+    "bytes": 3223,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5-robot-personality.md",
+    "family": "OpenAI",
+    "version": "5",
+    "sha256": "3628ac2452a73dd907c62c3cdfa813878a8f8ef80ba6d006407b568c86342d77",
+    "bytes": 2595,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5-thinking.md",
+    "family": "OpenAI",
+    "version": "5",
+    "sha256": "3a457c697d0db5fa4db80040f660b87e8ec3ab67978ea3328c4601027ccd66da",
+    "bytes": 80198,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.1-candid.md",
+    "family": "OpenAI",
+    "version": "5.1",
+    "sha256": "007c78c10ac605510b970b78823609e3b4c2963805028a79b980e44c54967de8",
+    "bytes": 1274,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.1-cynical.md",
+    "family": "OpenAI",
+    "version": "5.1",
+    "sha256": "acc029566d7b5db2576e4c07e8e7752d39db43fd5a58915633ef33a62ca56a7a",
+    "bytes": 2662,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.1-default.md",
+    "family": "OpenAI",
+    "version": "5.1",
+    "sha256": "19c3134990a871e67fefc49b906758999ba82064008cf71917a9aa2327297af4",
+    "bytes": 1228,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.1-efficient.md",
+    "family": "OpenAI",
+    "version": "5.1",
+    "sha256": "1174a3842eb0cfa7e0c1dd79683298451c27058f96b2d82a44d9bf1f263dd174",
+    "bytes": 1109,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.1-friendly.md",
+    "family": "OpenAI",
+    "version": "5.1",
+    "sha256": "1256924c50e6cafe8f26ad9e986537a3f6b15a7b51fdfe21b18af1dcb8a75006",
+    "bytes": 1251,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.1-nerdy.md",
+    "family": "OpenAI",
+    "version": "5.1",
+    "sha256": "e708eaca33681983fcccd7d059281e4de894af7ad034eb72ed329f7f4a10c90d",
+    "bytes": 3521,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.1-professional.md",
+    "family": "OpenAI",
+    "version": "5.1",
+    "sha256": "be7002a5c0b5dbee1d9488bd9ea647e3f8e64ec6a168be7075d91e42881b4137",
+    "bytes": 1066,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.1-quirky.md",
+    "family": "OpenAI",
+    "version": "5.1",
+    "sha256": "ab6e9ca713e19e92a719f2257bbd199597c69188ebaa4450a678b3872731afb8",
+    "bytes": 1405,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.2-mini-free-account.md",
+    "family": "OpenAI",
+    "version": "5.2",
+    "sha256": "26ce154dc8b329dc1b125dc1ddc23a09a7724a42c9dd9e9486fe862eafb81b7f",
+    "bytes": 4677,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.2-thinking.md",
+    "family": "OpenAI",
+    "version": "5.2",
+    "sha256": "87fc761afa01aeb55faa803456b62cfb4c52ba0f37f9ca2b9f255757df4c1ae1",
+    "bytes": 71371,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.3-chat-api.md",
+    "family": "OpenAI",
+    "version": "5.3",
+    "sha256": "140e0989dd521d15b038915e1b948ee496750cf50ddea4145ae10fd763c6cd87",
+    "bytes": 2220,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.3-codex-api.md",
+    "family": "OpenAI",
+    "version": "5.3",
+    "sha256": "32566eb6a1901722aed906dcecfa1a2a4964b98d0fe31324398dabd0c4099fba",
+    "bytes": 201,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.3-instant.md",
+    "family": "OpenAI",
+    "version": "5.3",
+    "sha256": "a46ce7bc91ff2b648ee3c3524fb9119ef43bbb338a7fc16f26a04ef84b9209d0",
+    "bytes": 77558,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.4-api.md",
+    "family": "OpenAI",
+    "version": "5.4",
+    "sha256": "e6bce4c2605241b3fb5b14e9cd6c262c4a0a153dc1231c49ad573ac80cfe5ea7",
+    "bytes": 880,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.4-thinking.md",
+    "family": "OpenAI",
+    "version": "5.4",
+    "sha256": "20ab2b5263303486337c04245f77d6e3b7be6a987eb0bd705f912ae59272648a",
+    "bytes": 99923,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.5-api.md",
+    "family": "OpenAI",
+    "version": "5.5",
+    "sha256": "6b882ee3cfccae106f0634c01398ae85442c04e6f72bb90649dc18804a36dafe",
+    "bytes": 878,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.5-instant.md",
+    "family": "OpenAI",
+    "version": "5.5",
+    "sha256": "a15a1da83ac7398c54876a75bf72f78ab11f6f75eaa86951b1633590afc41576",
+    "bytes": 15703,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.5-pro-api.md",
+    "family": "OpenAI",
+    "version": "5.5",
+    "sha256": "5cc4fde51e7f8a7b61fb5bae1eee91320511368041128d004aa0055c4062ac89",
+    "bytes": 851,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": false,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.5-thinking.md",
+    "family": "OpenAI",
+    "version": "5.5",
+    "sha256": "521402dcee1405171e2893e00c9ada76a7fcfa9105c96e9ef252c20efa5086f7",
+    "bytes": 118091,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/gpt-5.6-sol-extra-high.md",
+    "family": "OpenAI",
+    "version": "5.6",
+    "sha256": "b267eda21423140016f1fd148384f36ece85e6ac14b241ae8d2f4e3a1866df27",
+    "bytes": 117670,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/image-safety-policies.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "c1455f765ef68eadea77ece1286cac0511eb742c5cf41adb857002812066fb96",
+    "bytes": 1758,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/monday-gpt.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "1821db6a13d32b3589e1c7ab41b8ad2e59d55351098079436f6036de36b6beb8",
+    "bytes": 7918,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/o3.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "c9defd2a8ff906d0ec9c64095c8885a1eda123c3daea02ff8ef875c8084f49b9",
+    "bytes": 32672,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/o4-mini-high.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "896be702752187b1728ce0e6b4965f8038b4bf1895821bf359e463895d96cc1e",
+    "bytes": 30956,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/o4-mini.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "896be702752187b1728ce0e6b4965f8038b4bf1895821bf359e463895d96cc1e",
+    "bytes": 30956,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Old/chatgpt-4o-mini.txt",
+    "family": "OpenAI",
+    "version": "4",
+    "sha256": "d0686f7dadc733ac8eaae30b5afb973d2d11af52d822dd445eefa3976fc66108",
+    "bytes": 7016,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/Old/chatgpt.com-o4-mini.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "49665b5ef0886c337be883fa794145ccec45bd589f48285f328a325b042a0670",
+    "bytes": 16053,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/prompt-automation-context.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "4d7ccfa68687d24775924a41e6e22ef5ba84d0cbb3f481efe0017ac387762b9c",
+    "bytes": 1027,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/prompt-image-safety-policies.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "71ad228125aca0119d5267f08ad4956a765cd98ab983321c9ae2f45843771a94",
+    "bytes": 1069,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/study-and-learn.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "fa83071e2b3b54a6c5d3a32b7bd24252158dde7953745c35717647a6ff4744b5",
+    "bytes": 2714,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/tool-advanced-memory.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "e6951cec2733e42f69c2934410ba8430674be8108d188293611f4d0df4ed5b1f",
+    "bytes": 6312,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/tool-canvas-canmore.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "1e6a7c36fc7ac2ce610bc182a856673ca7d1663c0ba1a87d8477ad5a6abaf9c7",
+    "bytes": 2951,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/tool-create-image-image_gen.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "d6c6044288b50d3e6f2c78bbb835a95ea8ef7d08dac13dca7da8951d3f003761",
+    "bytes": 2018,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/tool-deep-research.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "6c0317c899229c3851c7e2af8bc5eb08755f461b4efcaf4eb2678ffab060ac19",
+    "bytes": 2579,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/tool-file_search.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "1c2cddb86596cb818ad4077c78e12c47cf75b10238d0f954707ab82bf620fefe",
+    "bytes": 8355,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/tool-memory-bio.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "e6f864bc796869176d972d62bfe25d1409449a87495927de72727f534d885760",
+    "bytes": 247,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/tool-python-code.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "f8f9d8f9ea4fb17208e5d8c154a216755d2b89b683ced4f0196d513d5497c179",
+    "bytes": 995,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/tool-python.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "f8f9d8f9ea4fb17208e5d8c154a216755d2b89b683ced4f0196d513d5497c179",
+    "bytes": 995,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/OpenAI/tool-web-search.md",
+    "family": "OpenAI",
+    "version": "unspecified",
+    "sha256": "bfc7f7e76fbc31eda57a125f672a620254d134789107834722330a3f4a486b41",
+    "bytes": 1403,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": true,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Perplexity/comet-browser-assistant.md",
+    "family": "Perplexity",
+    "version": "unspecified",
+    "sha256": "79a63f7b43083626393bc6161d058480d5e9261cbb4152883c69408f1ab06916",
+    "bytes": 25767,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Perplexity/perplexity-computer.md",
+    "family": "Perplexity",
+    "version": "unspecified",
+    "sha256": "dfbc9fef90382783ddb44bd9a66d35c47bb18039f3cbb349476b5e18cffe5512",
+    "bytes": 38832,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Perplexity/voice-assistant.md",
+    "family": "Perplexity",
+    "version": "unspecified",
+    "sha256": "d237e4ee8c998fda3dc0bbf68d1712acb1264382a94ed917dfece5af1f660a01",
+    "bytes": 2125,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/Qwen/qwen-3.6-plus.md",
+    "family": "Qwen",
+    "version": "3.6",
+    "sha256": "df6c1d14c89898a0dd92927cb075437bb02bc96a8e58d4f4e4efa07ccf8f7758",
+    "bytes": 6935,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/README.md",
+    "family": "README.md",
+    "version": "unspecified",
+    "sha256": "de77a002f06d7c5a0fd6189e6eecdb10c35e642dc32c3aa78074c923cc8dae29",
+    "bytes": 18291,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/xAI/grok-3.md",
+    "family": "xAI",
+    "version": "3",
+    "sha256": "d0c7145f39bfd0b4b51280a4f6b84848a4326ef095e62d90ab6c0a3ceaab5e94",
+    "bytes": 4303,
+    "capabilities": {
+      "communication": false,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/xAI/grok-4.1-beta.md",
+    "family": "xAI",
+    "version": "4.1",
+    "sha256": "4396de10326e0af2792d5b987530b1b8a8e69f94c5a08f5763ca04719a768d57",
+    "bytes": 14790,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/xAI/grok-4.2.md",
+    "family": "xAI",
+    "version": "4.2",
+    "sha256": "851694fc9be955a3661707314232caa0120c2cd2200bbadc5a4d6a020bd25f7c",
+    "bytes": 17782,
+    "capabilities": {
+      "communication": true,
+      "planning": false,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/xAI/grok-4.3-beta.md",
+    "family": "xAI",
+    "version": "4.3",
+    "sha256": "4984e7098c016ad467fdbe00773625be37704deda90968ffc8ddd48472b0c5bb",
+    "bytes": 27871,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/xAI/grok-4.md",
+    "family": "xAI",
+    "version": "4",
+    "sha256": "31ef3bc7db0fd4f01404862d9628878e0929ad7ddffb34fb8ab3bcea64aa9755",
+    "bytes": 12394,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/xAI/grok-account.md",
+    "family": "xAI",
+    "version": "unspecified",
+    "sha256": "35591a824c11af5b7e7f241937f30cce4dcaaea4db12ef38efbb4058667dad51",
+    "bytes": 3261,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/xAI/grok-api.md",
+    "family": "xAI",
+    "version": "unspecified",
+    "sha256": "60fc04ddcb3d6ca156c3ea51a216d7f8115b02f6b1c37fd2f57d8864a266ef2a",
+    "bytes": 801,
+    "capabilities": {
+      "communication": false,
+      "planning": false,
+      "tools": false,
+      "memory": false,
+      "verification": false,
+      "delegation": false,
+      "uncertainty": false,
+      "failureHandling": false,
+      "safety": false
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/xAI/grok-build.md",
+    "family": "xAI",
+    "version": "unspecified",
+    "sha256": "3dc7ba6943c4c1ad017e5bc2a5cdf5edf44069b864ed17bd587c6ce10e8001fb",
+    "bytes": 55389,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": true,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/xAI/grok-expert.md",
+    "family": "xAI",
+    "version": "unspecified",
+    "sha256": "842f744a32fa0d472fb2b37bdd623b3e5af6acbbebeedb2d956a5ee9c0fac3ad",
+    "bytes": 21612,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/xAI/grok-personas.md",
+    "family": "xAI",
+    "version": "unspecified",
+    "sha256": "373846641d2547a8b3bbf5213ecf4fc6dc2832e29df3dd83ba046e4a2c713b69",
+    "bytes": 24050,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": false,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  },
+  {
+    "source": "clones_ia/system_prompts_leaks/xAI/grok.com-post-new-safety-instructions.md",
+    "family": "xAI",
+    "version": "unspecified",
+    "sha256": "0a726237d0c636ae43c8e204e138f2823dfdf3d981307ac7d4c4dbef53fd2479",
+    "bytes": 20495,
+    "capabilities": {
+      "communication": true,
+      "planning": true,
+      "tools": true,
+      "memory": true,
+      "verification": true,
+      "delegation": true,
+      "uncertainty": true,
+      "failureHandling": false,
+      "safety": true
+    }
+  }
+]

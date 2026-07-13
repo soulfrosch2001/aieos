@@ -3,7 +3,9 @@
 // is a first-class tool so the agent can verify before it claims (Directive #9).
 import fs from 'node:fs';
 import path from 'node:path';
-import { execSync } from 'node:child_process';
+import { execFileSync, execSync } from 'node:child_process';
+import { createInterface } from 'node:readline/promises';
+import { networkAllowed, permits, profileFrom, requiresApproval, sandboxRunner } from './autonomy.mjs';
 
 // The `delegate` tool is OFF by default. It is advertised only when FORGE_SUBAGENTS=on,
 // so default runs see an identical tool set and CI stays stable. `depth` is the CURRENT
@@ -15,17 +17,25 @@ export function subagentsEnabled(depth = 0) {
   return depth < cap;
 }
 
-export function toolSchemas({ depth = 0 } = {}) {
+export function toolSchemas({ depth = 0, profile = 'supervised' } = {}) {
+  const activeProfile = profileFrom(profile);
   const schemas = [
     { name: 'list_dir', description: 'List entries at a path (relative to repo root).', input_schema: { type: 'object', properties: { path: { type: 'string' } }, required: ['path'] } },
     { name: 'read_file', description: 'Read a UTF-8 file (relative to repo root).', input_schema: { type: 'object', properties: { path: { type: 'string' } }, required: ['path'] } },
-    { name: 'write_file', description: 'Write a file. Restricted to the agent workspace.', input_schema: { type: 'object', properties: { path: { type: 'string' }, content: { type: 'string' } }, required: ['path', 'content'] } },
-    { name: 'run_gate', description: 'Run the conformance gate (npm test). Verify before finishing.', input_schema: { type: 'object', properties: {} } },
     { name: 'plan', description: 'Record an ordered checklist of the steps you intend to take. Replaces any current plan.', input_schema: { type: 'object', properties: { steps: { type: 'array', items: { type: 'string' }, description: 'Ordered list of step descriptions.' } }, required: ['steps'] } },
     { name: 'update_plan', description: 'Revise the current plan: mark steps done/dropped by their 1-based number, add steps, or replace the whole list.', input_schema: { type: 'object', properties: { complete: { type: 'array', items: { type: 'integer' }, description: '1-based step numbers to mark done.' }, drop: { type: 'array', items: { type: 'integer' }, description: '1-based step numbers to drop.' }, add: { type: 'array', items: { type: 'string' }, description: 'New steps to append.' }, steps: { type: 'array', items: { type: 'string' }, description: 'Full replacement checklist (re-plan).' } } } },
     { name: 'finish', description: 'End the run with a short summary of what was accomplished.', input_schema: { type: 'object', properties: { summary: { type: 'string' } }, required: ['summary'] } },
   ];
-  if (subagentsEnabled(depth)) {
+  if (permits(activeProfile, 'write_file')) schemas.splice(2, 0,
+    { name: 'write_file', description: 'Write a file. Restricted to the active workspace.', input_schema: { type: 'object', properties: { path: { type: 'string' }, content: { type: 'string' } }, required: ['path', 'content'] } },
+    { name: 'run_gate', description: 'Run the conformance gate. Verify before finishing.', input_schema: { type: 'object', properties: {} } },
+  );
+  if (permits(activeProfile, 'run_command')) schemas.splice(4, 0,
+    { name: 'run_command', description: 'Run a structured command through the configured hardened sandbox runner.', input_schema: { type: 'object', properties: { program: { type: 'string' }, args: { type: 'array', items: { type: 'string' } }, cwd: { type: 'string' } }, required: ['program', 'args'] } },
+    { name: 'fetch_url', description: 'Fetch an allowlisted HTTP(S) URL with bounded output.', input_schema: { type: 'object', properties: { url: { type: 'string' } }, required: ['url'] } },
+    { name: 'install_package', description: 'Install a package through the configured hardened sandbox runner.', input_schema: { type: 'object', properties: { manager: { type: 'string' }, packages: { type: 'array', items: { type: 'string' } } }, required: ['manager', 'packages'] } },
+  );
+  if (permits(activeProfile, 'delegate') && subagentsEnabled(depth)) {
     schemas.push({ name: 'delegate', description: 'Decompose a self-contained sub-task into a bounded sub-run (same workspace, its own gate). Use sparingly for a distinct, decomposable piece of work; depth-capped.', input_schema: { type: 'object', properties: { task: { type: 'string', description: 'The self-contained sub-task for the sub-run to accomplish.' } }, required: ['task'] } });
   }
   return schemas;
@@ -43,6 +53,9 @@ function clip(text, max = 8000) {
 
 export async function runTool(name, input, ctx) {
   try {
+    const profile = profileFrom(ctx.profile);
+    if (!permits(profile, name)) return deny(`GUARDRAIL: ${name} is unavailable in the ${profile} profile.`);
+    if (requiresApproval(profile, name) && !(await approved(name, input))) return deny(`GUARDRAIL: operator declined ${name}.`);
     if (name === 'list_dir') {
       const p = within(ctx.repoRoot, input.path);
       if (p.error) return deny(p.error);
@@ -71,10 +84,50 @@ export async function runTool(name, input, ctx) {
         return deny((e.stdout || '') + (e.stderr || ''));
       }
     }
+    if (name === 'run_command') return runSandboxAction('command', input, ctx);
+    if (name === 'install_package') return runSandboxAction('install', input, ctx);
+    if (name === 'fetch_url') return fetchUrl(input, ctx);
     return deny('GUARDRAIL: unknown tool: ' + name);
   } catch (e) {
     return deny('GUARDRAIL/ERROR: ' + e.message);
   }
+}
+
+async function approved(name, input) {
+  if (process.env.FORGE_APPROVE === 'all') return true;
+  if (!process.stdin.isTTY) return false;
+  const prompt = createInterface({ input: process.stdin, output: process.stdout });
+  try {
+    const answer = await prompt.question(`Forge approval required for ${name} ${JSON.stringify(input)}. Allow? [y/N] `);
+    return /^y(es|sim)?$/i.test(answer.trim());
+  } finally { prompt.close(); }
+}
+
+function runSandboxAction(action, input, ctx) {
+  const runner = sandboxRunner();
+  if (!runner) return deny('GUARDRAIL: autonomous command and installation actions require FORGE_SANDBOX_RUNNER as an existing absolute path.');
+  const timeout = Math.min(Math.max(Number(process.env.FORGE_SANDBOX_TIMEOUT_MS) || 120000, 1000), 300000);
+  try {
+    const output = execFileSync(runner, [], {
+      cwd: ctx.workspace,
+      input: JSON.stringify({ action, input, workspace: ctx.workspace }),
+      encoding: 'utf8', timeout, windowsHide: true, maxBuffer: 1024 * 1024,
+    });
+    return ok(clip(output));
+  } catch (error) {
+    return deny(clip(String(error.stdout || '') + String(error.stderr || error.message || 'sandbox runner failed')));
+  }
+}
+
+async function fetchUrl(input, ctx) {
+  if (!networkAllowed(input.url)) return deny('GUARDRAIL: URL is not in FORGE_NETWORK_ALLOWLIST.');
+  try {
+    const response = await fetch(input.url, { redirect: 'error', signal: AbortSignal.timeout(15000) });
+    if (!response.ok) return deny(`HTTP ${response.status}`);
+    const buffer = Buffer.from(await response.arrayBuffer());
+    if (buffer.length > 1024 * 1024) return deny('GUARDRAIL: response exceeds the 1 MiB limit.');
+    return ok(clip(buffer.toString('utf8')));
+  } catch (error) { return deny(`network request failed: ${error.message}`); }
 }
 
 function rel(root, p) {

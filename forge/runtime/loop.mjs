@@ -16,6 +16,7 @@ import { delegate } from './subagent.mjs';
 
 export async function runLoop({
   system, goal, ctx, model, dryRun, agent = 'agent',
+  profile = ctx.profile || 'supervised',
   memoryBlock = '',
   depth = 0,
   maxSteps = Number(process.env.FORGE_MAX_STEPS) || 20,
@@ -27,7 +28,7 @@ export async function runLoop({
   const messages = [{ role: 'user', content: opening }];
   // The tool set depends on depth: the `delegate` schema is only advertised when sub-agents
   // are enabled AND there is depth budget left (see tools.subagentsEnabled).
-  const tools = toolSchemas({ depth });
+  const tools = toolSchemas({ depth, profile });
   const maxDepth = Number(process.env.FORGE_MAX_DEPTH) || 1;
   const steps = [];
 
@@ -38,7 +39,7 @@ export async function runLoop({
   let plan = null;         // explicit checklist, persisted to trace.data.plan
   const totals = { ms: 0, usage: { input_tokens: 0, output_tokens: 0 } };
 
-  const trace = openTrace(ctx.repoRoot, agent, { goal, model: model || null, dryRun: !!dryRun });
+  const trace = openTrace(ctx.repoRoot, agent, { goal, model: model || null, profile, dryRun: !!dryRun });
   let bareEndTurns = 0;            // consecutive assistant turns with no tool use
   let lastSig = null, sameCount = 0; // consecutive identical tool calls
 

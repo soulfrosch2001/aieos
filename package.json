@@ -31,6 +31,7 @@
     "memory:report": "node scripts/memory-report.mjs",
     "forge": "node forge/create-agent.mjs",
     "forge:run": "node forge/run.mjs",
+    "forge:local": "node forge/local-console.mjs",
     "forge:consolidate": "node forge/consolidate.mjs"
   },
   "devDependencies": {

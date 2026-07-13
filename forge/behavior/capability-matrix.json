@@ -1,0 +1,25 @@
+{
+  "categories": [
+    "communication",
+    "planning",
+    "tools",
+    "memory",
+    "verification",
+    "delegation",
+    "uncertainty",
+    "failureHandling",
+    "safety"
+  ],
+  "totals": {
+    "communication": 293,
+    "planning": 276,
+    "tools": 278,
+    "memory": 269,
+    "verification": 278,
+    "delegation": 145,
+    "uncertainty": 247,
+    "failureHandling": 171,
+    "safety": 203
+  },
+  "sources": 352
+}

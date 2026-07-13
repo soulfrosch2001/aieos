@@ -1,2 +1,2 @@
 @echo off
-python "C:\Users\iuri\OneDrive\Desktop\AIEOS\launcher.py"
+node "%~dp0forge\local-console.mjs"

@@ -1,0 +1,14 @@
+{
+    "AIEOS": {
+        "status": "Ocioso",
+        "mensagem": "Zzz..."
+    },
+    "Git_Agent": {
+        "status": "Ocioso",
+        "mensagem": "Sincronizado!"
+    },
+    "CMD_Agent": {
+        "status": "Ocioso",
+        "mensagem": "Terminal pronto."
+    }
+}

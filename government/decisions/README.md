@@ -22,3 +22,4 @@ a decision without its audio fails the gate. See [resumo/README.md](resumo/READM
 | [0002](0002-charter-game-balancing-studio.md) | Charter the Game Balancing Studio. | T3 |
 | [0003](0003-forge-runtime-capabilities.md) | Forge runtime capability build (memory, robustness, observability, planning, self-check). | T3 |
 | [0004](0004-forge-next-leap.md) | Forge next-leap (live-run smoke, sharper retrieval, gated in-lane sub-delegation). | T3 |
+| [0026](0026-local-agent-runtime-and-reference-formulation.md) | Local Forge runtime, authorized-reference formulation, and autonomy boundaries. | T3 |

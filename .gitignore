@@ -31,8 +31,14 @@ memory/ledger/quarantine/*
 # Forge runtime artifacts (run traces + agent scratch workspaces)
 forge/runs/*.json
 forge/examples/*/workspace/
+forge/sandboxes/*
+!forge/sandboxes/README.md
 
 # Support-mode summaries (e.g. OUROBOROS) — produced when AIEOS supports ANOTHER
 # project; the rule doc stays tracked, the summaries themselves stay out of this repo.
 resumo/*
 !resumo/README.md
+
+.aieos_config.json
+
+*.gguf

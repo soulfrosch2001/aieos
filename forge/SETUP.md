@@ -4,6 +4,24 @@ Type: reference
 Owner: CTO (Government)
 Extends: none
 
+## Local-first runtime
+
+The default provider is local. Start a `llama.cpp` server in another terminal with a
+validated model profile, for example on the Ryzen host:
+
+```
+llama-server -m Meta-Llama-3-8B-Instruct-Q4_K_M.gguf -c 4096 -t 6 -b 256 --port 8080
+set FORGE_PROVIDER=local
+set FORGE_MODEL=local
+node forge/run.mjs forge/examples/balance-scout "Liste o repositório e finalize." --profile supervised
+```
+
+Use `node forge/models.mjs` to inspect the catalog, and add `--hash` before a release.
+The Q2 artifact remains quarantined. The `sandbox` profile requires an external hardened
+executor in `FORGE_SANDBOX_RUNNER`; without it, terminal and package actions are refused.
+
+## Existing setup details
+
 How to take the Forge runtime from a dry-run to a real, model-backed run, and how to
 smoke-test the whole loop offline first. The runtime is **model-agnostic**: the only place
 a model id is named is the `FORGE_MODEL` environment variable. Nothing here adds an npm
