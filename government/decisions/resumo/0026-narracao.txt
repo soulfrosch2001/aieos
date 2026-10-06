@@ -1,0 +1,8 @@
+O AIEOS Work será introduzido como uma camada de produto separada do kernel. A fase
+inicial formaliza contratos para tarefas, execuções, aprovações, versões imutáveis de
+agentes, auditoria, provedores de inteligência e conectores semânticos. O Government
+continua responsável apenas por roteamento, e o Forge evolui para Agent Factory sem
+criar um motor paralelo. Credenciais permanecem locais sempre que possível, uso pago
+exige permissão explícita e eventos de auditoria são append-only. O primeiro corte
+funcional conectará Work, Government, um agente backend, Bridge local, Codex App
+Server, avaliação e auditoria antes de adicionar múltiplos provedores ou navegador.

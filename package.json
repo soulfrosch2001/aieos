@@ -31,7 +31,9 @@
     "memory:report": "node scripts/memory-report.mjs",
     "forge": "node forge/create-agent.mjs",
     "forge:run": "node forge/run.mjs",
-    "forge:consolidate": "node forge/consolidate.mjs"
+    "forge:consolidate": "node forge/consolidate.mjs",
+    "work:doctor": "node bridge/cli.mjs doctor",
+    "work:run": "node bridge/cli.mjs run"
   },
   "devDependencies": {
     "msedge-tts": "^2.0.6"

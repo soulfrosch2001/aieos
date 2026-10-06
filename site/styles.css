@@ -13,9 +13,11 @@ nav{position:sticky;top:0;background:rgba(238,241,247,.85);backdrop-filter:blur(
   border-bottom:1px solid var(--line);z-index:10}
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
 nav .brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--navy);font-size:18px;letter-spacing:1px}
+.nav-logo{width:72px;height:48px;object-fit:cover;object-position:center}
 nav .links a{margin-left:20px;color:var(--ink)}
 /* hero */
 .hero{text-align:center;padding:64px 0 36px}
+.hero-logo{display:block;width:300px;height:220px;object-fit:cover;object-position:center;margin:0 auto -18px}
 .hero .wordmark{font-size:54px;font-weight:700;letter-spacing:12px;color:var(--navy);margin:14px 0 4px}
 .hero .wordmark b{color:var(--blue)}
 .hero p{font-size:19px;color:var(--muted);max-width:620px;margin:6px auto 24px}
